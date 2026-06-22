@@ -1,0 +1,90 @@
+---
+import { Image } from 'astro:assets';
+
+import { getCollection } from 'astro:content';
+const pengurusList = await getCollection('pengurus');
+// Urutkan pengurus berdasarkan urutan (terkecil di depan)
+const sortedPengurus = pengurusList.sort((a, b) => a.data.urutan - b.data.urutan);
+---
+<section class="sec-pengurus bg-white dark:bg-gray-950 transition-colors duration-300 py-20" id="pengurus">
+    <div class="mb-12 text-center">
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Pengurus Kami</h1>
+        <p class="mt-2 text-gray-500 dark:text-gray-400">Meet the team behind Computer Education</p>
+    </div>
+
+    <div class="swiper pengurus-slider container w-full px-4">
+        <div class="swiper-wrapper py-8">
+            {sortedPengurus && sortedPengurus.length > 0 ? sortedPengurus.map((pengurus) => {
+                const imageSrc = pengurus.data.foto;
+                return (
+                <div class="swiper-slide flex justify-center">
+                    <div
+                        class="w-72 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 text-center shadow-lg transition-all duration-300 hover:shadow-2xl dark:shadow-gray-900/50">
+                        <div class="relative mx-auto mb-4 h-32 w-32">
+                            <div class="absolute inset-0 rounded-full bg-green-200 dark:bg-green-900/40 opacity-50 blur-lg"></div>
+                            {imageSrc ? (
+                                <Image
+                                    src={imageSrc}
+                                    alt={pengurus.data.nama.toLowerCase()}
+                                    class="relative h-full w-full rounded-full border-4 border-white dark:border-gray-800 object-cover shadow-md" />
+                            ) : (
+                                <div class="relative h-full w-full rounded-full border-4 border-white dark:border-gray-800 bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-400">No Image</div>
+                            )}
+                        </div>
+
+                        <h3 class="mt-4 text-xl font-bold text-gray-800 dark:text-white">
+                            {pengurus.data.nama}
+                        </h3>
+                        <p
+                            class="mt-1 inline-block rounded-full bg-green-50 dark:bg-green-900/30 px-3 py-1 text-sm font-medium text-green-600 dark:text-green-500">
+                            {pengurus.data.jabatan}
+                        </p>
+                    </div>
+                </div>
+                );
+            }) : (
+                <div class="swiper-slide">
+                    <p class="text-center text-gray-500">Data pengurus belum tersedia.</p>
+                </div>
+            )}
+        </div>
+        <!-- <div class="swiper-pagination mt-8"></div> -->
+    </div>
+</section>
+
+<script>
+    import Swiper from 'swiper';
+    import { Pagination, Autoplay } from 'swiper/modules';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        new Swiper('.pengurus-slider', {
+            modules: [Pagination, Autoplay],
+            loop: true,
+            grabCursor: true,
+            spaceBetween: 24,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                0: {
+                    slidesPerView: 1,
+                    centeredSlides: true,
+                    spaceBetween: 16
+                },
+                768: {
+                    slidesPerView: 2,
+                    centeredSlides: false
+                },
+                1024: {
+                    slidesPerView: 4,
+                    centeredSlides: false
+                }
+            }
+        });
+    });
+</script>

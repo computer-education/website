@@ -1,0 +1,31 @@
+---
+import SidebarNode from '../SidebarNode.astro';
+
+interface Props {
+    rootModule: any;
+    treeModules: any[];
+    currentSlug: string;
+}
+
+const { rootModule, treeModules, currentSlug } = Astro.props;
+---
+
+<aside class="sticky top-[90px] hidden w-64 shrink-0 flex-col gap-6 overflow-y-auto border-r border-gray-100 dark:border-gray-800 pb-10 pr-6 lg:flex transition-colors duration-300" style="max-height: calc(100vh - 90px);">
+    <!-- Judul Kurikulum -->
+    {rootModule && (
+        <div class="mb-4">
+            <a href={`/learning/${rootModule.id}`} class={`block text-lg font-bold transition-colors ${currentSlug === rootModule.id ? 'text-green-600 dark:text-green-500' : 'text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-500'}`}>
+                {rootModule.data?.title || rootModule.title}
+            </a>
+        </div>
+    )}
+
+    <!-- Daftar Materi (Rekursif) -->
+    <div class="flex flex-col gap-6">
+        <ul class="flex flex-col gap-2">
+            {treeModules.map((node: any) => (
+                <SidebarNode node={node} currentSlug={currentSlug} />
+            ))}
+        </ul>
+    </div>
+</aside>

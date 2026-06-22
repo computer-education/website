@@ -1,0 +1,31 @@
+---
+import SidebarNode from './SidebarNode.astro';
+
+interface Props {
+    node: any;
+    currentSlug: string;
+}
+
+const { node, currentSlug } = Astro.props;
+
+// Jika node ini adalah root, jangan render judul root sebagai <li>, render childrennya saja (jika mau root dirender, sesuaikan)
+// Tapi di sini kita asumsikan SidebarNode merender 1 item <li> dan children-nya <ul>
+const isCurrent = currentSlug === node.id;
+const hasChildren = node.children && node.children.length > 0;
+---
+
+<li class="flex flex-col gap-1">
+    <a 
+        href={`/learning/${node.id}`} 
+        class={`block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${isCurrent ? 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'}`}>
+        {node.title}
+    </a>
+    
+    {hasChildren && (
+        <ul class="flex flex-col gap-1 pl-4 border-l border-gray-100 dark:border-gray-800 ml-3 mt-1">
+            {node.children.map((child: any) => (
+                <SidebarNode node={child} currentSlug={currentSlug} />
+            ))}
+        </ul>
+    )}
+</li>

@@ -1,0 +1,79 @@
+---
+---
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- SCROLL SPY TOC ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const id = entry.target.getAttribute('id');
+                const links = document.querySelectorAll(`.toc-link[href="#${id}"]`);
+
+                if (entry.isIntersecting) {
+                    document.querySelectorAll('.toc-link').forEach(l => {
+                        l.classList.remove('text-green-600', 'font-bold', 'border-green-500');
+                        l.classList.add('text-gray-500', 'border-transparent');
+                    });
+                    
+                    links.forEach(link => {
+                        link.classList.remove('text-gray-500', 'border-transparent');
+                        link.classList.add('text-green-600', 'font-bold', 'border-green-500');
+                    });
+                }
+            });
+        }, { rootMargin: '-100px 0px -60% 0px' });
+
+        const headings = document.querySelectorAll('#article-content h2, #article-content h3');
+        headings.forEach(heading => observer.observe(heading));
+
+        // --- GITHUB ALERTS TRANSFORMER ---
+        const blockquotes = document.querySelectorAll('#article-content blockquote');
+        blockquotes.forEach(bq => {
+            const p = bq.querySelector('p');
+            if (!p) return;
+            
+            const html = p.innerHTML.trim();
+            const alertMatch = html.match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/i);
+            
+            if (alertMatch) {
+                const type = alertMatch[1].toLowerCase();
+                const contentHtml = html.replace(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\](<br\s*\/?>)?/i, '').trim();
+                
+                const styles = {
+                    note: 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-900 dark:text-blue-300',
+                    tip: 'border-green-500 bg-green-50 dark:bg-green-900/20 text-green-900 dark:text-green-300',
+                    important: 'border-purple-500 bg-purple-50 dark:bg-purple-900/20 text-purple-900 dark:text-purple-300',
+                    warning: 'border-orange-500 bg-orange-50 dark:bg-orange-900/20 text-orange-900 dark:text-orange-300',
+                    caution: 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-900 dark:text-red-300'
+                };
+                
+                const titles = {
+                    note: 'Catatan',
+                    tip: 'Tips',
+                    important: 'Penting',
+                    warning: 'Peringatan',
+                    caution: 'Awas'
+                };
+
+                const icons = {
+                    note: 'info',
+                    tip: 'lightbulb',
+                    important: 'warning-circle',
+                    warning: 'warning',
+                    caution: 'stop-circle'
+                };
+
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `my-8 border-l-4 p-5 rounded-r-xl shadow-sm ${styles[type as keyof typeof styles]}`;
+                
+                alertDiv.innerHTML = `
+                    <div class="flex items-center gap-2 font-bold mb-2 text-[0.95rem] tracking-wide uppercase">
+                        <i class="ph-fill ph-${icons[type as keyof typeof icons]} text-lg"></i> ${titles[type as keyof typeof titles]}
+                    </div>
+                    <div class="prose-p:m-0 text-base opacity-90 leading-relaxed">${contentHtml}</div>
+                `;
+                
+                if(bq.parentNode) bq.parentNode.replaceChild(alertDiv, bq);
+            }
+        });
+    });
+</script>

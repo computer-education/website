@@ -1,0 +1,160 @@
+---
+import { Image } from 'astro:assets'
+import logoImg from '../assets/images/logo.png'
+import { mainMenus } from '../menus.ts'
+
+// Logika untuk menentukan apakah ini di halaman Home atau bukan
+const pathname = new URL(Astro.request.url).pathname
+const isHome = pathname === '/' || pathname === ''
+const position = isHome ? 'fixed' : 'sticky'
+---
+
+<header
+    class={`${position} top-0 right-0 z-50 w-full border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 shadow-md transition-all duration-300`}>
+    <div class="container mx-auto flex items-center justify-between px-6 py-3 md:px-12">
+        <!-- Logo -->
+        <a href="/" class="group flex items-center gap-2">
+            <Image
+                class="h-10 w-auto transition-transform duration-300 group-hover:scale-110"
+                src={logoImg}
+                alt="Logo CE"
+            />
+        </a>
+
+        <!-- Mobile Controls (Theme + Menu) -->
+        <div class="flex items-center gap-2 md:hidden">
+            <button class="theme-toggle p-2 text-gray-500 hover:text-green-600 dark:text-gray-400 dark:hover:text-green-500 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle Theme">
+                <i class="ph-fill ph-moon block dark:hidden text-2xl"></i>
+                <i class="ph-fill ph-sun hidden dark:block text-2xl"></i>
+            </button>
+            <div
+                id="menu-icon"
+                class="inline-flex cursor-pointer items-center rounded-lg p-2 text-green-600 transition-colors hover:bg-green-50 dark:hover:bg-gray-800">
+                <i class="ph ph-list text-3xl"></i>
+            </div>
+        </div>
+
+        <!-- Menu Tengah -->
+        <ul
+            id="menu-list"
+            class="pointer-events-none absolute top-full left-0 flex w-full origin-top -translate-y-4 flex-col gap-6 border-t border-gray-100 dark:border-gray-800 bg-white/95 dark:bg-gray-950/95 py-8 text-center opacity-0 shadow-lg backdrop-blur-xl transition-all duration-300 ease-in-out md:pointer-events-auto md:static md:w-auto md:translate-y-0 md:flex-row md:items-center md:gap-8 md:border-0 md:bg-transparent md:dark:bg-transparent md:py-0 md:opacity-100 md:shadow-none md:backdrop-blur-none">
+            {mainMenus.map((menu) => {
+                const hasChildren = menu.children && menu.children.length > 0;
+                const isActive = menu.href === '/' ? pathname === '/' : (menu.href !== '#' && pathname.startsWith(menu.href));
+                const activeClass = isActive ? "text-green-600 active" : "text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-500";
+
+                if (hasChildren) {
+                    return (
+                        <li class="group relative" tabindex="0">
+                            <span class={`nav-link relative font-medium flex items-center justify-center gap-1 transition-colors cursor-pointer ${activeClass}`}>
+                                {menu.name}
+                                <i class="ph ph-caret-down text-sm transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180"></i>
+                            </span>
+                            
+                            <ul class="left-0 top-full mt-2 hidden min-w-[200px] flex-col gap-2 rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-3 shadow-xl transition-all duration-300 group-hover:flex group-focus-within:flex md:absolute md:flex md:invisible md:opacity-0 md:group-hover:visible md:group-hover:opacity-100 md:group-focus-within:visible md:group-focus-within:opacity-100 md:-translate-y-2 md:group-hover:translate-y-0 md:group-focus-within:translate-y-0 before:content-[''] before:absolute before:-top-4 before:left-0 before:w-full before:h-4">
+                                {menu.children?.map((child: any) => {
+                                    const isChildActive = pathname.startsWith(child.href);
+                                    return (
+                                        <li class="text-left">
+                                            <a href={child.href} class={`block rounded-lg px-4 py-2.5 text-sm font-medium transition-all hover:bg-green-50 dark:hover:bg-gray-800 hover:text-green-600 dark:hover:text-green-500 ${isChildActive ? 'bg-green-50 dark:bg-gray-800 text-green-600 dark:text-green-500' : 'text-gray-600 dark:text-gray-400'}`}>
+                                                {child.name}
+                                            </a>
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        </li>
+                    )
+                }
+
+                return (
+                    <li>
+                        <a class={`nav-link relative font-medium transition-colors ${activeClass}`} href={menu.href}>
+                            {menu.name}
+                        </a>
+                    </li>
+                )
+            })}
+                
+            <!-- Mobile Login Button -->
+            <li class="mt-4 md:hidden">
+                <a
+                    href="/admin"
+                    class="inline-block transform rounded-full bg-gradient-to-r from-green-500 to-emerald-600 px-8 py-2.5 font-medium text-white shadow-lg shadow-green-500/30 transition-all hover:-translate-y-0.5 hover:shadow-green-500/50">
+                    Login
+                </a>
+            </li>
+        </ul>
+
+        <!-- Desktop Controls -->
+        <div class="hidden md:flex items-center gap-4">
+            <button class="theme-toggle p-2 text-gray-500 hover:text-green-600 dark:text-gray-400 dark:hover:text-green-500 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle Theme">
+                <i class="ph-fill ph-moon block dark:hidden text-xl"></i>
+                <i class="ph-fill ph-sun hidden dark:block text-xl"></i>
+            </button>
+            <a
+                href="/admin"
+                class="transform items-center justify-center rounded-full bg-gradient-to-r from-green-600 to-emerald-600 px-6 py-2 text-sm font-medium text-white shadow-lg shadow-green-600/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-700 hover:shadow-green-600/40">
+                Login
+            </a>
+        </div>
+    </div>
+</header>
+
+<script>
+    // Theme Toggle Logic
+    const toggleTheme = () => {
+        const isDark = document.documentElement.classList.contains('dark')
+        if (isDark) {
+            document.documentElement.classList.remove('dark')
+            localStorage.setItem('theme', 'light')
+        } else {
+            document.documentElement.classList.add('dark')
+            localStorage.setItem('theme', 'dark')
+        }
+    }
+
+    // Attach to all toggle buttons (mobile and desktop)
+    const themeButtons = document.querySelectorAll('.theme-toggle')
+    themeButtons.forEach(btn => btn.addEventListener('click', toggleTheme))
+
+    // Toggle menu mobile
+    const menuIcon = document.getElementById('menu-icon')
+    const menuList = document.getElementById('menu-list')
+
+    if (menuIcon && menuList) {
+        menuIcon.addEventListener('click', () => {
+            if (menuList.classList.contains('opacity-0')) {
+                menuList.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none')
+            } else {
+                menuList.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none')
+            }
+        })
+
+        document.addEventListener('click', (e) => {
+            if (!menuIcon.contains(e.target as Node) && !menuList.contains(e.target as Node)) {
+                menuList.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none')
+            }
+        })
+    }
+</script>
+
+<style>
+    /* Styling tambahan untuk indikator aktif/hover link */
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background-color: #10b981; /* emerald-500 */
+        transition: width 0.3s ease;
+    }
+    .nav-link.active::after {
+        width: 100%;
+    }
+    .nav-link:hover::after {
+        width: 100%;
+    }
+</style>

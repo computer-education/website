@@ -1,0 +1,101 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+export async function getStaticPaths() {
+    const allKajian = await getCollection('kajian');
+    return allKajian.map(entry => ({
+        params: { slug: entry.id },
+        props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+// Format Tanggal
+const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat('id-ID', {
+        dateStyle: 'long',
+    }).format(date);
+};
+
+const Thumbnail = entry.data.image;
+---
+
+<Layout title={`${entry.data.title} | Kajian CE`}>
+    <main class="mx-auto max-w-4xl px-4 py-12 pt-[50px] sm:px-6 lg:px-8">
+        
+        <!-- Breadcrumbs -->
+        <div class="mb-8 flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+            <a href="/kajian" class="hover:text-green-600 dark:hover:text-green-500 transition-colors">Kajian</a>
+            <i class="ph ph-caret-right text-xs"></i>
+            <span class="text-green-600 dark:text-green-500 line-clamp-1">{entry.data.title}</span>
+        </div>
+
+        <article class="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden transition-colors duration-300">
+            <!-- Header Post -->
+            <div class="p-8 sm:p-10 border-b border-gray-100 dark:border-gray-800">
+                <div class="flex flex-wrap items-center gap-4 mb-6 text-sm text-gray-500 dark:text-gray-400">
+                    <div class="flex items-center gap-1.5 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-3 py-1 rounded-full font-semibold">
+                        <i class="ph-fill ph-calendar-blank"></i>
+                        {formatDate(entry.data.date)}
+                    </div>
+                    <div class="flex items-center gap-1.5 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-3 py-1 rounded-full font-semibold">
+                        <i class="ph-fill ph-user"></i>
+                        {entry.data.pemateri}
+                    </div>
+                </div>
+
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
+                    {entry.data.title}
+                </h1>
+                
+                {entry.data.description && (
+                    <p class="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+                        {entry.data.description}
+                    </p>
+                )}
+            </div>
+
+            <!-- Thumbnail Opsional -->
+            {Thumbnail && (
+                <div class="w-full bg-gray-50 dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800">
+                    <Image 
+                        src={Thumbnail} 
+                        alt={entry.data.title} 
+                        class="w-full max-h-[400px] object-cover" 
+                    />
+                </div>
+            )}
+
+            <!-- Resource Buttons (PPT / Video) -->
+            {(entry.data.ppt_link || entry.data.video_link) && (
+                <div class="bg-gray-50 dark:bg-gray-950 p-8 sm:px-10 border-b border-gray-100 dark:border-gray-800">
+                    <h3 class="text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-4">Resource Kajian</h3>
+                    <div class="flex flex-wrap gap-4">
+                        {entry.data.ppt_link && (
+                            <a href={entry.data.ppt_link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white px-6 py-3 rounded-xl font-bold transition-all hover:shadow-lg hover:shadow-green-500/30 hover:-translate-y-0.5">
+                                <i class="ph-fill ph-presentation-chart text-xl"></i>
+                                Buka Materi PPT
+                            </a>
+                        )}
+                        {entry.data.video_link && (
+                            <a href={entry.data.video_link} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-white dark:bg-gray-900 text-red-600 dark:text-red-500 border border-red-200 dark:border-red-900/50 hover:border-red-600 dark:hover:border-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 px-6 py-3 rounded-xl font-bold transition-all hover:shadow-lg hover:shadow-red-500/10 hover:-translate-y-0.5">
+                                <i class="ph-fill ph-youtube-logo text-xl"></i>
+                                Tonton Rekaman
+                            </a>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            <!-- Markdown Content Body -->
+            <div class="p-8 sm:p-10 prose prose-lg prose-green dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-green-600 dark:prose-a:text-green-500 prose-img:rounded-xl">
+                <Content />
+            </div>
+        </article>
+
+    </main>
+</Layout>

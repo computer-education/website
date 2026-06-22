@@ -1,0 +1,104 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+export async function getStaticPaths() {
+    const allKegiatan = await getCollection('kegiatan');
+    return allKegiatan.map(entry => ({
+        params: { slug: entry.id },
+        props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat('id-ID', {
+        dateStyle: 'long',
+    }).format(date);
+};
+
+const Thumbnail = entry.data.image;
+const galleryImages = entry.data.gallery || [];
+---
+
+<Layout title={`${entry.data.title} | Kegiatan CE`}>
+    <main class="mx-auto max-w-4xl px-4 py-12 pt-[50px] sm:px-6 lg:px-8">
+        
+        <div class="mb-8 flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+            <a href="/kegiatan" class="hover:text-green-600 dark:hover:text-green-500 transition-colors">Galeri Kegiatan</a>
+            <i class="ph ph-caret-right text-xs"></i>
+            <span class="text-green-600 dark:text-green-500 line-clamp-1">{entry.data.title}</span>
+        </div>
+
+        <article class="bg-white dark:bg-gray-900 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden transition-colors duration-300">
+            <div class="p-8 sm:p-10 border-b border-gray-100 dark:border-gray-800 text-center">
+                <div class="mb-4 inline-block rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-bold text-green-700 dark:text-green-400 uppercase tracking-wide">
+                    {formatDate(entry.data.date)}
+                </div>
+                
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight text-balance">
+                    {entry.data.title}
+                </h1>
+                
+                {entry.data.location && (
+                    <div class="flex items-center justify-center gap-1.5 text-gray-500 dark:text-gray-400 font-medium">
+                        <i class="ph-fill ph-map-pin text-green-600 dark:text-green-500"></i>
+                        {entry.data.location}
+                    </div>
+                )}
+            </div>
+
+            {Thumbnail && (
+                <div class="w-full bg-gray-50 dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800">
+                    <Image 
+                        src={Thumbnail} 
+                        alt={entry.data.title} 
+                        class="w-full max-h-[500px] object-cover" 
+                    />
+                </div>
+            )}
+
+            <div class="p-8 sm:p-10">
+                {entry.data.description && (
+                    <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-medium mb-8 text-center max-w-2xl mx-auto">
+                        {entry.data.description}
+                    </p>
+                )}
+                
+                <div class="prose prose-lg prose-green dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-green-600 dark:prose-a:text-green-500 prose-img:rounded-xl">
+                    <Content />
+                </div>
+            </div>
+
+            <!-- Galeri Foto Khusus -->
+            {galleryImages.length > 0 && (
+                <div class="bg-gray-50 dark:bg-gray-950 p-8 sm:p-10 border-t border-gray-100 dark:border-gray-800">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+                        <i class="ph-fill ph-images text-green-600 dark:text-green-500"></i>
+                        Foto Dokumentasi
+                    </h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {galleryImages.map((img) => {
+                            if(!img) return null;
+                            return (
+                                <a href={img.src} target="_blank" rel="noopener noreferrer" class="group block aspect-square overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-green-400 dark:hover:border-green-500 transition-all shadow-sm hover:shadow-md">
+                                    <Image src={img} alt="Galeri Kegiatan CE" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                                </a>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
+            
+            <div class="p-8 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 text-center">
+                <a href="/kegiatan" class="inline-flex items-center gap-2 rounded-full bg-gray-50 dark:bg-gray-800 px-6 py-3 text-sm font-bold text-gray-600 dark:text-gray-400 transition-colors hover:bg-green-50 dark:hover:bg-gray-700 hover:text-green-600 dark:hover:text-green-400">
+                    <i class="ph-bold ph-arrow-left"></i> Kembali ke Galeri
+                </a>
+            </div>
+        </article>
+
+    </main>
+</Layout>

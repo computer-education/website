@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+    module: any;
+}
+
+const { module } = Astro.props;
+
+// Menyelesaikan path gambar secara dinamis dari src/assets/images
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif}');
+const imagePath = `/src/assets/images/${module.data.image}`;
+
+// Cek apakah gambar ada, untuk mencegah error
+const imageSrc = images[imagePath] ? images[imagePath]() : null;
+---
+
+<div class="swiper-slide group h-full">
+    <div
+        class="h-full cursor-pointer flex flex-col rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-3 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:shadow-gray-900/50"
+        onclick={`window.location.href = '/learning/${module.id}'`}>
+        <div class="relative mb-5 h-48 w-full overflow-hidden rounded-xl shrink-0">
+            <div
+                class="absolute inset-0 z-10 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+            {imageSrc ? (
+                <Image
+                    src={imageSrc}
+                    alt={module.data.title}
+                    class="h-full w-full transform object-cover transition-transform duration-500 group-hover:scale-110" />
+            ) : (
+                <div class="h-full w-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400">Image not found</div>
+            )}
+            
+            {module.data.badge && module.data.badge.trim() !== '' && (
+                <div
+                    class="absolute bottom-4 left-4 z-20 translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                    <span class="rounded-full bg-green-500 px-3 py-1 text-xs font-bold text-white"> {module.data.badge} </span>
+                </div>
+            )}
+        </div>
+        <div class="px-2 pb-4 flex flex-col grow">
+            <h3 class="mb-2 text-2xl font-bold text-gray-900 dark:text-white transition-colors group-hover:text-green-600 dark:group-hover:text-green-500">
+                {module.data.title}
+            </h3>
+            {module.data.description && (
+                <p class="mb-4 line-clamp-2 text-sm leading-relaxed text-gray-500 dark:text-gray-400 grow">
+                    {module.data.description}
+                </p>
+            )}
+            <div class="mt-auto">
+                <span class="inline-flex items-center text-sm font-semibold text-green-600 hover:underline">
+                    {module.data.cta_text || 'Lihat Detail'}
+                    <i class="ph ph-arrow-right ml-2"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

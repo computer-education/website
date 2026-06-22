@@ -1,0 +1,40 @@
+---
+import Layout from '../../layouts/BaseLayout.astro';
+import LearnCard from '../../components/LearnCard.astro';
+import { getCollection } from 'astro:content';
+
+const allModul = await getCollection('modul');
+const topLevelModules = allModul.filter(m => {
+    return m.filePath && m.filePath.endsWith('index.md') && m.id.split('/').length === 1;
+});
+const sortedModules = topLevelModules.sort((a, b) => (a.data.weight || 0) - (b.data.weight || 0));
+---
+
+<Layout title="Learning Tracks | Computer Education">
+    <section class="bg-gray-50 dark:bg-gray-950 p-8 pt-[50px] min-h-screen font-[Inter] transition-colors duration-300">
+        <div class="mx-auto mb-16 max-w-3xl text-center">
+            <span class="font-sans text-sm font-semibold tracking-wider text-green-600 uppercase">
+                Kurikulum Kami
+            </span>
+            <h2 class="mt-2 mb-6 text-4xl font-bold text-gray-900 dark:text-white md:text-5xl">Learning Tracks.</h2>
+            <div class="mx-auto mb-6 h-1.5 w-20 rounded-full bg-gradient-to-r from-green-500 to-emerald-400"></div>
+            <p class="text-xl leading-relaxed text-gray-600 dark:text-gray-300">
+                Pilih jalur belajar sesuai dengan minatmu dan kembangkan skill digital bersama mentor berpengalaman.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
+            {sortedModules.length === 0 ? (
+                <div class="col-span-full text-center text-gray-500 py-10">
+                    Data Modul Belum Tersedia.
+                </div>
+            ) : (
+                sortedModules.map((module) => (
+                    <div class="h-full">
+                        <LearnCard module={module} />
+                    </div>
+                ))
+            )}
+        </div>
+    </section>
+</Layout>

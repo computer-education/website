@@ -1,0 +1,57 @@
+---
+import SidebarNode from '../SidebarNode.astro';
+
+interface Props {
+    rootModule: any;
+    treeModules: any[];
+    toc: any[];
+    currentSlug: string;
+}
+
+const { rootModule, treeModules, toc, currentSlug } = Astro.props;
+---
+
+<!-- Mobile Sidebar Toggle -->
+<div class="lg:hidden mb-6">
+    <details class="group rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm transition-colors duration-300">
+        <summary class="cursor-pointer font-bold p-4 flex justify-between items-center text-gray-800 dark:text-gray-200 list-none [&::-webkit-details-marker]:hidden">
+            Daftar Materi
+            <span class="transition-transform group-open:rotate-180">▼</span>
+        </summary>
+        <div class="p-4 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-6 bg-gray-50/50 dark:bg-gray-950/50 rounded-b-xl">
+            {rootModule && (
+                <div class="mb-2">
+                    <a href={`/learning/${rootModule.id}`} class={`block text-lg font-bold transition-colors ${currentSlug === rootModule.id ? 'text-green-600 dark:text-green-500' : 'text-gray-900 dark:text-white hover:text-green-600 dark:hover:text-green-500'}`}>
+                        {rootModule.data?.title || rootModule.title}
+                    </a>
+                </div>
+            )}
+            <div class="flex flex-col gap-4">
+                <ul class="flex flex-col gap-2">
+                    {treeModules.map((node: any) => (
+                        <SidebarNode node={node} currentSlug={currentSlug} />
+                    ))}
+                </ul>
+            </div>
+        </div>
+    </details>
+</div>
+
+<!-- Mobile TOC Toggle -->
+{toc.length > 0 && (
+<div class="xl:hidden mb-8">
+    <details class="group rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm transition-colors duration-300">
+        <summary class="cursor-pointer font-bold p-4 flex justify-between items-center text-gray-800 dark:text-gray-200 list-none [&::-webkit-details-marker]:hidden">
+            Daftar Isi
+            <span class="transition-transform group-open:rotate-180">▼</span>
+        </summary>
+        <div class="p-4 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-3 bg-gray-50/50 dark:bg-gray-950/50 rounded-b-xl">
+            {toc.map((h: any) => (
+                <a href={`#${h.slug}`} class={`toc-link text-sm text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-500 transition-colors ${h.depth === 3 ? 'ml-4 border-l-2 border-gray-200 dark:border-gray-700 pl-3' : 'font-medium'}`}>
+                    {h.text}
+                </a>
+            ))}
+        </div>
+    </details>
+</div>
+)}

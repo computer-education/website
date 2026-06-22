@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import harlahImg from '../../assets/images/harlah 23.jpg';
+---
+<!-- Tentang CE -->
+<section id="about" class="bg-gradient-to-b from-green-500 to-emerald-600 dark:from-green-800 dark:to-emerald-950 px-6 py-20 text-white transition-colors duration-300">
+    <div class="container mx-auto grid items-center gap-12 md:grid-cols-2">
+        <div class="transform overflow-hidden rounded-3xl shadow-2xl transition duration-500 hover:scale-[1.02]">
+            <Image src={harlahImg} alt="Tentang CE" class="h-auto w-full object-cover" />
+        </div>
+
+        <div class="space-y-6">
+            <div class="inline-block rounded-full bg-white/20 px-4 py-1 text-sm font-semibold tracking-wider">
+                ABOUT US
+            </div>
+            <h2 class="text-4xl leading-tight font-bold md:text-5xl">
+                Membangun Generasi
+                <br />
+                Teknologi Masa Depan
+            </h2>
+            <p class="text-lg leading-relaxed text-green-50">
+                Computer Education adalah platform pembelajaran berbasis teknologi yang berfokus pada peningkatan
+                keterampilan digital dan pengembangan sumber daya manusia di bidang IT. Kami hadir dengan semangat
+                inovasi dan kolaborasi untuk menciptakan lingkungan belajar yang kreatif, modern, dan berdaya guna.
+            </p>
+            <div class="pt-4">
+                <a
+                    href="#"
+                    class="inline-flex items-center gap-2 font-semibold text-white transition hover:text-green-100">
+                    Learn More
+                    <i class="ph ph-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

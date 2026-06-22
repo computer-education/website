@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import LearnCard from '../../components/LearnCard.astro';
+
+// Mengambil data dari content collections 'modul'
+const allModul = await getCollection('modul');
+// Hanya ambil file index.md yang berada di level teratas (contoh: programing/index.md)
+// Karena Astro memotong 'index.md' dari id, kita gunakan filePath untuk mengecek
+const topLevelModules = allModul.filter(m => {
+    return m.filePath && m.filePath.endsWith('index.md') && m.id.split('/').length === 1;
+});
+
+// Mengurutkan berdasarkan weight (dari yang terkecil)
+const sortedModules = topLevelModules.sort((a, b) => (a.data.weight || 0) - (b.data.weight || 0));
+---
+<!-- Learning Tracks -->
+<section class="relative overflow-hidden bg-gray-50 dark:bg-gray-950 transition-colors duration-300 py-24" id="learning">
+    <!-- Decoration -->
+    <div
+        class="absolute top-0 left-0 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-green-200/20 dark:bg-green-900/20 blur-3xl"></div>
+    <div
+        class="absolute right-0 bottom-0 h-96 w-96 translate-x-1/2 translate-y-1/2 rounded-full bg-emerald-200/20 dark:bg-emerald-900/20 blur-3xl"></div>
+
+    <div class="relative z-10 container mx-auto px-6">
+        <!-- Header -->
+        <div class="mx-auto mb-16 max-w-3xl text-center">
+            <span class="font-sans text-sm font-semibold tracking-wider text-green-600 uppercase">
+                Kurikulum Kami
+            </span>
+            <h2 class="mt-2 mb-6 text-4xl font-bold text-gray-900 dark:text-white md:text-5xl">Explore Our Learning Tracks.</h2>
+            <div class="mx-auto mb-6 h-1.5 w-20 rounded-full bg-gradient-to-r from-green-500 to-emerald-400"></div>
+            <p class="text-xl leading-relaxed text-gray-600 dark:text-gray-300">
+                Kami menyediakan berbagai divisi pembelajaran untuk meningkatkan skill digitalmu, dari coding hingga
+                kreatif visual.
+            </p>
+        </div>
+
+        <!-- Swiper -->
+        <div class="swiper learn-container !px-4 !pb-12">
+            <div class="swiper-wrapper">
+                {sortedModules.length > 0 ? (
+                    sortedModules.map((module) => (
+                        <LearnCard module={module} />
+                    ))
+                ) : (
+                    <div class="swiper-slide text-center text-gray-500 dark:text-gray-400">Data modul belum tersedia</div>
+                )}
+            </div>
+            <!-- Controls -->
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="mt-12 text-center">
+            <a
+                href="/learning"
+                class="group inline-flex items-center gap-2 rounded-full bg-gray-900 dark:bg-gray-800 px-8 py-4 font-semibold text-white shadow-xl transition-all duration-300 hover:bg-green-600 dark:hover:bg-green-600 hover:shadow-green-500/25">
+                <span>Mulai Belajar Sekarang</span>
+                <i class="ph ph-rocket text-xl transition-transform group-hover:translate-x-1"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+    import Swiper from 'swiper';
+    import { Pagination } from 'swiper/modules';
+
+    // Inisialisasi swiper saat DOM sudah siap
+    document.addEventListener('DOMContentLoaded', () => {
+        new Swiper('.learn-container', {
+            modules: [Pagination],
+            loop: true,
+            grabCursor: true,
+            spaceBetween: 20,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                320: { slidesPerView: 1.5, centeredSlides: true },
+                768: { slidesPerView: 3, centeredSlides: false },
+                1024: { slidesPerView: 4, centeredSlides: false }
+            }
+        });
+    });
+</script>

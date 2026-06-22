@@ -1,0 +1,89 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+// Utils
+import { buildTree, flattenTree } from '../../utils/moduleTree';
+
+// Components
+import SidebarLeft from '../../components/learning/SidebarLeft.astro';
+import SidebarRight from '../../components/learning/SidebarRight.astro';
+import MobileNavigation from '../../components/learning/MobileNavigation.astro';
+import PaginationNav from '../../components/learning/PaginationNav.astro';
+import LearningScripts from '../../components/learning/LearningScripts.astro';
+
+export async function getStaticPaths() {
+    const allModul = await getCollection('modul');
+    return allModul.map(entry => ({
+        params: { slug: entry.id },
+        props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const toc = headings.filter(h => h.depth > 1 && h.depth <= 3);
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif}');
+
+// --- LOGIKA SIDEBAR ---
+const allModul = await getCollection('modul');
+const currentSlug = Astro.params.slug;
+const rootSlug = currentSlug.split('/')[0];
+
+const trackModules = allModul
+    .filter(m => m.id === rootSlug || m.id.startsWith(rootSlug + '/'))
+    .sort((a, b) => (a.data.weight || 0) - (b.data.weight || 0));
+
+const rootModule = trackModules.find(m => m.id === rootSlug);
+const treeModules = buildTree(trackModules, rootSlug);
+const flatSequence = [rootModule, ...flattenTree(treeModules)].filter(Boolean);
+
+const currentIndex = flatSequence.findIndex(m => m.id === currentSlug);
+const prevModule = currentIndex > 0 ? flatSequence[currentIndex - 1] : null;
+const nextModule = currentIndex < flatSequence.length - 1 ? flatSequence[currentIndex + 1] : null;
+---
+
+<Layout title={`${entry.data.title} | Computer Education`}>
+    
+    <div class="mx-auto flex w-full max-w-[90rem] items-start gap-8 px-4 pt-[50px] sm:px-6 lg:px-8 transition-colors duration-300">
+        
+        <SidebarLeft rootModule={rootModule} treeModules={treeModules} currentSlug={currentSlug} />
+
+        <!-- KONTEN UTAMA (Tengah) -->
+        <main class="flex-1 py-10 min-w-0">
+            <!-- Breadcrumbs Sederhana -->
+            <div class="mb-6 flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+                <a href="/learning" class="hover:text-green-600 dark:hover:text-green-500 transition-colors">Learning</a>
+                <i class="ph ph-caret-right text-xs"></i>
+                <span class="text-green-600 dark:text-green-500">{entry.data.title}</span>
+            </div>
+
+            <MobileNavigation rootModule={rootModule} treeModules={treeModules} toc={toc} currentSlug={currentSlug} />
+
+            <article class="prose prose-lg prose-green dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-green-600 dark:prose-a:text-green-500 prose-img:rounded-xl" id="article-content">
+                {entry.data.image && entry.id.split('/').length === 1 && images[`/src/assets/images/${entry.data.image}`] && (
+                    <Image src={images[`/src/assets/images/${entry.data.image}`]()} alt={entry.data.title} class="w-full h-64 object-cover rounded-2xl mb-8 shadow-sm" />
+                )}
+                
+                <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-6">{entry.data.title}</h1>
+                
+                {entry.data.description && (
+                    <p class="text-xl text-gray-500 dark:text-gray-400 leading-relaxed mb-10">{entry.data.description}</p>
+                )}
+
+                <div class="mt-8 border-t border-gray-100 dark:border-gray-800 pt-8 text-gray-700 dark:text-gray-300">
+                    <Content />
+                </div>
+            </article>
+
+            <PaginationNav prevModule={prevModule} nextModule={nextModule} />
+        </main>
+
+        <SidebarRight toc={toc} />
+        
+    </div>
+</Layout>
+
+<LearningScripts />

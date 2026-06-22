@@ -1,17 +1,31 @@
 ---
-
+import Layout from '../layouts/BaseLayout.astro'
+import Hero from '../sections/home/Hero.astro';
+import About from '../sections/home/About.astro';
+import Learning from '../sections/home/Learning.astro';
+import Pengurus from '../sections/home/Pengurus.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+    <Hero/>
+    <About/>
+    <Learning/>
+    <Pengurus/>
+</Layout>
+
+<style>
+    @keyframes bounce-slow {
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+
+    .animate-bounce-slow {
+        animation: bounce-slow 3s infinite;
+    }
+</style>

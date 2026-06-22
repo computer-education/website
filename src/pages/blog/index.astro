@@ -1,0 +1,89 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+const allBlog = await getCollection('blog');
+const sortedBlog = allBlog.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat('id-ID', {
+        dateStyle: 'medium',
+    }).format(date);
+};
+---
+
+<Layout title="Blog & Berita | Computer Education">
+    <section class="bg-gray-50 dark:bg-gray-950 p-8 pt-[50px] min-h-screen font-[Inter] transition-colors duration-300">
+        <div class="mx-auto mb-16 max-w-3xl text-center">
+            <span class="font-sans text-sm font-semibold tracking-wider text-green-600 uppercase">
+                Kabar Terbaru
+            </span>
+            <h2 class="mt-2 mb-6 text-4xl font-bold text-gray-900 dark:text-white md:text-5xl">Blog & Berita.</h2>
+            <div class="mx-auto mb-6 h-1.5 w-20 rounded-full bg-gradient-to-r from-green-500 to-emerald-400"></div>
+            <p class="text-xl leading-relaxed text-gray-600 dark:text-gray-300">
+                Tutorial lepas, pengumuman, dan artikel terbaru seputar kegiatan Computer Education.
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
+            {sortedBlog.length === 0 ? (
+                <div class="col-span-full text-center text-gray-500 py-10">
+                    Data Artikel Belum Tersedia.
+                </div>
+            ) : (
+                sortedBlog.map((post) => {
+                    const Thumbnail = post.data.image;
+
+                    return (
+                        <div
+                            class="group h-full cursor-pointer flex flex-col rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-3 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:shadow-gray-900/50"
+                            onclick={`window.location.href = '/blog/${post.id}'`}>
+                            
+                            <div class="relative mb-5 h-48 w-full overflow-hidden rounded-xl shrink-0">
+                                <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                                
+                                {Thumbnail ? (
+                                    <Image
+                                        src={Thumbnail}
+                                        alt={post.data.title}
+                                        class="h-full w-full transform object-cover transition-transform duration-500 group-hover:scale-110" />
+                                ) : (
+                                    <div class="h-full w-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400">
+                                        <i class="ph ph-article text-4xl"></i>
+                                    </div>
+                                )}
+                                
+                                <div class="absolute bottom-4 left-4 z-20 translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                                    <span class="rounded-full bg-green-500 px-3 py-1 text-xs font-bold text-white">
+                                        {post.data.category}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="px-2 pb-4 flex flex-col grow">
+                                <div class="mb-2 text-xs font-semibold tracking-wider text-green-600">
+                                    {formatDate(post.data.date)} • {post.data.author || 'Admin CE'}
+                                </div>
+                                <h3 class="mb-2 text-2xl font-bold text-gray-900 dark:text-white transition-colors group-hover:text-green-600 line-clamp-2">
+                                    {post.data.title}
+                                </h3>
+                                {post.data.description && (
+                                    <p class="mb-4 line-clamp-2 text-sm leading-relaxed text-gray-500 dark:text-gray-400 grow">
+                                        {post.data.description}
+                                    </p>
+                                )}
+                                <div class="mt-auto">
+                                    <span class="inline-flex items-center text-sm font-semibold text-green-600 hover:underline">
+                                        Baca Artikel
+                                        <i class="ph ph-arrow-right ml-2"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })
+            )}
+        </div>
+    </section>
+</Layout>

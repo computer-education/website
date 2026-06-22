@@ -1,0 +1,84 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import LearningScripts from '../../components/learning/LearningScripts.astro';
+
+export async function getStaticPaths() {
+    const allBlog = await getCollection('blog');
+    return allBlog.map(entry => ({
+        params: { slug: entry.id },
+        props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const formatDate = (date: Date) => {
+    return new Intl.DateTimeFormat('id-ID', {
+        dateStyle: 'long',
+    }).format(date);
+};
+
+const Thumbnail = entry.data.image;
+---
+
+<Layout title={`${entry.data.title} | Blog CE`}>
+    <main class="mx-auto max-w-3xl px-4 py-12 pt-[50px] sm:px-6 lg:px-8">
+        
+        <div class="mb-8 flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+            <a href="/blog" class="hover:text-green-600 dark:hover:text-green-500 transition-colors">Blog</a>
+            <i class="ph ph-caret-right text-xs"></i>
+            <span class="text-green-600 dark:text-green-500 line-clamp-1">{entry.data.title}</span>
+        </div>
+
+        <article id="article-content">
+            <header class="mb-10 text-center">
+                <div class="mb-4 inline-block rounded-full bg-green-100 dark:bg-green-900/30 px-3 py-1 text-xs font-bold text-green-700 dark:text-green-400 uppercase tracking-wide">
+                    {entry.data.category}
+                </div>
+                
+                <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight text-balance">
+                    {entry.data.title}
+                </h1>
+                
+                <div class="flex items-center justify-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+                    <div class="flex items-center gap-1.5">
+                        <i class="ph-fill ph-user text-green-600 dark:text-green-500"></i>
+                        <span class="font-medium text-gray-900 dark:text-white">{entry.data.author || 'Admin CE'}</span>
+                    </div>
+                    <span>•</span>
+                    <div class="flex items-center gap-1.5">
+                        <i class="ph-fill ph-calendar-blank"></i>
+                        {formatDate(entry.data.date)}
+                    </div>
+                </div>
+            </header>
+
+            {Thumbnail && (
+                <div class="mb-12 w-full overflow-hidden rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800">
+                    <Image 
+                        src={Thumbnail} 
+                        alt={entry.data.title} 
+                        class="w-full max-h-[500px] object-cover" 
+                    />
+                </div>
+            )}
+
+            <div class="prose prose-lg prose-green dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-green-600 dark:prose-a:text-green-500 prose-img:rounded-xl">
+                <Content />
+            </div>
+            
+            <div class="mt-16 border-t border-gray-100 dark:border-gray-800 pt-8 text-center">
+                <a href="/blog" class="inline-flex items-center gap-2 rounded-full bg-gray-50 dark:bg-gray-900 px-6 py-3 text-sm font-bold text-gray-600 dark:text-gray-400 transition-colors hover:bg-green-50 dark:hover:bg-gray-800 hover:text-green-600 dark:hover:text-green-500">
+                    <i class="ph-bold ph-arrow-left"></i> Kembali ke Daftar Artikel
+                </a>
+            </div>
+        </article>
+
+    </main>
+</Layout>
+
+<!-- Menggunakan script yang sama dengan learning untuk github alerts styling -->
+<LearningScripts />
