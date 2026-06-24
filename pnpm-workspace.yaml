@@ -3,8 +3,7 @@ allowBuilds:
   esbuild: true
   sharp: false
   workerd: true
-overrides:
-  vite: ^7.3.1
+
 minimumReleaseAgeExclude:
   - '@astrojs/cloudflare@14.0.0'
   - miniflare@4.20260623.0
