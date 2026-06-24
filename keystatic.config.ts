@@ -2,7 +2,8 @@ import { config, fields, collection } from '@keystatic/core';
 
 export default config({
   storage: {
-    kind: 'local', // Menggunakan mode lokal saat development
+    kind: 'github',
+    repo: 'computer-education/website'
   },
   collections: {
     kajian: collection({
