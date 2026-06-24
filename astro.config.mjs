@@ -9,6 +9,8 @@ import keystatic from '@keystatic/astro'
 
 import cloudflare from '@astrojs/cloudflare';
 
+import netlify from '@astrojs/netlify';
+
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
@@ -18,5 +20,5 @@ export default defineConfig({
   },
 
   integrations: [react(), markdoc(), keystatic()],
-  adapter: cloudflare(),
+  adapter: netlify(),
 })
