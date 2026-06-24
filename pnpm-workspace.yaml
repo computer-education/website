@@ -8,3 +8,5 @@ minimumReleaseAgeExclude:
   - '@astrojs/cloudflare@14.0.0'
   - miniflare@4.20260623.0
   - wrangler@4.104.0
+  - '@astrojs/markdown-satteri@0.3.2'
+  - astro@7.0.2
