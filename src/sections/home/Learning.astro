@@ -47,7 +47,7 @@ const sortedModules = topLevelModules.sort((a, b) => (a.data.weight || 0) - (b.d
                 )}
             </div>
             <!-- Controls -->
-            <div class="swiper-pagination"></div>
+            <!-- <div class="swiper-pagination"></div> -->
         </div>
 
         <!-- Call to Action -->
@@ -73,10 +73,6 @@ const sortedModules = topLevelModules.sort((a, b) => (a.data.weight || 0) - (b.d
             loop: true,
             grabCursor: true,
             spaceBetween: 20,
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
             breakpoints: {
                 320: { slidesPerView: 1.5, centeredSlides: true },
                 768: { slidesPerView: 3, centeredSlides: false },
