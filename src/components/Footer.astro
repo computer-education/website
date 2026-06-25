@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import logoImg from '../assets/images/logo.png';
+import { footerMenus } from '../menus';
+import socialData from '../content/social.json';
 ---
 
 <footer class="relative overflow-hidden bg-gradient-to-br from-green-900 to-gray-900 pt-20 pb-10 text-white">
@@ -21,17 +23,17 @@ import logoImg from '../assets/images/logo.png';
                 </p>
                 <div class="flex gap-4">
                     <a
-                        href="#"
+                        href={socialData.instagram || "#"}
                         class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-all duration-300 hover:scale-110 hover:bg-green-500">
                         <i class="fa-brands fa-instagram text-lg"></i>
                     </a>
                     <a
-                        href="#"
+                        href={socialData.youtube || "#"}
                         class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-all duration-300 hover:scale-110 hover:bg-green-500">
                         <i class="fa-brands fa-youtube text-lg"></i>
                     </a>
                     <a
-                        href="#"
+                        href={socialData.tiktok || "#"}
                         class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-all duration-300 hover:scale-110 hover:bg-green-500">
                         <i class="fa-brands fa-tiktok text-lg"></i>
                     </a>
@@ -42,39 +44,13 @@ import logoImg from '../assets/images/logo.png';
             <div>
                 <h3 class="mb-6 text-lg font-bold text-green-400">Jelajahi</h3>
                 <ul class="space-y-4">
-                    <li>
-                        <a href="/" class="text-green-100/70 transition-all duration-300 hover:pl-2 hover:text-white">
-                            Beranda
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="/#about"
-                            class="text-green-100/70 transition-all duration-300 hover:pl-2 hover:text-white">
-                            Tentang Kami
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="/#learning"
-                            class="text-green-100/70 transition-all duration-300 hover:pl-2 hover:text-white">
-                            Belajar
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="/kegiatan"
-                            class="text-green-100/70 transition-all duration-300 hover:pl-2 hover:text-white">
-                            Kegiatan
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            href="/#pengurus"
-                            class="text-green-100/70 transition-all duration-300 hover:pl-2 hover:text-white">
-                            Pengurus
-                        </a>
-                    </li>
+                    {footerMenus.map((menu) => (
+                        <li>
+                            <a href={menu.href} class="text-green-100/70 transition-all duration-300 hover:pl-2 hover:text-white">
+                                {menu.name}
+                            </a>
+                        </li>
+                    ))}
                 </ul>
             </div>
 
@@ -135,7 +111,7 @@ import logoImg from '../assets/images/logo.png';
     </div>
 </footer>
 
-<script>
+<script define:vars={{ waNumber: socialData.whatsapp }}>
     const waForm = document.getElementById('wa-form');
     if (waForm) {
         waForm.addEventListener('submit', function(e) {
@@ -143,7 +119,7 @@ import logoImg from '../assets/images/logo.png';
             const pesanInput = document.getElementById('pesan');
             if (pesanInput) {
                 const pesan = pesanInput.value;
-                const nomorWA = '6281291300572';
+                const nomorWA = waNumber || '6281291300572';
                 const waText = `Halo Admin Computer Education, saya ingin bertanya: ${pesan}`;
                 const url = `https://wa.me/${nomorWA}?text=${encodeURIComponent(waText)}`;
                 window.open(url, '_blank');

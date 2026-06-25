@@ -25,3 +25,11 @@ export const mainMenus = [
         ]
     }
 ];
+
+export const footerMenus = [
+    { name: 'Beranda', href: '/' },
+    { name: 'Tentang Kami', href: '/about' },
+    { name: 'Belajar & Modul', href: '/learning' },
+    { name: 'Galeri Kegiatan', href: '/kegiatan' },
+    { name: 'Susunan Pengurus', href: '/pengurus' }
+];

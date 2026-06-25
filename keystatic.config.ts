@@ -1,9 +1,22 @@
-import { config, fields, collection } from '@keystatic/core';
+import { config, fields, collection, singleton } from '@keystatic/core';
 
 export default config({
   storage: {
     kind: 'github',
     repo: 'computer-education/website'
+  },
+  singletons: {
+    social: singleton({
+      label: 'Social Media',
+      path: 'src/content/social',
+      format: { data: 'json' },
+      schema: {
+        instagram: fields.url({ label: 'Instagram URL' }),
+        youtube: fields.url({ label: 'YouTube URL' }),
+        tiktok: fields.url({ label: 'TikTok URL' }),
+        whatsapp: fields.text({ label: 'Nomor WhatsApp (Format: 628xxx)' }),
+      }
+    })
   },
   collections: {
     kajian: collection({
