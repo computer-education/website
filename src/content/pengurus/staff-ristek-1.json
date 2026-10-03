@@ -1,5 +1,7 @@
 {
   "nama": "Rizqi Noor Fauzan",
   "jabatan": "Anggota Ristek & Teknologi",
-  "urutan": 8
+  "urutan": 8,
+  "foto": "../../assets/images/pengurus/koord-bisnis/foto.jpg",
+  "placeholded": "true"
 }

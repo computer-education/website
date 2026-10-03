@@ -1,5 +1,7 @@
 {
   "nama": "Robiatul Adawiyah",
   "jabatan": "Anggota Dokominfo",
-  "urutan": 8
+  "urutan": 8,
+  "foto": "../../assets/images/pengurus/bendahara-1/foto.jpg",
+  "placeholded": "true"
 }

@@ -1,5 +1,7 @@
 {
   "nama": "Siti Nur Fadillah",
   "jabatan": "Anggota POK",
-  "urutan": 8
+  "urutan": 8,
+  "foto": "../../assets/images/pengurus/koord-pok/foto.jpg",
+  "placeholded": "true"
 }

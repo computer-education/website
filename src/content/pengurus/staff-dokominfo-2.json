@@ -1,5 +1,7 @@
 {
   "nama": "Muhammad Sahid Wahyudi",
   "jabatan": "Anggota Dokominfo",
-  "urutan": 8
+  "urutan": 8,
+  "foto": "../../assets/images/pengurus/ketum/foto.jpg",
+  "placeholded": "true"
 }

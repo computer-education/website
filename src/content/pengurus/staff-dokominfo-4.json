@@ -1,5 +1,7 @@
 {
   "nama": "Nazwa Maulidiyah",
   "jabatan": "Anggota Dokominfo",
-  "urutan": 8
+  "urutan": 8,
+  "foto": "../../assets/images/pengurus/staff-ristek-3/foto.jpg",
+  "placeholded": "true"
 }

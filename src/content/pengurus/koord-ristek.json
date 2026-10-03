@@ -1,5 +1,7 @@
 {
   "nama": "Muhammad Rozaan",
   "jabatan": "Koord. Ristek dan Teknologi",
-  "urutan": 7
+  "urutan": 7,
+  "foto": "../../assets/images/pengurus/koord-bisnis/foto.jpg",
+  "placeholded": "true"
 }

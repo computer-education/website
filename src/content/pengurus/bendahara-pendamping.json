@@ -1,5 +1,7 @@
 {
   "nama": "Bintang Zahra Luthfillah",
   "jabatan": "Bendahara Pendamping",
-  "urutan": 5
+  "urutan": 5,
+  "foto": "../../assets/images/pengurus/bendahara-2/foto.jpg",
+  "placeholded": "true"
 }

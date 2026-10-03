@@ -57,7 +57,8 @@ const pengurus = defineCollection({
         nama: z.string(),
         jabatan: z.string().optional(),
         foto: image().optional(),
-        urutan: z.number().default(99)
+        urutan: z.number().default(99),
+        placeholded: z.union([z.string(), z.boolean()]).optional()
     })
 });
 

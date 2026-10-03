@@ -1,5 +1,7 @@
 {
   "nama": "Rifalatussadiah",
   "jabatan": "Wakil Ketua Umum",
-  "urutan": 3
+  "urutan": 3,
+  "foto": "../../assets/images/pengurus/bendahara-1/foto.jpg",
+  "placeholded": "true"
 }

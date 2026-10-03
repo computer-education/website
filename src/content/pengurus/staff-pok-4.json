@@ -1,5 +1,7 @@
 {
   "nama": "Fatima Tuzzaqroh",
   "jabatan": "Anggota POK",
-  "urutan": 8
+  "urutan": 8,
+  "foto": "../../assets/images/pengurus/kadif-org/foto.jpg",
+  "placeholded": "true"
 }
