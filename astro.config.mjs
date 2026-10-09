@@ -21,5 +21,7 @@ export default defineConfig({
 
   integrations: [react(), markdoc(), keystatic()],
 
-  adapter: netlify(),
+  adapter: netlify({
+    imageCDN: false,
+  }),
 })

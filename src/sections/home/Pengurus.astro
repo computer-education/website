@@ -12,14 +12,14 @@ const sortedPengurus = pengurusList.sort((a, b) => a.data.urutan - b.data.urutan
         <p class="mt-2 text-gray-500 dark:text-gray-400">Meet the team behind Computer Education</p>
     </div>
 
-    <div class="swiper pengurus-slider container w-full px-4">
+    <div class="swiper pengurus-slider max-w-7xl mx-auto w-full px-4 sm:px-8">
         <div class="swiper-wrapper py-8">
             {sortedPengurus && sortedPengurus.length > 0 ? sortedPengurus.map((pengurus) => {
                 const imageSrc = pengurus.data.foto;
                 return (
-                <div class="swiper-slide flex justify-center">
+                <div class="swiper-slide !flex !justify-center h-auto">
                     <div
-                        class="w-72 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 text-center shadow-lg transition-all duration-300 hover:shadow-2xl dark:shadow-gray-900/50">
+                        class="w-72 mx-auto rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 text-center shadow-lg transition-all duration-300 hover:shadow-2xl dark:shadow-gray-900/50">
                         <div class="relative mx-auto mb-4 h-32 w-32">
                             <div class="absolute inset-0 rounded-full bg-green-200 dark:bg-green-900/40 opacity-50 blur-lg"></div>
                             {imageSrc ? (
@@ -48,43 +48,119 @@ const sortedPengurus = pengurusList.sort((a, b) => a.data.urutan - b.data.urutan
                 </div>
             )}
         </div>
-        <!-- <div class="swiper-pagination mt-8"></div> -->
+        <!-- Modern Slider Indicator & Controls -->
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+            <div class="flex items-center gap-3">
+                <button
+                    class="pengurus-prev w-10 h-10 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 shadow-sm hover:bg-green-600 hover:border-green-600 hover:text-white active:scale-95 transition-all flex items-center justify-center cursor-pointer"
+                    aria-label="Slide Pengurus Sebelumnya">
+                    <i class="ph ph-arrow-left text-lg"></i>
+                </button>
+
+                <!-- Modern Progress Indicator Pill -->
+                <div class="flex items-center gap-3 bg-gray-100 dark:bg-gray-900/80 px-4 py-2 rounded-full border border-gray-200/70 dark:border-gray-800 shadow-inner" id="pengurus-tracker" data-total={sortedPengurus.length}>
+                    <span class="pengurus-current-index text-xs font-bold text-green-600 dark:text-green-400 min-w-[20px] text-right">01</span>
+                    <div class="w-28 sm:w-44 h-1.5 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden relative">
+                        <div class="pengurus-progress-fill h-full bg-gradient-to-r from-green-500 to-emerald-500 rounded-full transition-all duration-300" style="width: 3%;"></div>
+                    </div>
+                    <span class="text-xs font-bold text-gray-400 dark:text-gray-500 min-w-[20px]">{String(sortedPengurus.length).padStart(2, '0')}</span>
+                </div>
+
+                <button
+                    class="pengurus-next w-10 h-10 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 shadow-sm hover:bg-green-600 hover:border-green-600 hover:text-white active:scale-95 transition-all flex items-center justify-center cursor-pointer"
+                    aria-label="Slide Pengurus Berikutnya">
+                    <i class="ph ph-arrow-right text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tombol Call to Action ke Halaman Pengurus Lengkap -->
+        <div class="mt-8 text-center">
+            <a
+                href="/pengurus"
+                class="group inline-flex items-center gap-2 rounded-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-6 py-3 font-semibold text-xs sm:text-sm shadow-md hover:bg-green-600 dark:hover:bg-green-500 dark:hover:text-white transition-all duration-300 hover:-translate-y-0.5 active:scale-98">
+                <span>Lihat Seluruh Struktur Pengurus ({sortedPengurus.length})</span>
+                <i class="ph ph-arrow-up-right text-base transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+            </a>
+        </div>
     </div>
 </section>
 
-<script>
-    import Swiper from 'swiper';
-    import { Pagination, Autoplay } from 'swiper/modules';
+<!-- Ensure Swiper slide items are centered horizontally on all screen sizes -->
+<style is:global>
+    .pengurus-slider .swiper-slide {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+</style>
 
-    document.addEventListener('DOMContentLoaded', () => {
+<script>
+    import Swiper from 'swiper/bundle';
+
+    const initPengurusSwiper = () => {
+        const sliderEl = document.querySelector('.pengurus-slider');
+        if (!sliderEl) return;
+
+        if ((sliderEl as any).swiper) {
+            (sliderEl as any).swiper.destroy(true, true);
+        }
+
+        const trackerEl = document.getElementById('pengurus-tracker');
+        const totalCount = trackerEl ? parseInt(trackerEl.getAttribute('data-total') || '37', 10) : 37;
+
+        const updateProgress = (swiperInstance: any) => {
+            const currentEl = document.querySelector('.pengurus-current-index');
+            const fillEl = document.querySelector('.pengurus-progress-fill') as HTMLElement | null;
+            if (!currentEl || !fillEl) return;
+
+            const currentIndex = (swiperInstance.realIndex || 0) + 1;
+            currentEl.textContent = String(currentIndex).padStart(2, '0');
+            const pct = Math.min(100, Math.max(3, (currentIndex / totalCount) * 100));
+            fillEl.style.width = `${pct}%`;
+        };
+
         new Swiper('.pengurus-slider', {
-            modules: [Pagination, Autoplay],
             loop: true,
             grabCursor: true,
-            spaceBetween: 24,
+            slidesPerView: 1,
+            centeredSlides: true,
+            spaceBetween: 16,
             autoplay: {
                 delay: 3000,
                 disableOnInteraction: false,
+                pauseOnMouseEnter: true,
             },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
+            navigation: {
+                prevEl: '.pengurus-prev',
+                nextEl: '.pengurus-next',
             },
             breakpoints: {
-                0: {
-                    slidesPerView: 1,
-                    centeredSlides: true,
-                    spaceBetween: 16
-                },
-                768: {
+                640: {
                     slidesPerView: 2,
-                    centeredSlides: false
+                    centeredSlides: false,
+                    spaceBetween: 20
                 },
                 1024: {
                     slidesPerView: 4,
-                    centeredSlides: false
+                    centeredSlides: false,
+                    spaceBetween: 24
+                }
+            },
+            on: {
+                init: function () {
+                    updateProgress(this);
+                },
+                slideChange: function () {
+                    updateProgress(this);
                 }
             }
         });
-    });
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPengurusSwiper);
+    } else {
+        initPengurusSwiper();
+    }
 </script>

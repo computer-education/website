@@ -11,17 +11,24 @@
 
 /* Variabel untuk background heksagonal */
 :root {
-    --v1: calc(max(9vw, 11vh));
+    --v1: calc(max(9vw, 10vh));
 }
+
+@media (max-width: 768px) {
+    :root {
+        --v1: clamp(52px, 14vw, 72px);
+    }
+}
+
 /* Background Heksagonal (Terlalu kompleks untuk Tailwind Utility) */
 .contener {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
+    position: absolute;
+    inset: -60px -20px -60px -20px;
+    width: calc(100% + 40px);
+    height: calc(100% + 120px);
     overflow: hidden;
-    z-index: -1;
+    z-index: 0;
+    pointer-events: none;
 }
 .row {
     display: inline-flex;
@@ -45,32 +52,37 @@
     justify-content: center;
     transition: 0.5s ease;
 }
+
 .row:nth-child(even) {
     margin-left: calc(var(--v1) * 0.02);
 }
+
+/* Background Warna-Warni Dinamis Full (Original Effect) */
 .curser {
     position: absolute;
-    width: calc(var(--v1) * 25.5);
-    height: calc(var(--v1) * 25.5);
-    border-radius: 50%;
-    animation: anim 10s linear infinite;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
+    width: max(160%, 160vh);
+    height: max(160%, 160vh);
+    border-radius: 50%;
     pointer-events: none;
     z-index: 100;
     background: radial-gradient(
         circle,
         rgba(0, 255, 0, 0.177) 0%,
-        rgba(9, 123, 253, 0.138) 20%,
-        rgba(0, 249, 195, 0.147) 40%,
+        rgba(9, 123, 253, 0.138) 25%,
+        rgba(0, 249, 195, 0.147) 50%,
         rgba(253, 9, 115, 0.138) 80%
     );
+    animation: anim 10s linear infinite;
 }
 
 html {
     scroll-behavior: smooth;
 }
 
-/* Animasi Keyframes (Tidak bisa dikonversi ke utilitas) */
+/* Animasi Keyframes */
 @keyframes anim {
     0% {
         filter: hue-rotate(0deg);

@@ -10,53 +10,68 @@ const position = isHome ? 'fixed' : 'sticky'
 ---
 
 <header
-    class={`${position} top-0 right-0 z-50 w-full border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 shadow-md transition-all duration-300`}>
-    <div class="container mx-auto flex items-center justify-between px-6 py-3 md:px-12">
+    id="main-header"
+    class={`${position} top-0 right-0 left-0 z-50 w-full border-b border-gray-100/80 dark:border-gray-800/80 bg-white/85 dark:bg-gray-950/85 backdrop-blur-md shadow-xs transition-all duration-300`}>
+    <div class="container mx-auto flex items-center justify-between px-4 py-2.5 sm:px-6 sm:py-3 md:px-12">
         <!-- Logo -->
-        <a href="/" class="group flex items-center gap-2">
+        <a href="/" class="group flex items-center gap-2" aria-label="Beranda Computer Education">
             <Image
-                class="h-10 w-auto transition-transform duration-300 group-hover:scale-110"
+                class="h-9 sm:h-10 w-auto transition-transform duration-300 group-hover:scale-105"
                 src={logoImg}
                 alt="Logo CE"
             />
         </a>
 
-        <!-- Mobile Controls (Theme + Menu) -->
+        <!-- Mobile Controls (Theme Toggle & Clean Hamburger) -->
         <div class="flex items-center gap-2 md:hidden">
-            <button class="theme-toggle p-2 text-gray-500 hover:text-green-600 dark:text-gray-400 dark:hover:text-green-500 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle Theme">
-                <i class="ph-fill ph-moon block dark:hidden text-2xl"></i>
-                <i class="ph-fill ph-sun hidden dark:block text-2xl"></i>
+            <button
+                class="theme-toggle flex h-9 w-9 items-center justify-center rounded-xl bg-gray-100/80 text-gray-600 transition-colors hover:bg-gray-200/80 hover:text-green-600 dark:bg-gray-800/80 dark:text-gray-300 dark:hover:bg-gray-700/80 dark:hover:text-green-400"
+                aria-label="Toggle Theme">
+                <i class="ph-fill ph-moon block text-lg dark:hidden"></i>
+                <i class="ph-fill ph-sun hidden text-lg dark:block"></i>
             </button>
-            <div
-                id="menu-icon"
-                class="inline-flex cursor-pointer items-center rounded-lg p-2 text-green-600 transition-colors hover:bg-green-50 dark:hover:bg-gray-800">
-                <i class="ph ph-list text-3xl"></i>
-            </div>
+            <button
+                id="mobile-menu-toggle"
+                type="button"
+                class="flex h-9 w-9 items-center justify-center rounded-xl bg-gray-100/80 text-gray-700 transition-all hover:bg-green-50 hover:text-green-600 active:scale-95 dark:bg-gray-800/80 dark:text-gray-200 dark:hover:bg-gray-700/80 dark:hover:text-green-400"
+                aria-label="Toggle Navigation Menu"
+                aria-expanded="false">
+                <i id="menu-icon-open" class="ph ph-list text-2xl transition-transform duration-200"></i>
+                <i id="menu-icon-close" class="ph ph-x hidden text-2xl transition-transform duration-200"></i>
+            </button>
         </div>
 
-        <!-- Menu Tengah -->
-        <ul
-            id="menu-list"
-            class="pointer-events-none absolute top-full left-0 flex w-full origin-top -translate-y-4 flex-col gap-6 border-t border-gray-100 dark:border-gray-800 bg-white/95 dark:bg-gray-950/95 py-8 text-center opacity-0 shadow-lg backdrop-blur-xl transition-all duration-300 ease-in-out md:pointer-events-auto md:static md:w-auto md:translate-y-0 md:flex-row md:items-center md:gap-8 md:border-0 md:bg-transparent md:dark:bg-transparent md:py-0 md:opacity-100 md:shadow-none md:backdrop-blur-none">
+        <!-- Desktop Navigation -->
+        <ul class="hidden items-center gap-8 md:flex">
             {mainMenus.map((menu) => {
                 const hasChildren = menu.children && menu.children.length > 0;
                 const isActive = menu.href === '/' ? pathname === '/' : (menu.href !== '#' && pathname.startsWith(menu.href));
                 const activeClass = isActive ? "text-green-600 active" : "text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-500";
 
                 if (hasChildren) {
+                    const isAnyChildActive = menu.children?.some((child: any) => pathname.startsWith(child.href));
                     return (
                         <li class="group relative" tabindex="0">
-                            <span class={`nav-link relative font-medium flex items-center justify-center gap-1 transition-colors cursor-pointer ${activeClass}`}>
+                            <span class={`nav-link relative font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${isAnyChildActive ? "text-green-600 active" : "text-gray-700 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-500"}`}>
                                 {menu.name}
-                                <i class="ph ph-caret-down text-sm transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180"></i>
+                                <svg
+                                    class="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180 text-gray-400 group-hover:text-green-600 dark:text-gray-500 dark:group-hover:text-green-400"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2.5"
+                                    stroke="currentColor"
+                                    aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                </svg>
                             </span>
                             
-                            <ul class="left-0 top-full mt-2 hidden min-w-[200px] flex-col gap-2 rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-3 shadow-xl transition-all duration-300 group-hover:flex group-focus-within:flex md:absolute md:flex md:invisible md:opacity-0 md:group-hover:visible md:group-hover:opacity-100 md:group-focus-within:visible md:group-focus-within:opacity-100 md:-translate-y-2 md:group-hover:translate-y-0 md:group-focus-within:translate-y-0 before:content-[''] before:absolute before:-top-4 before:left-0 before:w-full before:h-4">
+                            <ul class="left-0 top-full mt-2 invisible opacity-0 -translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 absolute min-w-[210px] flex-col gap-1 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-2 shadow-xl backdrop-blur-xl transition-all duration-200 before:content-[''] before:absolute before:-top-3 before:left-0 before:w-full before:h-3">
                                 {menu.children?.map((child: any) => {
                                     const isChildActive = pathname.startsWith(child.href);
                                     return (
                                         <li class="text-left">
-                                            <a href={child.href} class={`block rounded-lg px-4 py-2.5 text-sm font-medium transition-all hover:bg-green-50 dark:hover:bg-gray-800 hover:text-green-600 dark:hover:text-green-500 ${isChildActive ? 'bg-green-50 dark:bg-gray-800 text-green-600 dark:text-green-500' : 'text-gray-600 dark:text-gray-400'}`}>
+                                            <a href={child.href} class={`block rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all hover:bg-green-50 dark:hover:bg-gray-800/80 hover:text-green-600 dark:hover:text-green-400 ${isChildActive ? 'bg-green-50 dark:bg-gray-800/90 text-green-600 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
                                                 {child.name}
                                             </a>
                                         </li>
@@ -75,28 +90,107 @@ const position = isHome ? 'fixed' : 'sticky'
                     </li>
                 )
             })}
-                
-            <!-- Mobile Login Button -->
-            <li class="mt-4 md:hidden">
-                <a
-                    href="https://forms.gle/4b4VrtB3DuYyUnGRA"
-                    class="inline-block transform rounded-full bg-gradient-to-r from-green-500 to-emerald-600 px-8 py-2.5 font-medium text-white shadow-lg shadow-green-500/30 transition-all hover:-translate-y-0.5 hover:shadow-green-500/50">
-                    Daftar
-                </a>
-            </li>
         </ul>
 
         <!-- Desktop Controls -->
         <div class="hidden md:flex items-center gap-4">
-            <button class="theme-toggle p-2 text-gray-500 hover:text-green-600 dark:text-gray-400 dark:hover:text-green-500 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800" aria-label="Toggle Theme">
-                <i class="ph-fill ph-moon block dark:hidden text-xl"></i>
-                <i class="ph-fill ph-sun hidden dark:block text-xl"></i>
+            <button class="theme-toggle flex h-9 w-9 items-center justify-center rounded-xl bg-gray-100/80 text-gray-500 transition-colors hover:bg-gray-200/80 hover:text-green-600 dark:bg-gray-800/80 dark:text-gray-400 dark:hover:bg-gray-700/80 dark:hover:text-green-500" aria-label="Toggle Theme">
+                <i class="ph-fill ph-moon block text-lg dark:hidden"></i>
+                <i class="ph-fill ph-sun hidden text-lg dark:block"></i>
             </button>
             <a
                 href="https://forms.gle/4b4VrtB3DuYyUnGRA"
                 class="transform items-center justify-center rounded-full bg-gradient-to-r from-green-600 to-emerald-600 px-6 py-2 text-sm font-medium text-white shadow-lg shadow-green-600/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-700 hover:shadow-green-600/40">
                 Daftar
             </a>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Backdrop Overlay -->
+    <div
+        id="mobile-backdrop"
+        class="fixed inset-0 top-[53px] z-40 bg-black/40 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-300 md:hidden">
+    </div>
+
+    <!-- Mobile Menu Dropdown Panel (Minimalist Floating Card) -->
+    <div
+        id="mobile-menu-panel"
+        class="pointer-events-none absolute top-full left-0 right-0 z-50 origin-top -translate-y-3 px-3.5 pt-2 pb-5 opacity-0 transition-all duration-300 ease-out md:hidden">
+        <div class="max-h-[calc(100vh-80px)] overflow-y-auto rounded-2xl border border-gray-100/80 bg-white/95 p-3.5 shadow-2xl backdrop-blur-2xl dark:border-gray-800/80 dark:bg-gray-950/95 space-y-1">
+            {mainMenus.map((menu) => {
+                const hasChildren = menu.children && menu.children.length > 0;
+                const isActive = menu.href === '/' ? pathname === '/' : (menu.href !== '#' && pathname.startsWith(menu.href));
+
+                if (hasChildren) {
+                    const isAnyChildActive = menu.children?.some((child: any) => pathname.startsWith(child.href));
+                    return (
+                        <div class="mobile-accordion">
+                            <button
+                                type="button"
+                                class={`mobile-accordion-toggle flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all ${
+                                    isAnyChildActive
+                                        ? 'bg-green-500/10 text-green-600 dark:text-green-400 font-semibold'
+                                        : 'text-gray-700 hover:bg-gray-100/80 hover:text-green-600 dark:text-gray-200 dark:hover:bg-gray-800/60 dark:hover:text-green-400'
+                                }`}>
+                                <span>{menu.name}</span>
+                                <svg
+                                    class={`chevron-icon h-4 w-4 transition-transform duration-200 ${isAnyChildActive ? 'rotate-180 text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'}`}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2.5"
+                                    stroke="currentColor"
+                                    aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </button>
+                            <div class={`mobile-submenu flex-col pl-3 pr-1 py-1 space-y-1 border-l-2 border-emerald-500/25 ml-4 my-1 dark:border-emerald-500/35 ${isAnyChildActive ? 'flex' : 'hidden'}`}>
+                                {menu.children?.map((child: any) => {
+                                    const isChildActive = pathname.startsWith(child.href);
+                                    return (
+                                        <a
+                                            href={child.href}
+                                            class={`mobile-link flex items-center justify-between rounded-lg px-3 py-2 text-xs font-medium transition-all ${
+                                                isChildActive
+                                                    ? 'bg-green-500/10 text-green-600 dark:text-green-400 font-semibold'
+                                                    : 'text-gray-600 hover:bg-gray-100/70 hover:text-green-600 dark:text-gray-400 dark:hover:bg-gray-800/50 dark:hover:text-green-400'
+                                            }`}>
+                                            <span>{child.name}</span>
+                                            {isChildActive && <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>}
+                                        </a>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    );
+                }
+
+                return (
+                    <a
+                        href={menu.href}
+                        class={`mobile-link flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all ${
+                            isActive
+                                ? 'bg-green-500/10 text-green-600 dark:text-green-400 font-semibold'
+                                : 'text-gray-700 hover:bg-gray-100/80 hover:text-green-600 dark:text-gray-200 dark:hover:bg-gray-800/60 dark:hover:text-green-400'
+                        }`}>
+                        <span>{menu.name}</span>
+                        {isActive && <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>}
+                    </a>
+                );
+            })}
+
+            <!-- Divider -->
+            <div class="my-2 border-t border-gray-100 dark:border-gray-800/80"></div>
+
+            <!-- Mobile CTA Button -->
+            <div class="pt-1">
+                <a
+                    href="https://forms.gle/4b4VrtB3DuYyUnGRA"
+                    class="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 py-2.5 text-center text-sm font-medium text-white shadow-md shadow-green-600/25 active:scale-[0.98] transition-all">
+                    <span>Daftar Sekarang</span>
+                    <i class="ph-bold ph-arrow-right text-xs"></i>
+                </a>
+            </div>
         </div>
     </div>
 </header>
@@ -118,29 +212,95 @@ const position = isHome ? 'fixed' : 'sticky'
     const themeButtons = document.querySelectorAll('.theme-toggle')
     themeButtons.forEach(btn => btn.addEventListener('click', toggleTheme))
 
-    // Toggle menu mobile
-    const menuIcon = document.getElementById('menu-icon')
-    const menuList = document.getElementById('menu-list')
+    // Mobile Menu Controls
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle')
+    const mobileMenuPanel = document.getElementById('mobile-menu-panel')
+    const mobileBackdrop = document.getElementById('mobile-backdrop')
+    const iconOpen = document.getElementById('menu-icon-open')
+    const iconClose = document.getElementById('menu-icon-close')
 
-    if (menuIcon && menuList) {
-        menuIcon.addEventListener('click', () => {
-            if (menuList.classList.contains('opacity-0')) {
-                menuList.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none')
-            } else {
-                menuList.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none')
-            }
-        })
-
-        document.addEventListener('click', (e) => {
-            if (!menuIcon.contains(e.target as Node) && !menuList.contains(e.target as Node)) {
-                menuList.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none')
-            }
-        })
+    const openMobileMenu = () => {
+        mobileMenuPanel?.classList.remove('opacity-0', '-translate-y-3', 'pointer-events-none')
+        mobileMenuPanel?.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto')
+        mobileBackdrop?.classList.remove('opacity-0', 'pointer-events-none')
+        mobileBackdrop?.classList.add('opacity-100', 'pointer-events-auto')
+        iconOpen?.classList.add('hidden')
+        iconClose?.classList.remove('hidden')
+        mobileMenuToggle?.setAttribute('aria-expanded', 'true')
     }
+
+    const closeMobileMenu = () => {
+        mobileMenuPanel?.classList.add('opacity-0', '-translate-y-3', 'pointer-events-none')
+        mobileMenuPanel?.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto')
+        mobileBackdrop?.classList.add('opacity-0', 'pointer-events-none')
+        mobileBackdrop?.classList.remove('opacity-100', 'pointer-events-auto')
+        iconOpen?.classList.remove('hidden')
+        iconClose?.classList.add('hidden')
+        mobileMenuToggle?.setAttribute('aria-expanded', 'false')
+    }
+
+    mobileMenuToggle?.addEventListener('click', () => {
+        const isOpen = mobileMenuToggle.getAttribute('aria-expanded') === 'true'
+        if (isOpen) {
+            closeMobileMenu()
+        } else {
+            openMobileMenu()
+        }
+    })
+
+    mobileBackdrop?.addEventListener('click', closeMobileMenu)
+
+    // Tutup menu saat link mobile diklik
+    const mobileLinks = document.querySelectorAll('.mobile-link')
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenu)
+    })
+
+    // Accordion submenu logic pada mobile (hanya 1 dropdown yang terbuka sekaligus)
+    const accordionToggles = document.querySelectorAll('.mobile-accordion-toggle')
+    accordionToggles.forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation()
+            const submenu = toggle.nextElementSibling as HTMLElement | null
+            const caret = toggle.querySelector('.chevron-icon') as HTMLElement | null
+            if (submenu) {
+                const isCurrentlyHidden = submenu.classList.contains('hidden')
+
+                // Tutup semua dropdown lain terlebih dahulu
+                accordionToggles.forEach(otherToggle => {
+                    const otherSubmenu = otherToggle.nextElementSibling as HTMLElement | null
+                    const otherCaret = otherToggle.querySelector('.chevron-icon') as HTMLElement | null
+                    if (otherSubmenu && otherSubmenu !== submenu) {
+                        otherSubmenu.classList.add('hidden')
+                        otherSubmenu.classList.remove('flex')
+                        otherCaret?.classList.remove('rotate-180')
+                    }
+                })
+
+                // Toggle dropdown yang sedang dipilih
+                if (isCurrentlyHidden) {
+                    submenu.classList.remove('hidden')
+                    submenu.classList.add('flex')
+                    caret?.classList.add('rotate-180')
+                } else {
+                    submenu.classList.add('hidden')
+                    submenu.classList.remove('flex')
+                    caret?.classList.remove('rotate-180')
+                }
+            }
+        })
+    })
+
+    // Tutup saat tombol ESC ditekan
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeMobileMenu()
+        }
+    })
 </script>
 
 <style>
-    /* Styling tambahan untuk indikator aktif/hover link */
+    /* Indikator aktif/hover link desktop */
     .nav-link::after {
         content: '';
         position: absolute;
@@ -148,7 +308,7 @@ const position = isHome ? 'fixed' : 'sticky'
         height: 2px;
         bottom: -4px;
         left: 0;
-        background-color: #10b981; /* emerald-500 */
+        background-color: #10b981;
         transition: width 0.3s ease;
     }
     .nav-link.active::after {
