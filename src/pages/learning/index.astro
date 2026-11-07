@@ -10,34 +10,43 @@ const topLevelModules = allModul.filter(m => {
 const sortedModules = topLevelModules.sort((a, b) => (a.data.weight || 0) - (b.data.weight || 0));
 ---
 
-<Layout title="Learning Tracks | Computer Education">
-    <section class="bg-gray-50/70 dark:bg-gray-950 p-6 sm:p-8 pt-[70px] min-h-screen transition-colors duration-300">
-        <div class="mx-auto mb-16 max-w-3xl text-center">
-            <span class="inline-flex items-center gap-1.5 rounded-full bg-green-100 dark:bg-green-900/30 px-4 py-1.5 text-xs font-bold tracking-wider text-green-700 dark:text-green-400 uppercase mb-4 border border-green-200/60 dark:border-green-800/60">
-                <i class="ph-fill ph-graduation-cap text-sm"></i>
-                Kurikulum Kami
-            </span>
-            <h2 class="text-4xl font-extrabold text-gray-900 dark:text-white md:text-5xl tracking-tight">
-                Learning <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500">Tracks</span>
-            </h2>
-            <div class="mx-auto mt-4 mb-6 h-1.5 w-20 rounded-full bg-gradient-to-r from-green-500 to-emerald-400"></div>
-            <p class="text-lg sm:text-xl leading-relaxed text-gray-600 dark:text-gray-300 font-normal">
-                Pilih jalur belajar sesuai dengan minatmu dan kembangkan skill digital bersama kurikulum terstruktur.
+<Layout 
+    title="Jalur Pembelajaran | Computer Education"
+    description="Silabus kurikulum dan modul materi UKM Computer Education Universitas Muhammadiyah Cirebon: Pemrograman, Desain Grafis, Video Editing, dan Sistem Operasi.">
+    
+    <!-- Header -->
+    <header class="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 pt-28 pb-12 transition-colors">
+        <div class="container mx-auto px-4 sm:px-6 md:px-8 max-w-4xl text-center space-y-3">
+            <div class="flex items-center justify-center gap-2 text-xs font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
+                <span>Kurikulum Mandiri</span>
+                <span>•</span>
+                <span class="text-gray-500 dark:text-gray-400">Silabus Anggota</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-950 dark:text-white">
+                Jalur Pembelajaran
+            </h1>
+            <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                Pilih jalur peminatan keahlian untuk mempelajari materi bertingkat dari dasar teori hingga praktik nyata.
             </p>
         </div>
-        
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-24">
-            {sortedModules.length === 0 ? (
-                <div class="col-span-full text-center text-gray-500 py-16">
-                    Data Modul Belum Tersedia.
-                </div>
-            ) : (
-                sortedModules.map((module) => (
-                    <div class="h-full">
-                        <LearnCard module={module} />
+    </header>
+
+    <!-- Track Grid -->
+    <main class="bg-gray-50/60 dark:bg-gray-900/40 py-12 sm:py-16 min-h-[60vh] transition-colors">
+        <div class="container mx-auto px-4 sm:px-6 md:px-8 max-w-6xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                {sortedModules.length === 0 ? (
+                    <div class="col-span-full text-center text-gray-500 py-16">
+                        Data modul belum tersedia.
                     </div>
-                ))
-            )}
+                ) : (
+                    sortedModules.map((module) => (
+                        <div class="h-full">
+                            <LearnCard module={module} />
+                        </div>
+                    ))
+                )}
+            </div>
         </div>
-    </section>
+    </main>
 </Layout>

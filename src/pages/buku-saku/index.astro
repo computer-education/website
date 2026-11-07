@@ -1,0 +1,700 @@
+---
+import Layout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+
+// Aset visual buku saku
+import coverImg from '../../assets/images/buku-saku/cover.jpg';
+import pdhImg from '../../assets/images/buku-saku/pdh.png';
+import ktaImg from '../../assets/images/buku-saku/kta.jpg';
+import robocotionDepan from '../../assets/images/buku-saku/robocotion-depan.png';
+import robocotionBelakang from '../../assets/images/buku-saku/robocotion-belakang.png';
+import robocotionSamping from '../../assets/images/buku-saku/robocotion-samping.png';
+import benderaImg from '../../assets/images/buku-saku/bendera.jpg';
+
+// Koleksi Ketua Umum & Buku Saku
+const rawKetua = await getCollection('ketua');
+const sortedKetua = rawKetua.sort((a, b) => (a.data.urutan || 0) - (b.data.urutan || 0));
+
+const rawBukuSaku = await getCollection('bukuSaku');
+const sortedBukuSaku = rawBukuSaku.sort((a, b) => (a.data.urutan || 0) - (b.data.urutan || 0));
+
+// Render setiap bab
+const renderedChapters = await Promise.all(
+    sortedBukuSaku.map(async (chapter) => {
+        const { Content } = await render(chapter);
+        return {
+            ...chapter,
+            Content,
+        };
+    })
+);
+
+// Helper inisial nama
+const getInitials = (name: string) => {
+    return name
+        .split(' ')
+        .filter(n => !n.includes('.') && n.length > 1)
+        .slice(0, 2)
+        .map(n => n[0])
+        .join('')
+        .toUpperCase() || 'CE';
+};
+---
+
+<Layout 
+    title="Buku Saku Organisasi | Computer Education"
+    description="Dokumen pedoman resmi UKM Computer Education Universitas Muhammadiyah Cirebon: Sejarah, AD/ART, atribut, materi PAB, dan direktori ketua umum dari 2001 hingga sekarang.">
+
+    <!-- HEADER / HERO DOKUMEN -->
+    <header class="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 pt-28 pb-14 transition-colors">
+        <div class="container mx-auto px-4 sm:px-6 md:px-8 max-w-6xl">
+            
+            <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 pb-10 border-b border-gray-100 dark:border-gray-800/80">
+                
+                <!-- Kolom Kiri: Judul & Keterangan -->
+                <div class="max-w-2xl space-y-4">
+                    <div class="flex items-center gap-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        <span>Dokumen Resmi</span>
+                        <span>•</span>
+                        <span class="text-emerald-700 dark:text-emerald-400 font-bold">Edisi 2024–2025</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-950 dark:text-white leading-tight">
+                        Buku Saku Organisasi
+                    </h1>
+
+                    <p class="text-base text-gray-600 dark:text-gray-300 leading-relaxed font-normal">
+                        Pedoman pokok Unit Kegiatan Mahasiswa <strong>Computer Education (CE)</strong> Universitas Muhammadiyah Cirebon. Memuat sejarah pendirian, direktori kepemimpinan 20 periode, Anggaran Dasar, Anggaran Rumah Tangga, serta silabus kaderisasi.
+                    </p>
+
+                    <!-- Aksi Dokumen -->
+                    <div class="flex flex-wrap items-center gap-3 pt-2">
+                        <a
+                            href="/Buku-Saku-CE.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition-colors">
+                            <i class="ph-bold ph-download-simple text-base"></i>
+                            <span>Unduh Dokumen PDF (1.8 MB)</span>
+                        </a>
+
+                        <a
+                            href="#sejarah"
+                            class="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 transition-colors">
+                            <span>Baca Sejarah</span>
+                        </a>
+
+                        <a
+                            href="#direktori-ketua"
+                            class="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 transition-colors">
+                            <span>Direktori Ketua Umum</span>
+                        </a>
+
+                        <a
+                            href="#pasal-konstitusi"
+                            class="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 transition-colors">
+                            <span>AD / ART</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan: Kartu Metadata Dokumen -->
+                <div class="w-full sm:w-80 shrink-0">
+                    <div class="rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50/70 dark:bg-gray-900/60 p-4 flex gap-4 items-center">
+                        <div class="w-20 shrink-0 overflow-hidden rounded-md border border-gray-200 dark:border-gray-700 bg-white shadow-xs">
+                            <Image 
+                                src={coverImg} 
+                                alt="Cover Dokumen Buku Saku CE"
+                                class="w-full h-auto object-cover"
+                            />
+                        </div>
+                        <div class="text-xs space-y-1.5 text-gray-600 dark:text-gray-400">
+                            <div>
+                                <span class="block font-semibold text-gray-900 dark:text-white">Penerbit:</span>
+                                <span>Pengurus UKM CE UMC</span>
+                            </div>
+                            <div>
+                                <span class="block font-semibold text-gray-900 dark:text-white">Tanggal Pengesahan:</span>
+                                <span>08 Februari 2025</span>
+                            </div>
+                            <div>
+                                <span class="block font-semibold text-gray-900 dark:text-white">Cakupan Data:</span>
+                                <span>Periode 2001 s.d. 2025</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Ringkasan Arsip Cepat -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 text-sm">
+                <div>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Tahun Berdiri</span>
+                    <p class="text-xl font-bold text-gray-900 dark:text-white mt-0.5">13 Juli 2001</p>
+                </div>
+                <div>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Transformasi Nama</span>
+                    <p class="text-xl font-bold text-gray-900 dark:text-white mt-0.5">22 Juni 2019</p>
+                </div>
+                <div>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Generasi Kepemimpinan</span>
+                    <p class="text-xl font-bold text-emerald-700 dark:text-emerald-400 mt-0.5">{sortedKetua.length} Periode</p>
+                </div>
+                <div>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Jumlah Materi Buku</span>
+                    <p class="text-xl font-bold text-gray-900 dark:text-white mt-0.5">7 Bagian</p>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- BAGIAN 1: SEJARAH ORGANISASI (DI AWAL) -->
+    <section id="sejarah" class="py-12 sm:py-16 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 transition-colors">
+        <div class="container mx-auto px-4 sm:px-6 md:px-8 max-w-6xl">
+            
+            <div class="mb-10">
+                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-1">
+                    <span>Bagian I</span>
+                    <span>•</span>
+                    <span>Sejarah Pembentukan</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-950 dark:text-white">
+                    Perjalanan Computer Education
+                </h2>
+                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1">
+                    Catatan sejarah dari berdirinya Computer Mania Club (CMC) hingga berganti nama menjadi Computer Education (CE).
+                </p>
+            </div>
+
+            <!-- Dua Kolom: Timeline Kronologis & Teks Dokumenter -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                
+                <!-- Timeline Kolom Kiri (5 Kolom) -->
+                <div class="lg:col-span-5 space-y-6">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                        Linimasa Pembentukan
+                    </h3>
+
+                    <div class="relative pl-6 space-y-8 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-200 dark:before:bg-gray-800">
+                        
+                        <!-- Titik 1 -->
+                        <div class="relative">
+                            <span class="absolute -left-[22px] top-1.5 h-3.5 w-3.5 rounded-full border-2 border-white dark:border-gray-950 bg-emerald-600"></span>
+                            <span class="text-xs font-bold font-mono text-emerald-700 dark:text-emerald-400">13 Juli 2001</span>
+                            <h4 class="text-base font-bold text-gray-900 dark:text-white mt-0.5">Pendirian Computer Mania Club</h4>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">
+                                Dibentuk oleh mahasiswa Teknik Informatika UMC sepulang dari studi banding di Universitas Gadjah Mada (UGM) saat kegiatan BNCC. Dipimpin oleh <strong>Rizki Yudin</strong>.
+                            </p>
+                        </div>
+
+                        <!-- Titik 2 -->
+                        <div class="relative">
+                            <span class="absolute -left-[22px] top-1.5 h-3.5 w-3.5 rounded-full border-2 border-white dark:border-gray-950 bg-emerald-600"></span>
+                            <span class="text-xs font-bold font-mono text-emerald-700 dark:text-emerald-400">Tahun 2010</span>
+                            <h4 class="text-base font-bold text-gray-900 dark:text-white mt-0.5">Ekspansi Lintas Program Studi</h4>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">
+                                Di bawah kepemimpinan <strong>Afhey Filla Fery, ST</strong>, organisasi mulai menerima anggota dari luar prodi Teknik Informatika seiring meluasnya kebutuhan komputer.
+                            </p>
+                        </div>
+
+                        <!-- Titik 3 -->
+                        <div class="relative">
+                            <span class="absolute -left-[22px] top-1.5 h-3.5 w-3.5 rounded-full border-2 border-white dark:border-gray-950 bg-emerald-600"></span>
+                            <span class="text-xs font-bold font-mono text-emerald-700 dark:text-emerald-400">22 Juni 2019</span>
+                            <h4 class="text-base font-bold text-gray-900 dark:text-white mt-0.5">Perubahan Nama Menjadi CE</h4>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">
+                                CMC resmi berganti nama menjadi <strong>Computer Education (CE)</strong> di kampus UMC untuk memperkuat fokus pada peningkatan kualitas dan penguasaan IPTEK mahasiswa.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Teks Dokumenter Kolom Kanan (7 Kolom) -->
+                <div class="lg:col-span-7">
+                    <div class="rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/40 p-6 sm:p-8 space-y-4 text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                        <h4 class="text-base font-bold text-gray-950 dark:text-white mb-2">
+                            Latar Belakang dan Landasan Berdiri
+                        </h4>
+                        
+                        <p>
+                            Mahasiswa merupakan insan yang bergelut dengan ilmu pengetahuan untuk meningkatkan kualitas diri dalam disiplin ilmu yang digeluti. Dalam proses perkembangan daya berpikir dan penyerapan ilmu pengetahuan, diperlukan wadah atau sarana berkumpul agar terbentuk model pembelajaran variatif untuk mendapatkan ilmu pengetahuan yang lebih baik.
+                        </p>
+
+                        <p>
+                            Organisasi adalah sarana yang tepat untuk menerapkan teori ke dalam bentuk nyata suatu kegiatan. Pada awal masa berdirinya tahun 2001, organisasi ini dijalankan secara mandiri oleh mahasiswa Teknik Informatika, sementara alokasi dana universitas kala itu masih diprioritaskan untuk pembangunan fisik gedung kampus UMC.
+                        </p>
+
+                        <p>
+                            Kini, Computer Education menaungi divisi keilmuan yang mencakup pemrograman perangkat lunak, desain grafis, multimedia fotografi dan videografi, sistem operasi, serta robotika dasar sebagai bekal mahasiswa menghadapi perkembangan teknologi.
+                        </p>
+
+                        <div class="pt-3 border-t border-gray-200 dark:border-gray-800 text-xs text-gray-500 dark:text-gray-400">
+                            <em>Sumber rujukan: Naskah Buku Saku Organisasi UKM Computer Education UMC (hlm. 12 & 34-35).</em>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- BAGIAN 2: DIREKTORI KETUA UMUM (2001 - SEKARANG) -->
+    <section id="direktori-ketua" class="py-12 sm:py-16 bg-gray-50/60 dark:bg-gray-900/40 border-b border-gray-200 dark:border-gray-800 transition-colors">
+        <div class="container mx-auto px-4 sm:px-6 md:px-8 max-w-6xl">
+            
+            <!-- Header Roster -->
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-1">
+                        <span>Bagian II</span>
+                        <span>•</span>
+                        <span>Daftar Kepemimpinan</span>
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-950 dark:text-white">
+                        Ketua Umum Dari Masa ke Masa
+                    </h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        Arsip 20 periode Ketua Umum sejak pembentukan organisasi tahun 2001 hingga saat ini.
+                    </p>
+                </div>
+
+                <!-- Kontrol Filter & Pencarian Rapi -->
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                    <div class="relative">
+                        <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                        <input 
+                            type="text" 
+                            id="ketua-search-input"
+                            placeholder="Cari nama atau tahun..."
+                            class="w-full sm:w-64 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 pl-9 pr-3 py-2 text-xs text-gray-900 dark:text-white placeholder-gray-400 focus:border-emerald-600 focus:outline-hidden focus:ring-1 focus:ring-emerald-600"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid Direktori Ketua Umum -->
+            <div id="ketua-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {sortedKetua.map((ketua, index) => {
+                    const k = ketua.data;
+                    const noUrut = String(k.urutan || index + 1).padStart(2, '0');
+                    const hasDetail = k.ttl || k.alamat || k.email || k.no_hp || k.riwayat_pendidikan || k.moto_hidup;
+                    const initials = getInitials(k.nama);
+
+                    return (
+                        <div 
+                            class="ketua-card rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-2xs hover:border-emerald-600/60 dark:hover:border-emerald-500/60 transition-colors flex flex-col justify-between"
+                            data-nama={k.nama.toLowerCase()}
+                            data-periode={k.periode.toLowerCase()}
+                            data-json={JSON.stringify({
+                                nama: k.nama,
+                                periode: k.periode,
+                                urutan: noUrut,
+                                ttl: k.ttl || '',
+                                alamat: k.alamat || '',
+                                email: k.email || '',
+                                no_hp: k.no_hp || '',
+                                riwayat_pendidikan: k.riwayat_pendidikan || '',
+                                moto_hidup: k.moto_hidup || '',
+                                foto_src: k.foto ? (typeof k.foto === 'string' ? k.foto : (k.foto as any).src) : ''
+                            })}>
+                            
+                            <div>
+                                <!-- Baris Periode & Nomor Urut -->
+                                <div class="flex items-center justify-between text-xs mb-3 text-gray-500 dark:text-gray-400">
+                                    <span class="font-mono font-semibold text-emerald-800 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-200/60 dark:border-emerald-800/60">
+                                        {k.periode}
+                                    </span>
+                                    <span class="font-mono text-[11px] text-gray-400">#{noUrut}</span>
+                                </div>
+
+                                <!-- Foto / Archival Monogram Placeholder -->
+                                <div class="mb-3">
+                                    {k.foto ? (
+                                        <div class="h-36 w-full overflow-hidden rounded-lg border border-gray-100 dark:border-gray-800 bg-gray-100 dark:bg-gray-800">
+                                            <Image 
+                                                src={k.foto} 
+                                                alt={k.nama} 
+                                                class="h-full w-full object-cover object-top"
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div class="h-36 w-full rounded-lg border border-dashed border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 flex flex-col items-center justify-center p-3 text-center">
+                                            <span class="text-2xl font-bold font-mono text-gray-400 dark:text-gray-500">
+                                                {initials}
+                                            </span>
+                                            <span class="text-[11px] text-gray-400 dark:text-gray-500 mt-1">
+                                                Foto tidak ada di PDF
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <!-- Nama Ketua -->
+                                <h3 class="text-sm font-bold text-gray-950 dark:text-white leading-snug line-clamp-2">
+                                    {k.nama}
+                                </h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                    Ketua Umum
+                                </p>
+                            </div>
+
+                            <!-- Tombol Aksi Detail -->
+                            <div class="pt-3 mt-3 border-t border-gray-100 dark:border-gray-800/80">
+                                {hasDetail ? (
+                                    <button
+                                        type="button"
+                                        class="btn-open-ketua w-full rounded-md bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 py-1.5 px-2 text-xs font-medium text-gray-700 dark:text-gray-300 transition-colors cursor-pointer text-center">
+                                        Lihat Biodata
+                                    </button>
+                                ) : (
+                                    <span class="block text-[11px] text-gray-400 text-center py-1">
+                                        Data Riwayat Terbatas
+                                    </span>
+                                )}
+                            </div>
+
+                        </div>
+                    );
+                })}
+            </div>
+
+            <!-- Pesan jika hasil pencarian nihil -->
+            <div id="ketua-not-found" class="hidden text-center py-12 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 mt-4">
+                <p class="text-sm text-gray-600 dark:text-gray-400">Tidak ada nama atau tahun yang sesuai dengan kata kunci pencarian.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- BAGIAN 3: BATANG TUBUH & KONSTITUSI BUKU SAKU -->
+    <section id="pasal-konstitusi" class="py-12 sm:py-16 bg-white dark:bg-gray-950 transition-colors">
+        <div class="container mx-auto px-4 sm:px-6 md:px-8 max-w-6xl">
+            
+            <div class="mb-8">
+                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-1">
+                    <span>Bagian III</span>
+                    <span>•</span>
+                    <span>Konstitusi & Pembekalan</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-bold text-gray-950 dark:text-white">
+                    Pasal-Pasal & Materi Buku Saku
+                </h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                    Isi lengkap Anggaran Dasar, Anggaran Rumah Tangga, spesifikasi atribut, dan kurikulum pengukuhan anggota baru.
+                </p>
+            </div>
+
+            <!-- Daftar Bab (Clean Accordion List) -->
+            <div class="divide-y divide-gray-200 dark:divide-gray-800 border-y border-gray-200 dark:border-gray-800">
+                {renderedChapters.map((chapter, idx) => {
+                    const c = chapter.data;
+                    const Content = chapter.Content;
+                    const isAtribut = chapter.id.includes('05-atribut');
+                    const defaultOpen = idx === 2; // Default buka AD
+
+                    return (
+                        <div class="chapter-item py-4 sm:py-5">
+                            <button
+                                type="button"
+                                class="chapter-btn flex w-full items-center justify-between text-left cursor-pointer group"
+                                aria-expanded={defaultOpen ? "true" : "false"}>
+                                
+                                <div class="pr-4">
+                                    <div class="flex items-center gap-2 text-xs font-mono text-emerald-700 dark:text-emerald-400 font-semibold mb-0.5">
+                                        <span>BAB {String(c.urutan || idx + 1).padStart(2, '0')}</span>
+                                    </div>
+                                    <h3 class="text-base sm:text-lg font-bold text-gray-950 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
+                                        {c.title}
+                                    </h3>
+                                    {c.ringkasan && (
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 font-normal">
+                                            {c.ringkasan}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div class="shrink-0 flex h-7 w-7 items-center justify-center rounded border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 chapter-icon transition-transform">
+                                    <i class="ph ph-plus text-xs"></i>
+                                </div>
+                            </button>
+
+                            <!-- Isi Bab -->
+                            <div class={`chapter-panel pt-6 pb-2 ${defaultOpen ? 'block' : 'hidden'}`}>
+                                
+                                <!-- Dokumentasi Visual Khusus Bab Atribut -->
+                                {isAtribut && (
+                                    <div class="mb-8 p-5 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/60 space-y-6">
+                                        <div>
+                                            <h4 class="text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300">
+                                                Lampiran Visual Atribut Resmi
+                                            </h4>
+                                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                                Diekstrak langsung dari halaman 26–29 dokumen Buku Saku CE.
+                                            </p>
+                                        </div>
+
+                                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                            <div class="rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 text-center">
+                                                <Image src={benderaImg} alt="Bendera CE" class="h-32 w-auto mx-auto object-contain mb-2" />
+                                                <span class="text-xs font-semibold text-gray-800 dark:text-gray-200 block">Bendera Resmi CE</span>
+                                                <span class="text-[11px] text-gray-500">Pasal 14 ART</span>
+                                            </div>
+
+                                            <div class="rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 text-center">
+                                                <Image src={pdhImg} alt="Pakaian Dinas Harian CE" class="h-32 w-auto mx-auto object-contain mb-2" />
+                                                <span class="text-xs font-semibold text-gray-800 dark:text-gray-200 block">Pakaian Dinas Harian (PDH)</span>
+                                                <span class="text-[11px] text-gray-500">Pasal 15 ART</span>
+                                            </div>
+
+                                            <div class="rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-3 text-center">
+                                                <Image src={ktaImg} alt="KTA Anggota CE" class="h-32 w-auto mx-auto object-contain mb-2" />
+                                                <span class="text-xs font-semibold text-gray-800 dark:text-gray-200 block">Kartu Tanda Anggota (KTA)</span>
+                                                <span class="text-[11px] text-gray-500">Pasal 16 ART</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Dokumentasi Maskot Robocotion -->
+                                        <div class="border-t border-gray-200 dark:border-gray-700/60 pt-4">
+                                            <div class="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                                                Maskot Organisasi: Robocotion (Pasal 18 ART)
+                                            </div>
+                                            <div class="grid grid-cols-3 gap-2">
+                                                <div class="rounded border border-gray-200 dark:border-gray-700/60 bg-white dark:bg-gray-900 p-2 text-center">
+                                                    <Image src={robocotionDepan} alt="Robocotion Depan" class="h-28 w-auto mx-auto object-contain mb-1" />
+                                                    <span class="text-[11px] text-gray-500">Tampak Depan</span>
+                                                </div>
+                                                <div class="rounded border border-gray-200 dark:border-gray-700/60 bg-white dark:bg-gray-900 p-2 text-center">
+                                                    <Image src={robocotionBelakang} alt="Robocotion Belakang" class="h-28 w-auto mx-auto object-contain mb-1" />
+                                                    <span class="text-[11px] text-gray-500">Tampak Belakang</span>
+                                                </div>
+                                                <div class="rounded border border-gray-200 dark:border-gray-700/60 bg-white dark:bg-gray-900 p-2 text-center">
+                                                    <Image src={robocotionSamping} alt="Robocotion Samping" class="h-28 w-auto mx-auto object-contain mb-1" />
+                                                    <span class="text-[11px] text-gray-500">Tampak Samping</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div class="prose prose-sm sm:prose-base dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-gray-950 dark:prose-headings:text-white prose-p:leading-relaxed text-gray-700 dark:text-gray-300">
+                                    <Content />
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+
+            <!-- Footer Download Box -->
+            <div class="mt-12 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+                <div>
+                    <h4 class="text-base font-bold text-gray-950 dark:text-white">
+                        Membutuhkan salinan fisik atau arsip lengkap?
+                    </h4>
+                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        Dokumen asli lengkap 41 halaman tersedia dalam format PDF untuk keperluan studi dan arsip kepengurusan.
+                    </p>
+                </div>
+
+                <a 
+                    href="/Buku-Saku-CE.pdf" 
+                    download="Buku-Saku-Computer-Education.pdf"
+                    class="shrink-0 inline-flex items-center justify-center gap-2 rounded-lg bg-gray-900 hover:bg-black dark:bg-white dark:hover:bg-gray-100 text-white dark:text-gray-950 px-5 py-2.5 text-sm font-semibold transition-colors">
+                    <i class="ph-bold ph-file-pdf text-base"></i>
+                    <span>Unduh PDF Asli</span>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MODAL POPUP BIODATA KETUA UMUM (DOSSIER STYLE) -->
+    <div 
+        id="modal-dossier" 
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-2xs opacity-0 pointer-events-none transition-opacity duration-200"
+        aria-hidden="true" 
+        role="dialog">
+        
+        <div class="relative w-full max-w-md rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 shadow-xl max-h-[90vh] overflow-y-auto" id="modal-dossier-box">
+            
+            <button 
+                id="modal-dossier-close" 
+                type="button" 
+                class="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded border border-gray-200 dark:border-gray-700 bg-gray-50 hover:bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
+                aria-label="Tutup">
+                <i class="ph-bold ph-x text-sm"></i>
+            </button>
+
+            <div id="modal-dossier-content" class="space-y-4">
+                <!-- Diisi dinamis -->
+            </div>
+
+        </div>
+    </div>
+
+</Layout>
+
+<script>
+    // --- ACCORDION BAB ---
+    const chapterButtons = document.querySelectorAll('.chapter-btn');
+    chapterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+            const panel = btn.nextElementSibling as HTMLElement | null;
+            const icon = btn.querySelector('.chapter-icon i');
+
+            if (isExpanded) {
+                btn.setAttribute('aria-expanded', 'false');
+                panel?.classList.add('hidden');
+                icon?.classList.remove('ph-minus');
+                icon?.classList.add('ph-plus');
+            } else {
+                btn.setAttribute('aria-expanded', 'true');
+                panel?.classList.remove('hidden');
+                icon?.classList.remove('ph-plus');
+                icon?.classList.add('ph-minus');
+            }
+        });
+    });
+
+    // --- PENCARIAN KETUA UMUM ---
+    const searchInput = document.getElementById('ketua-search-input') as HTMLInputElement | null;
+    const cards = document.querySelectorAll<HTMLElement>('.ketua-card');
+    const notFoundEl = document.getElementById('ketua-not-found');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = (e.target as HTMLInputElement).value.trim().toLowerCase();
+            let count = 0;
+
+            cards.forEach(card => {
+                const nama = card.getAttribute('data-nama') || '';
+                const periode = card.getAttribute('data-periode') || '';
+
+                if (nama.includes(query) || periode.includes(query)) {
+                    card.classList.remove('hidden');
+                    count++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            if (notFoundEl) {
+                if (count === 0) {
+                    notFoundEl.classList.remove('hidden');
+                } else {
+                    notFoundEl.classList.add('hidden');
+                }
+            }
+        });
+    }
+
+    // --- MODAL BIODATA (DOSSIER) ---
+    const modal = document.getElementById('modal-dossier');
+    const modalClose = document.getElementById('modal-dossier-close');
+    const modalContent = document.getElementById('modal-dossier-content');
+    const openButtons = document.querySelectorAll('.btn-open-ketua');
+
+    const openModal = (data: any) => {
+        if (!modal || !modalContent) return;
+
+        let rowsHtml = '';
+        if (data.ttl) {
+            rowsHtml += `<tr class="border-b border-gray-100 dark:border-gray-800"><td class="py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 w-28">Kelahiran</td><td class="py-2 text-xs text-gray-800 dark:text-gray-200">${data.ttl}</td></tr>`;
+        }
+        if (data.alamat) {
+            rowsHtml += `<tr class="border-b border-gray-100 dark:border-gray-800"><td class="py-2 text-xs font-semibold text-gray-500 dark:text-gray-400">Alamat</td><td class="py-2 text-xs text-gray-800 dark:text-gray-200">${data.alamat}</td></tr>`;
+        }
+        if (data.email) {
+            rowsHtml += `<tr class="border-b border-gray-100 dark:border-gray-800"><td class="py-2 text-xs font-semibold text-gray-500 dark:text-gray-400">Email</td><td class="py-2 text-xs text-gray-800 dark:text-gray-200">${data.email}</td></tr>`;
+        }
+        if (data.no_hp) {
+            rowsHtml += `<tr class="border-b border-gray-100 dark:border-gray-800"><td class="py-2 text-xs font-semibold text-gray-500 dark:text-gray-400">Kontak</td><td class="py-2 text-xs text-gray-800 dark:text-gray-200">${data.no_hp}</td></tr>`;
+        }
+
+        let eduHtml = '';
+        if (data.riwayat_pendidikan) {
+            const items = data.riwayat_pendidikan
+                .split('\n')
+                .filter((l: string) => l.trim())
+                .map((l: string) => `<li class="text-xs text-gray-700 dark:text-gray-300">• ${l}</li>`)
+                .join('');
+            eduHtml = `
+                <div class="pt-2">
+                    <span class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">Riwayat Pendidikan</span>
+                    <ul class="space-y-1">${items}</ul>
+                </div>
+            `;
+        }
+
+        let motoHtml = '';
+        if (data.moto_hidup) {
+            motoHtml = `
+                <div class="pt-2 border-t border-gray-100 dark:border-gray-800">
+                    <span class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">Moto Hidup</span>
+                    <p class="text-xs italic text-gray-700 dark:text-gray-300">"${data.moto_hidup}"</p>
+                </div>
+            `;
+        }
+
+        const photoOrAvatar = data.foto_src
+            ? `<img src="${data.foto_src}" alt="${data.nama}" class="h-20 w-20 rounded-lg object-cover border border-gray-200 dark:border-gray-700 shrink-0" />`
+            : `<div class="h-20 w-20 rounded-lg border border-dashed border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 flex items-center justify-center font-mono font-bold text-gray-500 shrink-0 text-lg">#${data.urutan}</div>`;
+
+        modalContent.innerHTML = `
+            <div class="flex items-center gap-4 pb-4 border-b border-gray-100 dark:border-gray-800">
+                ${photoOrAvatar}
+                <div>
+                    <span class="text-[11px] font-mono text-emerald-700 dark:text-emerald-400 font-semibold block">Periode ${data.periode} (#${data.urutan})</span>
+                    <h4 class="text-base font-bold text-gray-950 dark:text-white leading-tight mt-0.5">${data.nama}</h4>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">Ketua Umum</span>
+                </div>
+            </div>
+
+            ${rowsHtml ? `<table class="w-full text-left">${rowsHtml}</table>` : ''}
+            ${eduHtml}
+            ${motoHtml}
+        `;
+
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = () => {
+        if (!modal) return;
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        modal.classList.remove('opacity-100', 'pointer-events-auto');
+        document.body.style.overflow = '';
+    };
+
+    openButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const card = (e.target as HTMLElement).closest('.ketua-card');
+            if (card) {
+                const rawJson = card.getAttribute('data-json');
+                if (rawJson) {
+                    try {
+                        const data = JSON.parse(rawJson);
+                        openModal(data);
+                    } catch (err) {
+                        console.error('Error parsing:', err);
+                    }
+                }
+            }
+        });
+    });
+
+    modalClose?.addEventListener('click', closeModal);
+    modal?.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+</script>
