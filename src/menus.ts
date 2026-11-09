@@ -1,30 +1,33 @@
 export const mainMenus = [
-    { name: 'Home', href: '/' },
+    { name: 'Beranda', href: '/' },
     { 
-        name: 'Belajar', 
-        href: '#',
-        children: [
-            { name: 'Modul Kurikulum', href: '/learning' },
-            { name: 'Materi Kajian', href: '/kajian' }
-        ]
-    },
-    { 
-        name: 'Publikasi', 
-        href: '#',
-        children: [
-            { name: 'Blog & Berita', href: '/blog' },
-            { name: 'Galeri Kegiatan', href: '/kegiatan' }
-        ]
-    },
-    {
-        name: 'Tentang Kami',
+        name: 'Tentang', 
         href: '#',
         children: [
             { name: 'Profil CE', href: '/about' },
             { name: 'Pengurus', href: '/pengurus' },
-            { name: 'Buku Saku Organisasi', href: '/buku-saku' }
+            { name: 'Buku Saku', href: '/buku-saku' }
         ]
-    }
+    },
+    { name: 'Divisi', href: '/learning' },
+    { 
+        name: 'Publikasi', 
+        href: '#',
+        children: [
+            { name: 'Kegiatan', href: '/kegiatan' },
+            { name: 'Gallery', href: '/kegiatan' }
+        ]
+    },
+    { 
+        name: 'Informasi', 
+        href: '#',
+        children: [
+            { name: 'Blog & Berita', href: '/blog' },
+            { name: 'Materi Kajian', href: '/kajian' }
+        ]
+    },
+    { name: 'Galeri', href: '/kegiatan' },
+    { name: 'Kontak', href: '#footer' }
 ];
 
 export const footerMenus = [

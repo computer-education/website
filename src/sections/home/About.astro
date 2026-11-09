@@ -1,73 +1,175 @@
 ---
 import { Image } from 'astro:assets';
 import harlahImg from '../../assets/images/harlah 23.jpg';
+import webinarImg from '../../assets/images/webinar-nasional-ai/image.png';
 ---
 
-<!-- Tentang CE -->
-<section id="about" class="border-y border-gray-200 dark:border-gray-800 bg-gray-50/60 dark:bg-gray-900/40 px-6 py-20 transition-colors">
-    <div class="container mx-auto grid items-center gap-12 lg:grid-cols-12 max-w-6xl">
-        <!-- Foto Dokumentasi -->
-        <div class="lg:col-span-5">
-            <div class="overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm">
-                <Image 
-                    src={harlahImg} 
-                    alt="Peringatan Hari Lahir UKM Computer Education UMC" 
-                    class="h-auto w-full object-cover" 
-                />
-                <div class="p-3 text-center border-t border-gray-100 dark:border-gray-800/80 bg-white dark:bg-gray-900 text-xs text-gray-500 dark:text-gray-400">
-                    Dokumentasi Harlah ke-23 UKM Computer Education UMC
-                </div>
-            </div>
-        </div>
+<!-- Tentang Kami Section Sesuai Desain Figma -->
+<section id="about" class="relative bg-white dark:bg-gray-950 py-24 sm:py-32 px-5 sm:px-8 lg:px-12 transition-colors overflow-hidden">
+    
+    <!-- Top Right Category Breadcrumb -->
+    <div class="container mx-auto max-w-7xl flex justify-end pb-4">
+        <span class="text-xs font-bold tracking-widest text-gray-400 dark:text-gray-500 uppercase select-none">
+            ABOUT / CE
+        </span>
+    </div>
 
-        <!-- Uraian Ringkas -->
-        <div class="lg:col-span-7 space-y-6">
-            <div class="space-y-3">
-                <div class="flex items-center gap-2 text-xs font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
-                    <span>Tentang Organisasi</span>
-                    <span>•</span>
-                    <span class="text-gray-500 dark:text-gray-400">Didirikan 2001</span>
+    <div class="container mx-auto max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+            
+            <!-- Left Column: Photo Collage & Badges -->
+            <div class="lg:col-span-6 relative flex justify-center lg:justify-start">
+                
+                <!-- Main Arched Container -->
+                <div class="relative w-full max-w-[400px] sm:max-w-[440px] rounded-[36px] sm:rounded-[40px] border-4 border-[#072417] dark:border-emerald-700 p-2 bg-white dark:bg-gray-900 shadow-2xl">
+                    
+                    <!-- Vertical Text on Outer Left Edge -->
+                    <span class="absolute -left-12 top-1/2 -translate-y-1/2 -rotate-90 text-[10px] tracking-widest text-emerald-800 dark:text-emerald-400 font-bold uppercase select-none hidden sm:block">
+                        LEARN • CREATE • INNOVATE
+                    </span>
+
+                    <!-- Main Photo -->
+                    <div class="rounded-[30px] sm:rounded-[32px] overflow-hidden bg-gray-100 dark:bg-gray-800 h-[460px] sm:h-[500px]">
+                        <Image
+                            src={harlahImg}
+                            alt="Pengurus & Anggota UKM Computer Education UMC"
+                            class="w-full h-full object-cover"
+                        />
+                    </div>
+
+                    <!-- Top-Right Overlapping Polaroid Photo -->
+                    <div class="absolute -top-7 -right-4 sm:-right-8 w-44 sm:w-48 rounded-xl bg-white dark:bg-gray-800 p-2.5 shadow-2xl border border-gray-100 dark:border-gray-700 rotate-3 z-20">
+                        <div class="h-28 sm:h-32 w-full overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-900">
+                            <Image
+                                src={webinarImg}
+                                alt="Kegiatan Ruang Tumbuh Bersama CE"
+                                class="w-full h-full object-cover"
+                            />
+                        </div>
+                        <span class="block pt-2 text-center text-[10px] font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase">
+                            RUANG TUMBUH BERSAMA
+                        </span>
+                    </div>
+
+                    <!-- Bottom-Left Tilted Lime Badge -->
+                    <div class="absolute -bottom-5 -left-3 sm:-left-6 z-20 flex h-16 w-16 sm:h-18 sm:w-18 -rotate-6 flex-col items-center justify-center rounded-2xl bg-[#a3e635] p-2 text-gray-950 shadow-xl border-2 border-white dark:border-gray-900">
+                        <span class="font-mono text-sm sm:text-base font-black leading-none">&lt;/&gt;</span>
+                        <span class="text-[9px] sm:text-[10px] font-black tracking-tight uppercase mt-1">EST. 2001</span>
+                    </div>
+
+                    <!-- Bottom-Right Dark Card -->
+                    <div class="absolute -bottom-6 right-2 sm:right-6 z-20 max-w-[210px] sm:max-w-[230px] rounded-2xl border border-emerald-800/40 bg-[#071f14] p-3.5 sm:p-4 text-white shadow-2xl">
+                        <span class="block text-[9px] font-bold tracking-wider text-emerald-400 uppercase">
+                            IDENTITAS ORGANISASI
+                        </span>
+                        <span class="block mt-1 text-xs sm:text-sm font-bold leading-snug text-white">
+                            Teknologi, Edukasi, dan Kolaborasi.
+                        </span>
+                    </div>
+
                 </div>
-                <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-gray-950 dark:text-white leading-tight">
-                    Membina Keilmuan Teknologi & Kaderisasi Mahasiswa
+
+            </div>
+
+            <!-- Right Column: Narrative, Quote, Values, & CTA -->
+            <div class="lg:col-span-6 space-y-6 text-left">
+                
+                <!-- Section Kicker -->
+                <div class="flex items-center gap-2">
+                    <span class="h-0.5 w-6 bg-emerald-600 dark:bg-emerald-400"></span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+                        TENTANG KAMI
+                    </span>
+                </div>
+
+                <!-- Main Title -->
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-950 dark:text-white leading-[1.15] tracking-tight">
+                    Lebih dari Sekadar<br />
+                    Organisasi<br />
+                    Mahasiswa.
                 </h2>
+
+                <!-- Narrative Body -->
+                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed font-normal">
+                    UKM Computer Education hadir sebagai ruang pengembangan diri bagi mahasiswa untuk belajar, berbagi pengetahuan, meningkatkan keterampilan, dan membangun kolaborasi dalam bidang teknologi informasi.
+                </p>
+
+                <!-- Pull Quote with Lime Left Accent Bar -->
+                <div class="border-l-4 border-[#a3e635] pl-4 py-1.5 my-6">
+                    <p class="text-sm sm:text-base font-semibold text-gray-900 dark:text-gray-100 italic leading-relaxed">
+                        “Menciptakan ruang agar setiap mahasiswa dapat berkembang melalui teknologi.”
+                    </p>
+                </div>
+
+                <!-- 3 Numbered Value Items -->
+                <div class="pt-2 border-t border-gray-100 dark:border-gray-800/80">
+                    
+                    <!-- Value 01 -->
+                    <div class="flex items-start gap-4 py-3.5 border-b border-gray-100 dark:border-gray-800/80">
+                        <span class="font-mono text-sm font-bold text-emerald-700 dark:text-emerald-400 pt-0.5">
+                            01
+                        </span>
+                        <div>
+                            <h3 class="text-sm sm:text-base font-bold text-gray-950 dark:text-white">
+                                Pembelajaran Berkelanjutan
+                            </h3>
+                            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+                                Mendorong budaya belajar dan bertumbuh bersama.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Value 02 -->
+                    <div class="flex items-start gap-4 py-3.5 border-b border-gray-100 dark:border-gray-800/80">
+                        <span class="font-mono text-sm font-bold text-emerald-700 dark:text-emerald-400 pt-0.5">
+                            02
+                        </span>
+                        <div>
+                            <h3 class="text-sm sm:text-base font-bold text-gray-950 dark:text-white">
+                                Kreativitas dan Inovasi
+                            </h3>
+                            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+                                Mengubah ide menjadi karya yang berdampak.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Value 03 -->
+                    <div class="flex items-start gap-4 py-3.5 border-b border-gray-100 dark:border-gray-800/80">
+                        <span class="font-mono text-sm font-bold text-emerald-700 dark:text-emerald-400 pt-0.5">
+                            03
+                        </span>
+                        <div>
+                            <h3 class="text-sm sm:text-base font-bold text-gray-950 dark:text-white">
+                                Kolaborasi Bermakna
+                            </h3>
+                            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+                                Membangun relasi dan pengalaman lintas bidang.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Bottom Action Row -->
+                <div class="flex flex-wrap items-center justify-between gap-4 pt-4">
+                    <a
+                        href="/about"
+                        class="group inline-flex items-center gap-1.5 text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 transition-colors">
+                        <span>Kenali Lebih Dekat</span>
+                        <i class="ph-bold ph-arrow-right transition-transform group-hover:translate-x-1"></i>
+                    </a>
+
+                    <a
+                        href="/buku-saku"
+                        class="inline-flex items-center gap-2 rounded-full bg-[#a3e635] hover:bg-[#bef264] px-6 py-2.5 text-sm font-bold text-gray-950 shadow-md shadow-[#a3e635]/20 transition-all hover:scale-105 active:scale-95">
+                        <span>Buku Saku CE</span>
+                        <i class="ph-bold ph-arrow-right text-xs"></i>
+                    </a>
+                </div>
+
             </div>
 
-            <p class="text-base text-gray-600 dark:text-gray-300 leading-relaxed font-normal">
-                Unit Kegiatan Mahasiswa <strong>Computer Education (CE)</strong> resmi berdiri pada <strong>21 April 2001</strong> di Universitas Muhammadiyah Cirebon. Berawal dari inisiatif para perintis untuk memfasilitasi mahasiswa belajar komputer di tengah keterbatasan fasilitas kampus saat itu, CE kini menjadi rumah pembinaan di bidang rekayasa perangkat lunak, desain grafis, multimedia kreatif, dan infrastruktur jaringan.
-            </p>
-
-            <!-- Faktual 3-Grid -->
-            <div class="grid grid-cols-3 gap-4 pt-2 pb-2 border-y border-gray-200 dark:border-gray-800">
-                <div>
-                    <span class="block text-2xl font-bold text-gray-950 dark:text-white">2001</span>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">Tahun Berdiri</span>
-                </div>
-                <div>
-                    <span class="block text-2xl font-bold text-gray-950 dark:text-white">20+</span>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">Periode Ketua</span>
-                </div>
-                <div>
-                    <span class="block text-2xl font-bold text-gray-950 dark:text-white">4</span>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">Peminatan Inti</span>
-                </div>
-            </div>
-
-            <!-- Tautan Navigasi -->
-            <div class="flex flex-wrap items-center gap-4 pt-1">
-                <a
-                    href="/about"
-                    class="inline-flex items-center gap-2 rounded-lg bg-emerald-700 hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition-colors">
-                    <span>Baca Profil Lengkap</span>
-                    <i class="ph-bold ph-arrow-right text-sm"></i>
-                </a>
-
-                <a
-                    href="/buku-saku"
-                    class="inline-flex items-center gap-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 transition-colors">
-                    <span>Buku Saku Organisasi</span>
-                </a>
-            </div>
         </div>
     </div>
 </section>

@@ -1,109 +1,159 @@
 ---
-import { Image } from 'astro:assets'
-import rotasiImg from '../../assets/images/rotasi.png'
-import maskotImg from '../../assets/images/Maskot_CE-removebg-preview.png'
-import coreldrawImg from '../../assets/images/coreldraw.png'
-import codingImg from '../../assets/images/coding.png'
-import videoImg from '../../assets/images/video.png'
-import cameraaImg from '../../assets/images/cameraa.png'
+import { Image } from 'astro:assets';
+import robocotionDepan from '../../assets/images/buku-saku/robocotion-depan.png';
 ---
 
-<!-- Hero Section -->
-<section class="relative min-h-screen w-full overflow-hidden pt-28 sm:pt-36 pb-16 sm:pb-24 flex flex-col justify-center" id="home">
-    <!-- Background Hexagons -->
-    <div class="contener pointer-events-none select-none">
-        <div class="curser"></div>
-        {
-            Array.from({ length: 24 }).map((_) => (
-                <div class="row">
-                    {Array.from({ length: 18 }).map((_) => (
-                        <div class="hexagon" />
-                    ))}
-                </div>
-            ))
-        }
+<!-- Hero Section Sesuai Desain Figma -->
+<section class="relative min-h-screen w-full overflow-hidden bg-[#051a10] text-white pt-28 sm:pt-36 pb-16 sm:pb-24 flex flex-col justify-center" id="home">
+    
+    <!-- Background Radial Ambient Glow & Circles -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+        <div class="absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full bg-emerald-600/15 blur-[120px]"></div>
+        <div class="absolute top-1/3 -right-40 h-[700px] w-[700px] rounded-full bg-emerald-500/10 blur-[140px]"></div>
+        <div class="absolute bottom-0 left-1/3 h-[500px] w-[500px] rounded-full bg-[#a3e635]/5 blur-[100px]"></div>
+        
+        <!-- Subtle Organic Circular Rings -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[850px] rounded-full border border-emerald-500/10"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1150px] h-[1150px] rounded-full border border-emerald-500/5"></div>
     </div>
 
-    <!-- Content Grid -->
-    <div class="relative z-10 container mx-auto grid h-full items-center gap-8 md:gap-12 px-5 sm:px-8 md:grid-cols-2 md:px-12">
-        <!-- Left Column: Text -->
-        <div class="space-y-6 text-center md:text-left">
-            <div class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/80 px-3.5 py-1 text-xs font-semibold text-gray-700 dark:text-gray-300 shadow-xs backdrop-blur-xs">
-                <span class="h-2 w-2 rounded-full bg-emerald-600"></span>
-                <span>Unit Kegiatan Mahasiswa • UM Cirebon</span>
+    <!-- Main Content Container -->
+    <div class="relative z-10 container mx-auto px-5 sm:px-8 lg:px-12 max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+            
+            <!-- Left Column: Copy & Actions -->
+            <div class="lg:col-span-6 space-y-6 sm:space-y-7 text-center lg:text-left">
+                
+                <!-- Main Headline -->
+                <h1 class="text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-[4rem] font-extrabold text-white leading-[1.12] tracking-tight">
+                    Belajar, Berkarya,<br />
+                    dan Berinovasi<br />
+                    Bersama<br />
+                    <span class="text-[#a3e635]">Teknologi.</span>
+                </h1>
+
+                <!-- Subtitle Description -->
+                <p class="text-sm sm:text-base lg:text-lg text-emerald-100/75 leading-relaxed font-normal max-w-xl mx-auto lg:mx-0">
+                    Wadah bagi mahasiswa untuk mengembangkan pengetahuan, kreativitas, dan keterampilan teknologi melalui pembelajaran, kolaborasi, serta kegiatan inovatif.
+                </p>
+
+                <!-- CTA Action Buttons -->
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-1">
+                    <a
+                        href="/about"
+                        class="rounded-full bg-[#a3e635] hover:bg-[#bef264] text-gray-950 px-6 sm:px-7 py-3 font-bold text-sm inline-flex items-center gap-2 shadow-lg shadow-[#a3e635]/25 transition-all duration-200 hover:scale-105 active:scale-95">
+                        <span>Kenali UKM CE</span>
+                        <i class="ph-bold ph-arrow-right text-sm"></i>
+                    </a>
+
+                    <a
+                        href="https://forms.gle/4b4VrtB3DuYyUnGRA"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="rounded-full border border-white/25 bg-white/5 hover:bg-white/10 hover:border-white/40 text-white px-6 sm:px-7 py-3 font-semibold text-sm transition-all duration-200 backdrop-blur-xs">
+                        <span>Gabung Bersama Kami</span>
+                    </a>
+                </div>
+
+                <!-- Community Social Proof Badge -->
+                <div class="pt-4 flex items-center justify-center lg:justify-start gap-3.5">
+                    <!-- Overlapping Color Dots -->
+                    <div class="flex -space-x-1.5 shrink-0">
+                        <span class="h-4 w-4 rounded-full bg-[#a3e635] border-2 border-[#051a10]"></span>
+                        <span class="h-4 w-4 rounded-full bg-emerald-500 border-2 border-[#051a10]"></span>
+                        <span class="h-4 w-4 rounded-full bg-emerald-800 border-2 border-[#051a10]"></span>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs sm:text-sm font-bold text-white leading-tight">
+                            Komunitas Teknologi Mahasiswa
+                        </p>
+                        <p class="text-[11px] text-emerald-300/70 font-medium">
+                            Universitas Muhammadiyah Cirebon
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Scroll Down Hint -->
+                <div class="pt-6 hidden sm:block">
+                    <a href="#about" class="inline-flex items-center gap-2 text-[10px] tracking-widest text-emerald-400/50 hover:text-emerald-400 uppercase font-semibold transition-colors">
+                        <span>SCROLL UNTUK MENJELAJAH</span>
+                        <i class="ph-bold ph-arrow-down text-xs animate-bounce"></i>
+                    </a>
+                </div>
+
             </div>
 
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-950 dark:text-white leading-[1.12]">
-                Computer Education
-            </h1>
+            <!-- Right Column: Visual Mascot Stage -->
+            <div class="lg:col-span-6 relative flex items-center justify-center lg:justify-end">
+                
+                <!-- Main Curved White Container -->
+                <div class="relative w-full max-w-[420px] sm:max-w-[460px] h-[450px] sm:h-[500px] rounded-tl-[80px] sm:rounded-tl-[110px] rounded-tr-3xl rounded-bl-3xl rounded-br-3xl bg-white dark:bg-gray-900 shadow-2xl p-6 flex items-center justify-center overflow-visible">
+                    
+                    <!-- Decorative subtle grid/lines inside white card -->
+                    <div class="absolute inset-0 rounded-tl-[80px] sm:rounded-tl-[110px] rounded-tr-3xl rounded-bl-3xl rounded-br-3xl overflow-hidden pointer-events-none opacity-40">
+                        <div class="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-emerald-50 dark:bg-emerald-950/40"></div>
+                        <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-emerald-50/60 dark:from-emerald-950/20 to-transparent"></div>
+                    </div>
 
-            <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-normal max-w-xl mx-auto md:mx-0">
-                Wadah mahasiswa untuk mendalami rekayasa perangkat lunak, desain grafis, multimedia kreatif, dan infrastruktur sistem komputer sejak 2001.
-            </p>
+                    <!-- 3D Robocotion Mascot -->
+                    <Image
+                        src={robocotionDepan}
+                        alt="Maskot Robocotion UKM Computer Education"
+                        class="relative z-10 w-[270px] sm:w-[320px] h-auto object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.25)] transition-transform duration-500 hover:scale-103"
+                    />
 
-            <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
-                <a
-                    href="https://forms.gle/4b4VrtB3DuYyUnGRA"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center justify-center rounded-lg bg-emerald-700 hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 px-6 py-3 font-semibold text-sm text-white shadow-xs transition-colors">
-                    Daftar Anggota
-                </a>
-                <a
-                    href="/buku-saku"
-                    class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 px-5 py-3 font-medium text-sm text-gray-800 dark:text-gray-200 transition-colors">
-                    Buku Saku Organisasi
-                </a>
-                <a
-                    href="#learning"
-                    class="inline-flex items-center justify-center rounded-lg border border-transparent hover:border-gray-200 dark:hover:border-gray-800 bg-transparent hover:bg-gray-100/80 dark:hover:bg-gray-800/80 px-4 py-3 font-medium text-sm text-gray-600 dark:text-gray-300 transition-colors">
-                    Jalur Belajar
-                </a>
+                    <!-- Floating Pill Badge (Bottom Left of Mascot) -->
+                    <div class="absolute bottom-12 sm:bottom-16 left-2 sm:-left-6 z-20 rounded-xl border border-emerald-500/25 bg-[#071f14]/95 px-3.5 py-2 shadow-2xl backdrop-blur-md flex items-center gap-2.5">
+                        <div class="flex h-6 w-6 items-center justify-center rounded-md bg-[#a3e635]/20 font-mono text-xs font-bold text-[#a3e635]">
+                            &lt;/&gt;
+                        </div>
+                        <span class="text-xs font-semibold text-white tracking-wide whitespace-nowrap">
+                            Belajar • Berkarya • Berinovasi
+                        </span>
+                    </div>
+
+                    <!-- Floating Card (Bottom Right of White Box) -->
+                    <div class="absolute -bottom-5 right-2 sm:right-6 z-20 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-800 p-3.5 shadow-2xl flex items-center gap-3">
+                        <span class="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <div class="text-left">
+                            <span class="block text-[10px] font-medium text-gray-500 dark:text-gray-400 leading-tight">
+                                Ruang bertumbuh
+                            </span>
+                            <span class="block text-xs font-bold text-gray-900 dark:text-white mt-0.5">
+                                Komunitas Teknologi
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Outlined Vertical Tech Badges -->
+                <div class="hidden xl:flex absolute -right-8 top-1/2 -translate-y-1/2 flex-col gap-2.5 z-20">
+                    <div class="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-200 shadow-sm text-xs font-mono font-bold" title="Coding">
+                        &lt;/&gt;
+                    </div>
+                    <div class="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-200 shadow-sm" title="Kolaborasi Mahasiswa">
+                        <i class="ph-bold ph-users text-sm text-emerald-600 dark:text-emerald-400"></i>
+                    </div>
+                    <div class="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-200 shadow-sm" title="Android / Mobile">
+                        <i class="ph-bold ph-device-mobile text-sm text-emerald-600 dark:text-emerald-400"></i>
+                    </div>
+                    <div class="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-200 shadow-sm" title="Web & Internet">
+                        <i class="ph-bold ph-globe text-sm text-emerald-600 dark:text-emerald-400"></i>
+                    </div>
+                    <div class="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-200 shadow-sm" title="Debugging & Security">
+                        <i class="ph-bold ph-shield-check text-sm text-emerald-600 dark:text-emerald-400"></i>
+                    </div>
+                    <div class="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-200 shadow-sm" title="Hardware & Robotika">
+                        <i class="ph-bold ph-cpu text-sm text-emerald-600 dark:text-emerald-400"></i>
+                    </div>
+                    <div class="flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 dark:border-gray-700 bg-white/90 dark:bg-gray-800/90 text-gray-700 dark:text-gray-200 shadow-sm" title="Database & Infrastruktur">
+                        <i class="ph-bold ph-database text-sm text-emerald-600 dark:text-emerald-400"></i>
+                    </div>
+                </div>
+
             </div>
-        </div>
 
-        <!-- Right Column: Visuals (Mascot & Floating Icons) -->
-        <div class="relative flex h-[380px] sm:h-[450px] md:h-[520px] lg:h-[560px] items-center justify-center">
-            <!-- Rotating Background behind Mascot -->
-            <Image
-                src={rotasiImg}
-                class="rotasi-img absolute w-[300px] sm:w-[380px] md:w-[460px] lg:w-[500px] opacity-90"
-                alt="Rotating Background"
-            />
-
-            <!-- Mascot -->
-            <Image
-                src={maskotImg}
-                class="logo-mantul relative z-20 w-[205px] sm:w-[250px] md:w-[290px] lg:w-[320px] drop-shadow-2xl"
-                alt="Mascot CE"
-            />
-
-            <!-- Floating Icons (Positioned relative to this column) -->
-            <!-- CorelDraw -->
-            <div class="animasi-satu absolute top-1 left-2 z-30 sm:top-2 sm:left-6 md:left-8">
-                <Image src={coreldrawImg} class="h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 drop-shadow-lg" alt="CorelDraw" />
-            </div>
-
-            <!-- Coding -->
-            <Image
-                src={codingImg}
-                class="animasi-2 absolute bottom-2 left-2 z-30 sm:bottom-6 sm:left-6 md:left-8 h-12 w-12 sm:h-15 sm:w-15 md:h-18 md:w-18 drop-shadow-lg"
-                alt="Coding"
-            />
-
-            <!-- Video -->
-            <Image
-                src={videoImg}
-                class="animasi-3 absolute right-2 bottom-6 z-30 sm:right-6 sm:bottom-10 md:right-8 h-12 w-12 sm:h-15 sm:w-15 md:h-18 md:w-18 drop-shadow-lg"
-                alt="Video"
-            />
-
-            <!-- Camera -->
-            <Image
-                src={cameraaImg}
-                class="animasi-4 absolute top-2 right-2 z-30 sm:top-4 sm:right-6 md:right-6 h-12 w-12 sm:h-15 sm:w-15 md:h-18 md:w-18 drop-shadow-lg"
-                alt="Camera"
-            />
         </div>
     </div>
 </section>
