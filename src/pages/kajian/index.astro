@@ -13,77 +13,91 @@ const formatDate = (date: Date) => {
 };
 ---
 
-<Layout title="Materi Kajian Rutin | Computer Education">
-    <section class="bg-gray-50 dark:bg-gray-950 p-8 pt-[50px] min-h-screen font-[Inter] transition-colors duration-300">
-        <div class="mx-auto mb-16 max-w-3xl text-center">
-            <span class="font-sans text-sm font-semibold tracking-wider text-green-600 uppercase">
-                Arsip Kajian
-            </span>
-            <h2 class="mt-2 mb-6 text-4xl font-bold text-gray-900 dark:text-white md:text-5xl">Materi Kajian Rutin.</h2>
-            <div class="mx-auto mb-6 h-1.5 w-20 rounded-full bg-gradient-to-r from-green-500 to-emerald-400"></div>
-            <p class="text-xl leading-relaxed text-gray-600 dark:text-gray-300">
-                Kumpulan materi presentasi, video dokumentasi, dan rangkuman dari kajian rutin Computer Education.
+<Layout 
+    title="Materi Kajian Rutin | Computer Education"
+    description="Arsip materi presentasi, modul kajian mingguan, dan diskusi teknis UKM Computer Education Universitas Muhammadiyah Cirebon.">
+    
+    <!-- Header -->
+    <header class="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 pt-28 pb-12 transition-colors">
+        <div class="container mx-auto px-4 sm:px-6 md:px-8 max-w-4xl text-center space-y-3">
+            <div class="flex items-center justify-center gap-2 text-xs font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">
+                <span>Forum Keilmuan</span>
+                <span>•</span>
+                <span class="text-gray-500 dark:text-gray-400">Kajian Mingguan</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-950 dark:text-white">
+                Materi Kajian Rutin
+            </h1>
+            <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                Rangkuman slide presentasi, catatan materi, dan dokumentasi diskusi teknologi mingguan anggota CE.
             </p>
         </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
-            {sortedKajian.length === 0 ? (
-                <div class="col-span-full text-center text-gray-500 py-10">
-                    Data Kajian Belum Tersedia.
-                </div>
-            ) : (
-                sortedKajian.map((kajian) => {
-                    const Thumbnail = kajian.data.image;
+    </header>
 
-                    return (
-                        <div
-                            class="group h-full cursor-pointer flex flex-col rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-3 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:shadow-gray-900/50"
-                            onclick={`window.location.href = '/kajian/${kajian.id}'`}>
-                            
-                            <div class="relative mb-5 h-48 w-full overflow-hidden rounded-xl shrink-0">
-                                <div class="absolute inset-0 z-10 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+    <!-- Grid -->
+    <main class="bg-gray-50/60 dark:bg-gray-900/40 py-12 sm:py-16 min-h-[60vh] transition-colors">
+        <div class="container mx-auto px-4 sm:px-6 md:px-8 max-w-7xl">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {sortedKajian.length === 0 ? (
+                    <div class="col-span-full text-center text-gray-500 py-16">
+                        Belum ada arsip materi kajian.
+                    </div>
+                ) : (
+                    sortedKajian.map((kajian) => {
+                        const Thumbnail = kajian.data.image;
+
+                        return (
+                            <a
+                                href={`/kajian/${kajian.id}`}
+                                class="group flex flex-col rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-3 shadow-xs transition-colors hover:border-emerald-600/50">
                                 
-                                {Thumbnail ? (
-                                    <Image
-                                        src={Thumbnail}
-                                        alt={kajian.data.title}
-                                        class="h-full w-full transform object-cover transition-transform duration-500 group-hover:scale-110" />
-                                ) : (
-                                    <div class="h-full w-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400">
-                                        <i class="ph ph-presentation-chart text-4xl"></i>
+                                <div class="relative mb-3 h-44 w-full overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 shrink-0">
+                                    {Thumbnail ? (
+                                        <Image
+                                            src={Thumbnail}
+                                            alt={kajian.data.title}
+                                            class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" 
+                                        />
+                                    ) : (
+                                        <div class="h-full w-full flex items-center justify-center text-gray-400">
+                                            <i class="ph ph-presentation-chart text-3xl"></i>
+                                        </div>
+                                    )}
+                                    
+                                    {kajian.data.pemateri && (
+                                        <div class="absolute bottom-2.5 left-2.5 z-10">
+                                            <span class="rounded-md bg-gray-950/80 backdrop-blur-xs px-2.5 py-1 text-xs font-medium text-white flex items-center gap-1 border border-white/10">
+                                                <i class="ph-fill ph-user text-emerald-400"></i> {kajian.data.pemateri}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div class="px-1 pb-2 flex flex-col grow">
+                                    <div class="mb-2 text-xs text-gray-500 dark:text-gray-400">
+                                        {formatDate(kajian.data.date)}
                                     </div>
-                                )}
-                                
-                                <div class="absolute bottom-4 left-4 z-20 translate-y-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                                    <span class="rounded-full bg-green-500 px-3 py-1 text-xs font-bold text-white flex items-center gap-1">
-                                        <i class="ph-fill ph-user"></i> {kajian.data.pemateri}
-                                    </span>
+                                    
+                                    <h3 class="mb-1.5 text-base font-bold text-gray-900 dark:text-white transition-colors group-hover:text-emerald-700 dark:group-hover:text-emerald-400 line-clamp-2">
+                                        {kajian.data.title}
+                                    </h3>
+                                    
+                                    {kajian.data.description && (
+                                        <p class="text-xs leading-relaxed text-gray-600 dark:text-gray-400 line-clamp-2 mb-3 grow">
+                                            {kajian.data.description}
+                                        </p>
+                                    )}
+                                    
+                                    <div class="mt-auto pt-2 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                                        <span>Buka Materi</span>
+                                        <i class="ph-bold ph-arrow-right"></i>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="px-2 pb-4 flex flex-col grow">
-                                <div class="mb-2 text-xs font-semibold tracking-wider text-green-600">
-                                    {formatDate(kajian.data.date)}
-                                </div>
-                                <h3 class="mb-2 text-2xl font-bold text-gray-900 dark:text-white transition-colors hover:text-green-600 line-clamp-2">
-                                    {kajian.data.title}
-                                </h3>
-                                {kajian.data.description && (
-                                    <p class="mb-4 line-clamp-2 text-sm leading-relaxed text-gray-500 dark:text-gray-400 grow">
-                                        {kajian.data.description}
-                                    </p>
-                                )}
-                                <div class="mt-auto">
-                                    <span class="inline-flex items-center text-sm font-semibold text-green-600 hover:underline">
-                                        Lihat Kajian
-                                        <i class="ph ph-arrow-right ml-2"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                })
-            )}
+                            </a>
+                        );
+                    })
+                )}
+            </div>
         </div>
-    </section>
+    </main>
 </Layout>

@@ -6,37 +6,43 @@ const pengurusList = await getCollection('pengurus');
 // Urutkan pengurus berdasarkan urutan (terkecil di depan)
 const sortedPengurus = pengurusList.sort((a, b) => a.data.urutan - b.data.urutan);
 ---
-<section class="sec-pengurus bg-white dark:bg-gray-950 transition-colors duration-300 py-20" id="pengurus">
-    <div class="mb-12 text-center">
-        <h1 class="text-4xl font-bold text-gray-900 dark:text-white">Pengurus Kami</h1>
-        <p class="mt-2 text-gray-500 dark:text-gray-400">Meet the team behind Computer Education</p>
+<section class="sec-pengurus border-t border-gray-100 dark:border-gray-800/60 bg-gray-50/50 dark:bg-gray-900/40 transition-colors duration-300 py-20" id="pengurus">
+    <div class="mb-10 text-center max-w-2xl mx-auto px-4">
+        <div class="flex items-center justify-center gap-2 text-xs font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-2">
+            <span>Struktur Organisasi</span>
+            <span>•</span>
+            <span class="text-gray-500 dark:text-gray-400">Periode Aktif</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-gray-950 dark:text-white">Pengurus Organisasi</h2>
+        <p class="mt-2 text-sm sm:text-base text-gray-600 dark:text-gray-300">Mahasiswa yang mengemban amanah mengelola program kerja dan kaderisasi UKM Computer Education UMC.</p>
     </div>
 
     <div class="swiper pengurus-slider max-w-7xl mx-auto w-full px-4 sm:px-8">
-        <div class="swiper-wrapper py-8">
+        <div class="swiper-wrapper py-6">
             {sortedPengurus && sortedPengurus.length > 0 ? sortedPengurus.map((pengurus) => {
                 const imageSrc = pengurus.data.foto;
                 return (
                 <div class="swiper-slide !flex !justify-center h-auto">
                     <div
-                        class="w-72 mx-auto rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 text-center shadow-lg transition-all duration-300 hover:shadow-2xl dark:shadow-gray-900/50">
-                        <div class="relative mx-auto mb-4 h-32 w-32">
-                            <div class="absolute inset-0 rounded-full bg-green-200 dark:bg-green-900/40 opacity-50 blur-lg"></div>
+                        class="w-72 mx-auto rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 p-6 text-center shadow-xs transition-colors hover:border-emerald-600/40">
+                        <div class="relative mx-auto mb-4 h-28 w-28">
                             {imageSrc ? (
                                 <Image
                                     src={imageSrc}
-                                    alt={pengurus.data.nama.toLowerCase()}
-                                    class="relative h-full w-full rounded-full border-4 border-white dark:border-gray-800 object-cover shadow-md" />
+                                    alt={pengurus.data.nama}
+                                    class="h-full w-full rounded-full border border-gray-200 dark:border-gray-700 object-cover shadow-xs" />
                             ) : (
-                                <div class="relative h-full w-full rounded-full border-4 border-white dark:border-gray-800 bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-400">No Image</div>
+                                <div class="h-full w-full rounded-full border border-dashed border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">
+                                    {pengurus.data.nama.slice(0, 2)}
+                                </div>
                             )}
                         </div>
 
-                        <h3 class="mt-4 text-xl font-bold text-gray-800 dark:text-white">
+                        <h3 class="mt-3 text-base font-bold text-gray-900 dark:text-white line-clamp-1">
                             {pengurus.data.nama}
                         </h3>
                         <p
-                            class="mt-1 inline-block rounded-full bg-green-50 dark:bg-green-900/30 px-3 py-1 text-sm font-medium text-green-600 dark:text-green-500">
+                            class="mt-1 inline-block rounded-md bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400">
                             {pengurus.data.jabatan}
                         </p>
                     </div>

@@ -62,10 +62,39 @@ const pengurus = defineCollection({
     })
 });
 
+const ketua = defineCollection({
+    loader: glob({ pattern: "**/*.json", base: "./src/content/ketua" }),
+    schema: ({ image }) => z.object({
+        nama: z.string(),
+        periode: z.string(),
+        tahun_mulai: z.number().default(2001),
+        urutan: z.number().default(1),
+        foto: image().optional(),
+        ttl: z.string().optional(),
+        alamat: z.string().optional(),
+        email: z.string().optional(),
+        no_hp: z.string().optional(),
+        riwayat_pendidikan: z.string().optional(),
+        moto_hidup: z.string().optional()
+    })
+});
+
+const bukuSaku = defineCollection({
+    loader: glob({ pattern: "**/*.{md,mdx,mdoc}", base: "./src/content/buku-saku" }),
+    schema: z.object({
+        title: z.string(),
+        urutan: z.number().default(1),
+        ringkasan: z.string().optional(),
+        icon: z.string().optional()
+    })
+});
+
 export const collections = {
     modul,
     kajian,
     blog,
     kegiatan,
     pengurus,
+    ketua,
+    bukuSaku,
 };
