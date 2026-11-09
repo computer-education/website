@@ -24,6 +24,7 @@ export default config({
       slugField: 'title',
       path: 'src/content/kajian/*',
       format: { contentField: 'content' },
+      columns: ['pemateri', 'date'],
       schema: {
         title: fields.slug({ name: { label: 'Judul Kajian' } }),
         pemateri: fields.text({ label: 'Nama Pemateri', validation: { isRequired: true } }),
@@ -45,6 +46,7 @@ export default config({
       slugField: 'title',
       path: 'src/content/blog/*',
       format: { contentField: 'content' },
+      columns: ['category', 'date'],
       schema: {
         title: fields.slug({ name: { label: 'Judul Artikel' } }),
         author: fields.text({ label: 'Penulis' }),
@@ -74,6 +76,7 @@ export default config({
       slugField: 'title',
       path: 'src/content/kegiatan/*',
       format: { contentField: 'content' },
+      columns: ['date', 'location'],
       schema: {
         title: fields.slug({ name: { label: 'Nama Kegiatan' } }),
         date: fields.date({ label: 'Tanggal Pelaksanaan', defaultValue: { kind: 'today' } }),
@@ -101,6 +104,7 @@ export default config({
       slugField: 'nama',
       path: 'src/content/pengurus/*',
       format: { data: 'json' }, // Pengurus tidak butuh body markdown, cukup JSON file
+      columns: ['jabatan', 'urutan'],
       schema: {
         nama: fields.slug({ name: { label: 'Nama Lengkap' } }),
         jabatan: fields.text({ label: 'Jabatan (Contoh: Ketua Umum)' }),
@@ -118,6 +122,7 @@ export default config({
       slugField: 'nama',
       path: 'src/content/ketua/*',
       format: { data: 'json' },
+      columns: ['periode', 'urutan'],
       schema: {
         nama: fields.slug({ name: { label: 'Nama Lengkap Beserta Gelar' } }),
         periode: fields.text({ label: 'Periode Jabatan (Contoh: 2001 - 2003)', validation: { isRequired: true } }),
@@ -142,6 +147,7 @@ export default config({
       slugField: 'title',
       path: 'src/content/buku-saku/*',
       format: { contentField: 'content' },
+      columns: ['urutan'],
       schema: {
         title: fields.slug({ name: { label: 'Judul Bab' } }),
         urutan: fields.integer({ label: 'Nomor Urutan Bab', defaultValue: 1 }),
