@@ -1,11 +1,60 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
 export default config({
-  storage: {
-    kind: 'github',
-    repo: 'computer-education/website'
-  },
+  storage: process.env.NODE_ENV === 'development'
+    ? { kind: 'local' }
+    : {
+        kind: 'github',
+        repo: 'computer-education/website'
+      },
   singletons: {
+    about: singleton({
+      label: 'Tentang Kami (About / Foto Slide)',
+      path: 'src/content/about',
+      format: { data: 'json' },
+      schema: {
+        main_image: fields.image({
+          label: 'Foto Utama (Slide 1)',
+          description: 'Foto besar yang berada di dalam bingkai utama Tentang Kami',
+          directory: 'src/assets/images/about',
+          publicPath: '../../assets/images/about/'
+        }),
+        slider_images: fields.array(
+          fields.image({
+            label: 'Foto Slide Tambahan',
+            directory: 'src/assets/images/about',
+            publicPath: '../../assets/images/about/'
+          }),
+          {
+            label: 'Slide Foto Tambahan (Bisa tambah foto agar foto otomatis berganti/slide)',
+            itemLabel: (props) => props.value || 'Foto Slide'
+          }
+        ),
+        polaroid_image: fields.image({
+          label: 'Foto Polaroid Kecil',
+          description: 'Foto kecil melayang di sudut kanan atas frame',
+          directory: 'src/assets/images/about',
+          publicPath: '../../assets/images/about/'
+        }),
+        polaroid_label: fields.text({
+          label: 'Label Foto Polaroid',
+          defaultValue: 'RUANG TUMBUH BERSAMA'
+        }),
+        identity_title: fields.text({
+          label: 'Judul Badge Bawah',
+          defaultValue: 'IDENTITAS ORGANISASI'
+        }),
+        identity_text: fields.text({
+          label: 'Teks Badge Bawah',
+          defaultValue: 'Teknologi, Edukasi, dan Kolaborasi.'
+        }),
+        quote: fields.text({
+          label: 'Kutipan / Quote',
+          multiline: true,
+          defaultValue: '“Menciptakan ruang agar setiap mahasiswa dapat berkembang melalui teknologi.”'
+        })
+      }
+    }),
     social: singleton({
       label: 'Social Media',
       path: 'src/content/social',

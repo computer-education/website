@@ -1,7 +1,40 @@
 ---
 import { Image } from 'astro:assets';
+import rawAboutData from '../../content/about.json';
 import harlahImg from '../../assets/images/harlah 23.jpg';
 import webinarImg from '../../assets/images/webinar-nasional-ai/image.png';
+
+// Resolving images from Keystatic dynamic paths
+const imageModules = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/**/*.{jpeg,jpg,png,gif,webp}', { eager: true });
+
+function getResolvedImage(pathStr?: string, defaultImg: ImageMetadata = harlahImg) {
+    if (!pathStr) return defaultImg;
+    const normalized = pathStr.replace(/^(\.\.\/)+/, '').replace(/^src\//, '');
+    for (const [key, mod] of Object.entries(imageModules)) {
+        if (key.includes(normalized)) {
+            return mod.default;
+        }
+    }
+    return defaultImg;
+}
+
+const mainPhoto = getResolvedImage(rawAboutData?.main_image, harlahImg);
+const polaroidPhoto = getResolvedImage(rawAboutData?.polaroid_image, webinarImg);
+
+// Slides array for the main framed collage (Main photo + any extra slide photos from CMS)
+const slideList: ImageMetadata[] = [mainPhoto];
+if (Array.isArray(rawAboutData?.slider_images)) {
+    for (const slidePath of rawAboutData.slider_images) {
+        if (slidePath) {
+            slideList.push(getResolvedImage(slidePath, mainPhoto));
+        }
+    }
+}
+
+const polaroidLabel = rawAboutData?.polaroid_label || 'RUANG TUMBUH BERSAMA';
+const identityTitle = rawAboutData?.identity_title || 'IDENTITAS ORGANISASI';
+const identityText = rawAboutData?.identity_text || 'Teknologi, Edukasi, dan Kolaborasi.';
+const quoteText = rawAboutData?.quote || '“Menciptakan ruang agar setiap mahasiswa dapat berkembang melalui teknologi.”';
 ---
 
 <!-- Tentang Kami Section (Pas 1 Layar Penuh Desktop: lg:h-screen) -->
@@ -28,26 +61,45 @@ import webinarImg from '../../assets/images/webinar-nasional-ai/image.png';
                         LEARN • CREATE • INNOVATE
                     </span>
 
-                    <!-- Main Photo (Height auto-scales with viewport) -->
-                    <div class="rounded-[26px] sm:rounded-[30px] overflow-hidden bg-gray-100 dark:bg-gray-800 h-[340px] sm:h-[390px] lg:h-[380px] xl:h-[430px] max-h-[50vh]">
-                        <Image
-                            src={harlahImg}
-                            alt="Pengurus & Anggota UKM Computer Education UMC"
-                            class="w-full h-full object-cover"
-                        />
+                    <!-- Main Photo Container (Slider / Carousel Capable) -->
+                    <div class="relative rounded-[26px] sm:rounded-[30px] overflow-hidden bg-gray-100 dark:bg-gray-800 h-[340px] sm:h-[390px] lg:h-[380px] xl:h-[430px] max-h-[50vh]" id="about-slides-container">
+                        {slideList.map((slide, idx) => (
+                            <div 
+                                class={`about-slide absolute inset-0 transition-opacity duration-700 ease-in-out ${idx === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+                                data-slide-index={idx}>
+                                <Image
+                                    src={slide}
+                                    alt={`Pengurus & Anggota UKM Computer Education UMC ${idx + 1}`}
+                                    class="w-full h-full object-cover"
+                                />
+                            </div>
+                        ))}
+
+                        {slideList.length > 1 && (
+                            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-full">
+                                {slideList.map((_, idx) => (
+                                    <button
+                                        type="button"
+                                        class={`about-slide-dot w-2 h-2 rounded-full transition-all ${idx === 0 ? 'bg-[#a3e635] w-4' : 'bg-white/60 hover:bg-white'}`}
+                                        data-dot-index={idx}
+                                        aria-label={`Lihat Slide ${idx + 1}`}
+                                    />
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     <!-- Top-Right Overlapping Polaroid Photo -->
                     <div class="absolute -top-5 -right-3 sm:-right-6 w-36 sm:w-42 xl:w-44 rounded-xl bg-white dark:bg-gray-800 p-2 shadow-2xl border border-gray-100 dark:border-gray-700 rotate-3 z-20">
                         <div class="h-22 sm:h-26 xl:h-28 w-full overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-900">
                             <Image
-                                src={webinarImg}
+                                src={polaroidPhoto}
                                 alt="Kegiatan Ruang Tumbuh Bersama CE"
                                 class="w-full h-full object-cover"
                             />
                         </div>
                         <span class="block pt-1.5 text-center text-[9px] sm:text-[10px] font-bold text-emerald-700 dark:text-emerald-400 tracking-wider uppercase">
-                            RUANG TUMBUH BERSAMA
+                            {polaroidLabel}
                         </span>
                     </div>
 
@@ -60,10 +112,10 @@ import webinarImg from '../../assets/images/webinar-nasional-ai/image.png';
                     <!-- Bottom-Right Dark Card -->
                     <div class="absolute -bottom-5 right-2 sm:right-5 z-20 max-w-[190px] sm:max-w-[210px] rounded-2xl border border-emerald-800/40 bg-[#071f14] p-3 sm:p-3.5 text-white shadow-2xl">
                         <span class="block text-[8px] font-bold tracking-wider text-emerald-400 uppercase">
-                            IDENTITAS ORGANISASI
+                            {identityTitle}
                         </span>
                         <span class="block mt-0.5 text-xs sm:text-[13px] font-bold leading-snug text-white">
-                            Teknologi, Edukasi, dan Kolaborasi.
+                            {identityText}
                         </span>
                     </div>
 
@@ -97,7 +149,7 @@ import webinarImg from '../../assets/images/webinar-nasional-ai/image.png';
                 <!-- Pull Quote with Lime Left Accent Bar -->
                 <div class="border-l-4 border-[#a3e635] pl-3 py-1 my-2">
                     <p class="text-xs sm:text-sm font-semibold text-gray-900 dark:text-gray-100 italic leading-relaxed">
-                        “Menciptakan ruang agar setiap mahasiswa dapat berkembang melalui teknologi.”
+                        {quoteText}
                     </p>
                 </div>
 
@@ -173,3 +225,57 @@ import webinarImg from '../../assets/images/webinar-nasional-ai/image.png';
         </div>
     </div>
 </section>
+
+<!-- Automatic Slideshow Script if multiple images are loaded -->
+<script>
+    function initAboutSlider() {
+        const container = document.getElementById('about-slides-container');
+        if (!container) return;
+        const slides = container.querySelectorAll<HTMLElement>('.about-slide');
+        const dots = container.querySelectorAll<HTMLElement>('.about-slide-dot');
+        if (slides.length <= 1) return;
+
+        let current = 0;
+        let timer: any = null;
+
+        function showSlide(index: number) {
+            current = (index + slides.length) % slides.length;
+            slides.forEach((s, i) => {
+                if (i === current) {
+                    s.classList.remove('opacity-0', 'z-0');
+                    s.classList.add('opacity-100', 'z-10');
+                } else {
+                    s.classList.remove('opacity-100', 'z-10');
+                    s.classList.add('opacity-0', 'z-0');
+                }
+            });
+            dots.forEach((d, i) => {
+                if (i === current) {
+                    d.classList.add('bg-[#a3e635]', 'w-4');
+                    d.classList.remove('bg-white/60', 'w-2');
+                } else {
+                    d.classList.remove('bg-[#a3e635]', 'w-4');
+                    d.classList.add('bg-white/60', 'w-2');
+                }
+            });
+        }
+
+        function startTimer() {
+            clearInterval(timer);
+            timer = setInterval(() => showSlide(current + 1), 4000);
+        }
+
+        dots.forEach((dot) => {
+            dot.addEventListener('click', () => {
+                const idx = Number(dot.getAttribute('data-dot-index'));
+                showSlide(idx);
+                startTimer();
+            });
+        });
+
+        startTimer();
+    }
+
+    initAboutSlider();
+    document.addEventListener('astro:page-load', initAboutSlider);
+</script>
