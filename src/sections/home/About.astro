@@ -24,7 +24,8 @@ const polaroidPhoto = getResolvedImage(rawAboutData?.polaroid_image, webinarImg)
 // Slides array for the main framed collage (Main photo + any extra slide photos from CMS)
 const slideList: ImageMetadata[] = [mainPhoto];
 if (Array.isArray(rawAboutData?.slider_images)) {
-    for (const slidePath of rawAboutData.slider_images) {
+    for (const item of rawAboutData.slider_images) {
+        const slidePath = typeof item === 'string' ? item : item?.image;
         if (slidePath) {
             slideList.push(getResolvedImage(slidePath, mainPhoto));
         }

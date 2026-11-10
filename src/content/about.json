@@ -1,7 +1,7 @@
 {
-  "main_image": "../../assets/images/about/main-photo.jpg",
+  "main_image": "../../assets/images/about/main_image.jpg",
   "slider_images": [],
-  "polaroid_image": "../../assets/images/about/polaroid.png",
+  "polaroid_image": "../../assets/images/about/polaroid_image.png",
   "polaroid_label": "RUANG TUMBUH BERSAMA",
   "identity_title": "IDENTITAS ORGANISASI",
   "identity_text": "Teknologi, Edukasi, dan Kolaborasi.",
