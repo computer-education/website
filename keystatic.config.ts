@@ -20,14 +20,21 @@ export default config({
           publicPath: '../../assets/images/about/'
         }),
         slider_images: fields.array(
-          fields.image({
-            label: 'Foto Slide Tambahan',
-            directory: 'src/assets/images/about',
-            publicPath: '../../assets/images/about/'
+          fields.object({
+            image: fields.image({
+              label: 'Foto Slide',
+              directory: 'src/assets/images/about',
+              publicPath: '../../assets/images/about/',
+              validation: { isRequired: true }
+            }),
+            caption: fields.text({
+              label: 'Keterangan / Judul Slide',
+              defaultValue: 'Dokumentasi Kegiatan'
+            })
           }),
           {
             label: 'Slide Foto Tambahan (Bisa tambah foto agar foto otomatis berganti/slide)',
-            itemLabel: (props) => props.value || 'Foto Slide'
+            itemLabel: (props) => props.fields.caption.value || 'Foto Slide'
           }
         ),
         polaroid_image: fields.image({
