@@ -1,109 +1,234 @@
 ---
-import { Image } from 'astro:assets'
-import rotasiImg from '../../assets/images/rotasi.png'
-import maskotImg from '../../assets/images/Maskot_CE-removebg-preview.png'
-import coreldrawImg from '../../assets/images/coreldraw.png'
-import codingImg from '../../assets/images/coding.png'
-import videoImg from '../../assets/images/video.png'
-import cameraaImg from '../../assets/images/cameraa.png'
+import { Image } from 'astro:assets';
+import robocotionDepan from '../../assets/images/buku-saku/robocotion-depan.png';
+import icon1 from '../../assets/hero-icons/icon1.png';
+import icon2 from '../../assets/hero-icons/icon2.png';
+import icon3 from '../../assets/hero-icons/icon3.png';
+import icon4 from '../../assets/hero-icons/icon4.png';
+import icon5 from '../../assets/hero-icons/icon5.png';
+import icon6 from '../../assets/hero-icons/icon6.png';
+import icon7 from '../../assets/hero-icons/icon7.png';
 ---
 
-<!-- Hero Section -->
-<section class="relative min-h-screen w-full overflow-hidden pt-28 sm:pt-36 pb-16 sm:pb-24 flex flex-col justify-center" id="home">
-    <!-- Background Hexagons -->
-    <div class="contener pointer-events-none select-none">
-        <div class="curser"></div>
-        {
-            Array.from({ length: 24 }).map((_) => (
-                <div class="row">
-                    {Array.from({ length: 18 }).map((_) => (
-                        <div class="hexagon" />
-                    ))}
-                </div>
-            ))
-        }
+<!-- Hero Section Sesuai Desain Figma (Pas 1 Layar Desktop: Full-bleed Right & Large Mascot) -->
+<section class="relative h-screen min-h-[640px] max-h-[1080px] w-full overflow-hidden bg-[#051a10] text-white pt-20 sm:pt-24 lg:pt-28 pb-4 sm:pb-6 flex flex-col justify-center" id="home">
+    
+    <!-- Background Radial Ambient Glow -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+        <div class="absolute -top-40 -left-40 h-[650px] w-[650px] rounded-full bg-emerald-600/15 blur-[130px]"></div>
+        <div class="absolute top-1/3 -right-40 h-[750px] w-[750px] rounded-full bg-emerald-500/10 blur-[150px]"></div>
+        <div class="absolute bottom-0 left-1/3 h-[500px] w-[500px] rounded-full bg-[#a3e635]/5 blur-[110px]"></div>
+        
+        <!-- Subtle Organic Rings -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full border border-emerald-500/10"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] rounded-full border border-emerald-500/5"></div>
     </div>
 
-    <!-- Content Grid -->
-    <div class="relative z-10 container mx-auto grid h-full items-center gap-8 md:gap-12 px-5 sm:px-8 md:grid-cols-2 md:px-12">
-        <!-- Left Column: Text -->
-        <div class="space-y-6 text-center md:text-left">
-            <div class="inline-flex items-center gap-2 rounded-full border border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/80 px-3.5 py-1 text-xs font-semibold text-gray-700 dark:text-gray-300 shadow-xs backdrop-blur-xs">
-                <span class="h-2 w-2 rounded-full bg-emerald-600"></span>
-                <span>Unit Kegiatan Mahasiswa • UM Cirebon</span>
+    <!-- FULL BLEED WHITE STAGE BACKGROUND (Mentok Full ke Kanan dan ke Bawah) -->
+    <div class="pointer-events-none absolute right-0 top-18 sm:top-20 lg:top-24 bottom-0 w-[48%] md:w-[44%] lg:w-[40%] xl:w-[38%] min-w-[320px] bg-white dark:bg-white rounded-tl-[130px] sm:rounded-tl-[170px] lg:rounded-tl-[220px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] z-0 overflow-hidden">
+        <!-- Subtle Inner Highlight -->
+        <div class="absolute inset-0 bg-gradient-to-br from-emerald-50/40 via-white to-gray-50/70"></div>
+    </div>
+
+    <!-- Tiny Glowing Particle Accent at Top-Left Curve of White Stage -->
+    <div class="pointer-events-none absolute top-16 sm:top-18 lg:top-22 right-[47.5%] md:right-[43.5%] lg:right-[39.5%] xl:right-[37.5%] w-2.5 h-2.5 rounded-full border border-emerald-400/70 bg-emerald-400/30 animate-pulse z-10 hidden sm:block"></div>
+
+    <!-- 7 VERTICAL TECH ICONS (Zigzag Staggered along the Far Right Edge on White BG) -->
+    <div class="pointer-events-auto absolute right-2 sm:right-5 lg:right-7 xl:right-10 top-20 sm:top-24 lg:top-28 bottom-3 sm:bottom-6 w-24 sm:w-32 lg:w-36 z-30 hidden md:flex flex-col justify-between py-2 sm:py-3 select-none">
+        
+        <!-- Icon 1: Coding Pill Badge (Outer Right) -->
+        <div class="self-end mr-1 sm:mr-2 transition-transform duration-300 hover:scale-110 cursor-pointer" title="Coding">
+            <Image
+                src={icon1}
+                alt="Coding"
+                class="w-9 sm:w-10 lg:w-11 h-auto object-contain drop-shadow-xs"
+            />
+        </div>
+
+        <!-- Icon 2: Student Developer Collaboration (Inner Left) -->
+        <div class="self-start ml-1 sm:ml-2 transition-transform duration-300 hover:scale-115 cursor-pointer" title="Kolaborasi Mahasiswa">
+            <Image
+                src={icon2}
+                alt="Kolaborasi"
+                class="w-7 sm:w-8 lg:w-9 h-auto object-contain drop-shadow-xs"
+            />
+        </div>
+
+        <!-- Icon 3: Android Development (Outer Right) -->
+        <div class="self-end mr-1 sm:mr-3 transition-transform duration-300 hover:scale-115 cursor-pointer" title="Android Development">
+            <Image
+                src={icon3}
+                alt="Android"
+                class="w-6 sm:w-7 lg:w-8 h-auto object-contain drop-shadow-xs"
+            />
+        </div>
+
+        <!-- Icon 4: Web & Internet (Inner Left) -->
+        <div class="self-start ml-0 transition-transform duration-300 hover:scale-115 cursor-pointer" title="Web & Internet">
+            <Image
+                src={icon4}
+                alt="Web & Internet"
+                class="w-8 sm:w-9 lg:w-10 h-auto object-contain drop-shadow-xs"
+            />
+        </div>
+
+        <!-- Icon 5: Debugging & QA (Outer Right) -->
+        <div class="self-end mr-2 sm:mr-4 transition-transform duration-300 hover:scale-115 cursor-pointer" title="Debugging & Security">
+            <Image
+                src={icon5}
+                alt="Debugging"
+                class="w-6 sm:w-7 lg:w-8 h-auto object-contain drop-shadow-xs"
+            />
+        </div>
+
+        <!-- Icon 6: Cybersecurity / Bug Hunter (Inner Left) -->
+        <div class="self-start ml-2 sm:ml-4 transition-transform duration-300 hover:scale-115 cursor-pointer" title="Cyber Security">
+            <Image
+                src={icon6}
+                alt="Cyber Security"
+                class="w-6 sm:w-7 lg:w-8 h-auto object-contain drop-shadow-xs"
+            />
+        </div>
+
+        <!-- Icon 7: Database & Cloud Infrastructure (Outer Right) -->
+        <div class="self-end mr-1 sm:mr-2 transition-transform duration-300 hover:scale-115 cursor-pointer" title="Database & Cloud">
+            <Image
+                src={icon7}
+                alt="Database"
+                class="w-6 sm:w-7 lg:w-8 h-auto object-contain drop-shadow-xs"
+            />
+        </div>
+    </div>
+
+    <!-- GIANT 3D ROBOCOTION MASCOT + FLOATING BADGES (Besar Hampir Setengah Halaman, Pas 1 Layar) -->
+    <div class="pointer-events-none absolute bottom-0 right-[4%] sm:right-[7%] lg:right-[9%] xl:right-[11%] z-20 h-[78vh] min-h-[500px] max-h-[780px] w-auto max-w-[58vw] flex items-end justify-center select-none hidden md:flex">
+        
+        <!-- 3D Robocotion Mascot Image: height 100% of container, width auto to preserve aspect ratio -->
+        <Image
+            src={robocotionDepan}
+            alt="Maskot Robocotion UKM Computer Education"
+            class="h-full w-auto object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.4)] pointer-events-none"
+            priority
+        />
+
+        <!-- Floating Pill Badge 1 (Bottom Left: Di pinggang/paha kiri maskot) -->
+        <div class="pointer-events-auto absolute bottom-[30%] sm:bottom-[31%] left-[1%] sm:left-[3%] z-30 rounded-xl sm:rounded-2xl border border-gray-100 bg-white/95 px-3 sm:px-3.5 py-1.5 sm:py-2 shadow-xl backdrop-blur-md flex items-center gap-2 sm:gap-2.5 transition-transform duration-300 hover:-translate-y-1">
+            <div class="flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-lg bg-[#071f14] font-mono text-[10px] sm:text-xs font-bold text-[#a3e635] shadow-inner shrink-0">
+                &lt;/&gt;
             </div>
+            <span class="text-[10px] sm:text-xs font-bold text-gray-900 tracking-tight whitespace-nowrap">
+                Belajar • Berkarya • Berinovasi
+            </span>
+        </div>
 
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-950 dark:text-white leading-[1.12]">
-                Computer Education
-            </h1>
-
-            <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-normal max-w-xl mx-auto md:mx-0">
-                Wadah mahasiswa untuk mendalami rekayasa perangkat lunak, desain grafis, multimedia kreatif, dan infrastruktur sistem komputer sejak 2001.
-            </p>
-
-            <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-2">
-                <a
-                    href="https://forms.gle/4b4VrtB3DuYyUnGRA"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center justify-center rounded-lg bg-emerald-700 hover:bg-emerald-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 px-6 py-3 font-semibold text-sm text-white shadow-xs transition-colors">
-                    Daftar Anggota
-                </a>
-                <a
-                    href="/buku-saku"
-                    class="inline-flex items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 px-5 py-3 font-medium text-sm text-gray-800 dark:text-gray-200 transition-colors">
-                    Buku Saku Organisasi
-                </a>
-                <a
-                    href="#learning"
-                    class="inline-flex items-center justify-center rounded-lg border border-transparent hover:border-gray-200 dark:hover:border-gray-800 bg-transparent hover:bg-gray-100/80 dark:hover:bg-gray-800/80 px-4 py-3 font-medium text-sm text-gray-600 dark:text-gray-300 transition-colors">
-                    Jalur Belajar
-                </a>
+        <!-- Floating Card Badge 2 (Bottom Right: Di kaki kanan maskot di atas BG putih) -->
+        <div class="pointer-events-auto absolute bottom-[11%] sm:bottom-[12%] right-[14%] sm:right-[16%] z-30 rounded-xl sm:rounded-2xl border border-gray-100/90 bg-white/95 px-3 sm:px-3.5 py-1.5 sm:py-2 shadow-xl backdrop-blur-md flex items-center gap-2.5 sm:gap-3 transition-transform duration-300 hover:-translate-y-1">
+            <div class="relative flex h-3 w-3 sm:h-3.5 sm:w-3.5 items-center justify-center shrink-0">
+                <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60"></span>
+                <span class="relative inline-flex h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-emerald-500 ring-2 ring-emerald-100"></span>
+            </div>
+            <div class="text-left">
+                <span class="block text-[8px] sm:text-[9px] font-medium text-gray-500 leading-tight">
+                    Ruang bertumbuh
+                </span>
+                <span class="block text-[10px] sm:text-xs font-bold text-gray-950 mt-0.5 leading-tight whitespace-nowrap">
+                    Komunitas Teknologi
+                </span>
             </div>
         </div>
 
-        <!-- Right Column: Visuals (Mascot & Floating Icons) -->
-        <div class="relative flex h-[380px] sm:h-[450px] md:h-[520px] lg:h-[560px] items-center justify-center">
-            <!-- Rotating Background behind Mascot -->
-            <Image
-                src={rotasiImg}
-                class="rotasi-img absolute w-[300px] sm:w-[380px] md:w-[460px] lg:w-[500px] opacity-90"
-                alt="Rotating Background"
-            />
+    </div>
 
-            <!-- Mascot -->
-            <Image
-                src={maskotImg}
-                class="logo-mantul relative z-20 w-[205px] sm:w-[250px] md:w-[290px] lg:w-[320px] drop-shadow-2xl"
-                alt="Mascot CE"
-            />
+    <!-- MAIN CONTENT CONTAINER (Left Column: Copy & Actions) -->
+    <div class="relative z-20 container mx-auto px-5 sm:px-8 lg:px-12 max-w-7xl h-full flex flex-col justify-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            <!-- Left Column: Copy & Actions (takes up 6 cols) -->
+            <div class="lg:col-span-6 space-y-4 sm:space-y-5 xl:space-y-6 text-center lg:text-left">
+                
+                <!-- Main Headline Sesuai Gambar -->
+                <h1 class="text-3xl sm:text-4xl lg:text-[2.75rem] xl:text-[3.5rem] 2xl:text-[4rem] font-black text-white leading-[1.08] tracking-tight">
+                    Belajar, Berkarya,<br />
+                    dan Berinovasi<br />
+                    Bersama<br />
+                    <span class="relative inline-block text-[#a3e635]">
+                        Teknologi.
+                        <!-- Green Underline Hand-drawn Stroke -->
+                        <svg class="absolute -bottom-2 sm:-bottom-2.5 left-0 w-full h-3 sm:h-3.5 text-[#a3e635]" viewBox="0 0 240 14" fill="none" preserveAspectRatio="none">
+                            <path d="M4 10C65 4 175 4 236 9.5" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+                        </svg>
+                    </span>
+                </h1>
 
-            <!-- Floating Icons (Positioned relative to this column) -->
-            <!-- CorelDraw -->
-            <div class="animasi-satu absolute top-1 left-2 z-30 sm:top-2 sm:left-6 md:left-8">
-                <Image src={coreldrawImg} class="h-14 w-14 sm:h-16 sm:w-16 md:h-20 md:w-20 drop-shadow-lg" alt="CorelDraw" />
+                <!-- Subtitle Description -->
+                <p class="text-xs sm:text-sm lg:text-base text-emerald-100/75 leading-relaxed font-normal max-w-lg mx-auto lg:mx-0">
+                    Wadah bagi mahasiswa untuk mengembangkan pengetahuan, kreativitas, dan keterampilan teknologi melalui pembelajaran, kolaborasi, serta kegiatan inovatif.
+                </p>
+
+                <!-- CTA Action Buttons -->
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-0.5 sm:pt-1">
+                    <a
+                        href="/about"
+                        class="rounded-xl bg-[#a3e635] hover:bg-[#bef264] text-gray-950 px-5 sm:px-6 py-2.5 sm:py-3 font-bold text-xs sm:text-sm inline-flex items-center gap-2 shadow-lg shadow-[#a3e635]/25 transition-all duration-200 hover:scale-105 active:scale-95">
+                        <span>Kenali UKM CE</span>
+                        <i class="ph-bold ph-arrow-right text-sm"></i>
+                    </a>
+
+                    <a
+                        href="https://forms.gle/4b4VrtB3DuYyUnGRA"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="rounded-xl border border-white/25 bg-white/5 hover:bg-white/10 hover:border-white/40 text-white px-5 sm:px-6 py-2.5 sm:py-3 font-semibold text-xs sm:text-sm transition-all duration-200 backdrop-blur-xs">
+                        <span>Gabung Bersama Kami</span>
+                    </a>
+                </div>
+
+                <!-- Community Social Proof Badge -->
+                <div class="pt-2 sm:pt-3 flex items-center justify-center lg:justify-start gap-3">
+                    <!-- Overlapping Color Dots -->
+                    <div class="flex -space-x-1.5 shrink-0">
+                        <span class="h-3.5 w-3.5 rounded-full bg-[#a3e635] border-2 border-[#051a10]"></span>
+                        <span class="h-3.5 w-3.5 rounded-full bg-emerald-500 border-2 border-[#051a10]"></span>
+                        <span class="h-3.5 w-3.5 rounded-full bg-emerald-800 border-2 border-[#051a10]"></span>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs sm:text-sm font-bold text-white leading-tight">
+                            Komunitas Teknologi Mahasiswa
+                        </p>
+                        <p class="text-[10px] sm:text-[11px] text-emerald-300/70 font-medium">
+                            Universitas Muhammadiyah Cirebon
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Scroll Down Hint -->
+                <div class="pt-2 sm:pt-3 hidden sm:block">
+                    <a href="#about" class="inline-flex items-center gap-2 text-[10px] tracking-widest text-emerald-400/50 hover:text-emerald-400 uppercase font-semibold transition-colors">
+                        <span>SCROLL UNTUK MENJELAJAH</span>
+                        <i class="ph-bold ph-arrow-down text-xs animate-bounce"></i>
+                    </a>
+                </div>
+
             </div>
 
-            <!-- Coding -->
-            <Image
-                src={codingImg}
-                class="animasi-2 absolute bottom-2 left-2 z-30 sm:bottom-6 sm:left-6 md:left-8 h-12 w-12 sm:h-15 sm:w-15 md:h-18 md:w-18 drop-shadow-lg"
-                alt="Coding"
-            />
+            <!-- Empty Right Column on Desktop to give space for absolute Mascot & Background -->
+            <div class="lg:col-span-6 relative hidden lg:block pointer-events-none min-h-[400px]"></div>
 
-            <!-- Video -->
-            <Image
-                src={videoImg}
-                class="animasi-3 absolute right-2 bottom-6 z-30 sm:right-6 sm:bottom-10 md:right-8 h-12 w-12 sm:h-15 sm:w-15 md:h-18 md:w-18 drop-shadow-lg"
-                alt="Video"
-            />
+            <!-- Mobile Fallback Mascot Presentation (< md:) -->
+            <div class="md:hidden relative flex items-center justify-center pt-4 pb-2">
+                <div class="relative w-full max-w-[340px] aspect-[4/3] flex items-center justify-center">
+                    <div class="absolute inset-0 bg-white rounded-tl-[80px] rounded-tr-2xl rounded-br-2xl rounded-bl-2xl shadow-xl"></div>
+                    <Image
+                        src={robocotionDepan}
+                        alt="Maskot Robocotion UKM Computer Education"
+                        class="relative z-10 w-[220px] h-auto object-contain drop-shadow-xl"
+                    />
+                    <div class="absolute bottom-2 left-2 z-20 rounded-lg bg-white/95 px-2.5 py-1.5 shadow-lg border border-gray-100 flex items-center gap-2">
+                        <span class="text-[10px] font-bold text-gray-900">Belajar • Berkarya • Berinovasi</span>
+                    </div>
+                </div>
+            </div>
 
-            <!-- Camera -->
-            <Image
-                src={cameraaImg}
-                class="animasi-4 absolute top-2 right-2 z-30 sm:top-4 sm:right-6 md:right-6 h-12 w-12 sm:h-15 sm:w-15 md:h-18 md:w-18 drop-shadow-lg"
-                alt="Camera"
-            />
         </div>
     </div>
 </section>

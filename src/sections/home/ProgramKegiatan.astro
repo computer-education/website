@@ -1,0 +1,325 @@
+---
+import { Image } from 'astro:assets';
+import kegiatan1Img from '../../assets/images/kegiatan-cards/kegiatan-1.jpg';
+import kegiatan2Img from '../../assets/images/kegiatan-cards/kegiatan-2.jpg';
+import kegiatan3Img from '../../assets/images/kegiatan-cards/kegiatan-3.jpg';
+
+const filters = [
+    { label: 'Semua', value: 'all', active: true },
+    { label: 'Workshop', value: 'workshop', active: false },
+    { label: 'Seminar', value: 'seminar', active: false },
+    { label: 'Kegiatan Internal', value: 'internal', active: false },
+];
+---
+
+<!-- Section Program dan Kegiatan UKM CE Sesuai Desain Figma (Staggered Dynamic Height Layout) -->
+<section class="relative bg-white dark:bg-gray-950 py-16 sm:py-24 lg:py-28 px-5 sm:px-8 lg:px-12 transition-colors overflow-hidden" id="program-kegiatan">
+    
+    <!-- Ambient Lighting Accent -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+        <div class="absolute top-1/3 -left-40 w-[600px] h-[600px] bg-emerald-500/5 blur-[140px] rounded-full"></div>
+        <div class="absolute bottom-10 right-0 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="relative z-10 container mx-auto max-w-7xl">
+        
+        <!-- Section Header -->
+        <div class="mb-10 sm:mb-14">
+            
+            <!-- Kicker / Eyebrow -->
+            <div class="flex items-center gap-2 mb-3">
+                <span class="h-0.5 w-6 bg-emerald-700 dark:bg-emerald-400"></span>
+                <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                    PROGRAM DAN KEGIATAN
+                </span>
+            </div>
+
+            <!-- Main Title -->
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-950 dark:text-white leading-[1.14] tracking-tight max-w-3xl mb-3">
+                Ruang Belajar, Berkarya, dan<br />
+                Berkolaborasi.
+            </h2>
+
+            <!-- Subtitle Description -->
+            <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed font-normal max-w-2xl">
+                Berbagai kegiatan menjadi sarana mengembangkan kemampuan, memperluas wawasan, dan membangun pengalaman.
+            </p>
+
+            <!-- Filter Pills Row -->
+            <div class="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-6 select-none" id="kegiatan-filters">
+                {filters.map((f) => (
+                    <button
+                        type="button"
+                        data-filter={f.value}
+                        class={`kegiatan-filter-btn rounded-full px-4 sm:px-5 py-1.5 sm:py-2 text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                            f.active
+                                ? 'bg-[#071f14] dark:bg-emerald-600 text-white shadow-sm'
+                                : 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/60'
+                        }`}>
+                        {f.label}
+                    </button>
+                ))}
+            </div>
+
+        </div>
+
+        <!-- Cards Staggered Layout (3 Columns matching Figma) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 lg:gap-7 items-stretch" id="kegiatan-cards-container">
+            
+            <!-- CARD 1: Hero / Featured Card (Takes ~50% / 6 columns, tallest, dark bottom card) -->
+            <div
+                data-category="seminar"
+                class="kegiatan-card lg:col-span-6 md:col-span-2 group relative rounded-[28px] overflow-hidden flex flex-col justify-between bg-[#071f14] text-white shadow-xl shadow-emerald-950/20 border border-emerald-900/40 transition-all duration-300 hover:-translate-y-1">
+                
+                <!-- Poster Media Container -->
+                <div class="relative w-full h-[280px] sm:h-[340px] lg:h-[370px] overflow-hidden bg-gray-900">
+                    
+                    <!-- Lime Badge -->
+                    <span class="absolute top-4 left-4 z-20 rounded-md bg-[#b4f141] text-gray-950 font-black text-[11px] tracking-wider uppercase px-3 py-1 shadow-sm select-none">
+                        SEMINAR NASIONAL
+                    </span>
+
+                    <!-- Watermark Number in Image Corner -->
+                    <span class="absolute bottom-3 right-4 z-20 font-mono font-black text-5xl sm:text-6xl text-white/35 drop-shadow-sm select-none">
+                        01
+                    </span>
+
+                    <!-- Event Poster Image -->
+                    <Image
+                        src={kegiatan1Img}
+                        alt="Seminar Nasional Festival Harlah 25"
+                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+
+                    <!-- Soft Gradient Transition into Dark Card Body -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#071f14] via-transparent to-transparent pointer-events-none"></div>
+                </div>
+
+                <!-- Bottom Dark Card Body -->
+                <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-4">
+                    
+                    <div class="space-y-3">
+                        <!-- Meta Row -->
+                        <div class="flex items-center justify-between text-xs font-medium text-emerald-400/80">
+                            <span class="inline-flex items-center gap-1.5">
+                                <i class="ph-bold ph-calendar-blank text-sm"></i>
+                                <span>Jadwal diperbarui</span>
+                            </span>
+                            <span class="font-bold text-emerald-400">
+                                Akan datang
+                            </span>
+                        </div>
+
+                        <!-- Card Title -->
+                        <h3 class="text-xl sm:text-2xl font-bold leading-snug text-white group-hover:text-emerald-300 transition-colors">
+                            Eksplorasi Teknologi dan Pengembangan Produk Digital
+                        </h3>
+
+                        <!-- Card Description -->
+                        <p class="text-xs sm:text-sm text-emerald-100/70 leading-relaxed font-normal">
+                            Informasi lengkap mengenai jadwal, lokasi, dan pendaftaran akan diperbarui melalui kanal resmi.
+                        </p>
+                    </div>
+
+                    <!-- Action Link -->
+                    <div class="pt-2">
+                        <a
+                            href="/kegiatan"
+                            class="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-[#b4f141] hover:text-[#c4f85e] transition-all duration-200 group-hover:gap-2.5">
+                            <span>Lihat Detail</span>
+                            <i class="ph-bold ph-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CARD 2: Middle Card (Takes ~25% / 3 columns, starts slightly lower lg:mt-3, self-start) -->
+            <div
+                data-category="workshop"
+                class="kegiatan-card lg:col-span-3 md:col-span-1 self-start lg:mt-3 group relative rounded-[24px] overflow-hidden flex flex-col bg-white dark:bg-gray-900 text-gray-950 dark:text-white shadow-md border border-gray-200/80 dark:border-gray-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                
+                <!-- Media Container -->
+                <div class="relative w-full h-[150px] sm:h-[160px] overflow-hidden bg-gray-100 dark:bg-gray-800">
+                    
+                    <!-- Lime Badge -->
+                    <span class="absolute top-3.5 left-3.5 z-20 rounded-md bg-[#b4f141] text-gray-950 font-black text-[10px] tracking-wider uppercase px-2.5 py-0.5 shadow-sm select-none">
+                        SERTIFIKASI PROFESIONAL
+                    </span>
+
+                    <!-- Watermark Number -->
+                    <span class="absolute bottom-2 right-3 z-20 font-mono font-black text-3xl sm:text-4xl text-white/50 drop-shadow-sm select-none">
+                        02
+                    </span>
+
+                    <!-- Image -->
+                    <Image
+                        src={kegiatan2Img}
+                        alt="Sertifikasi Profesional MikroTik MTCNA"
+                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"></div>
+                </div>
+
+                <!-- White Card Body -->
+                <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+                    
+                    <div class="space-y-2">
+                        <!-- Meta Row -->
+                        <div class="flex items-center justify-between text-[11px] font-medium text-gray-400 dark:text-gray-500">
+                            <span class="inline-flex items-center gap-1.5">
+                                <i class="ph-bold ph-calendar-blank text-xs"></i>
+                                <span>Jadwal diperbarui</span>
+                            </span>
+                            <span>Telah terlaksana</span>
+                        </div>
+
+                        <!-- Title -->
+                        <h3 class="text-sm sm:text-base font-bold leading-snug text-gray-950 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                            Membangun Kompetensi Digital untuk Masa Depan
+                        </h3>
+
+                        <!-- Description -->
+                        <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-normal">
+                            Informasi lengkap mengenai jadwal, lokasi, dan pendaftaran akan diperbarui melalui kanal resmi.
+                        </p>
+                    </div>
+
+                    <!-- Action Link -->
+                    <div class="pt-2">
+                        <a
+                            href="/kegiatan"
+                            class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-400 hover:text-emerald-950 dark:hover:text-emerald-300 transition-all duration-200 group-hover:gap-2">
+                            <span>Lihat Detail</span>
+                            <i class="ph-bold ph-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- COLUMN 3: Right Column (Takes ~25% / 3 columns, position aligned with middle card lg:mt-3, contains Card 3 + CTA Button) -->
+            <div class="lg:col-span-3 md:col-span-1 flex flex-col justify-between lg:mt-3">
+                
+                <!-- CARD 3: Card with Photo Image, Lime Badge & Watermark 03 -->
+                <div
+                    data-category="seminar"
+                    class="kegiatan-card group relative rounded-[24px] overflow-hidden flex flex-col bg-white dark:bg-gray-900 text-gray-950 dark:text-white shadow-md border border-gray-200/80 dark:border-gray-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                    
+                    <!-- Media Container -->
+                    <div class="relative w-full h-[150px] sm:h-[160px] overflow-hidden bg-gray-100 dark:bg-gray-800">
+                        
+                        <!-- Lime Badge -->
+                        <span class="absolute top-3.5 left-3.5 z-20 rounded-md bg-[#b4f141] text-gray-950 font-black text-[10px] tracking-wider uppercase px-2.5 py-0.5 shadow-sm select-none">
+                            WEBINAR NASIONAL
+                        </span>
+
+                        <!-- Watermark Number -->
+                        <span class="absolute bottom-2 right-3 z-20 font-mono font-black text-3xl sm:text-4xl text-white/50 drop-shadow-sm select-none">
+                            03
+                        </span>
+
+                        <!-- Image -->
+                        <Image
+                            src={kegiatan3Img}
+                            alt="Ruang Kolaborasi dan Berbagi Pengetahuan"
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"></div>
+                    </div>
+
+                    <!-- White Card Body -->
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+                        
+                        <div class="space-y-2">
+                            <!-- Meta Row -->
+                            <div class="flex items-center justify-between text-[11px] font-medium text-gray-400 dark:text-gray-500">
+                                <span class="inline-flex items-center gap-1.5">
+                                    <i class="ph-bold ph-calendar-blank text-xs"></i>
+                                    <span>Jadwal diperbarui</span>
+                                </span>
+                                <span>Telah terlaksana</span>
+                            </div>
+
+                            <!-- Title -->
+                            <h3 class="text-sm sm:text-base font-bold leading-snug text-gray-950 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                                Ruang Kolaborasi dan Berbagi Pengetahuan
+                            </h3>
+
+                            <!-- Description -->
+                            <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-normal">
+                                Informasi lengkap mengenai jadwal, lokasi, dan pendaftaran akan diperbarui melalui kanal resmi.
+                            </p>
+                        </div>
+
+                        <!-- Action Link -->
+                        <div class="pt-2">
+                            <a
+                                href="/kegiatan"
+                                class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-400 hover:text-emerald-950 dark:hover:text-emerald-300 transition-all duration-200 group-hover:gap-2">
+                                <span>Lihat Detail</span>
+                                <i class="ph-bold ph-arrow-right text-xs"></i>
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- CTA Button (Positioned at bottom of Column 3, aligned with Card 1 bottom) -->
+                <div class="mt-8 sm:mt-10 lg:mt-auto pt-6 flex justify-end">
+                    <a
+                        href="/kegiatan"
+                        class="inline-flex items-center gap-2.5 rounded-2xl bg-[#b4f141] hover:bg-[#c4f85e] text-gray-950 font-bold px-7 py-3.5 text-sm shadow-md shadow-[#b4f141]/25 transition-all duration-200 hover:scale-105 active:scale-95">
+                        <span>Lihat Semua</span>
+                        <i class="ph-bold ph-arrow-right text-sm"></i>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- Interactive Filter Pills Script -->
+<script>
+    function setupKegiatanFilters() {
+        const buttons = document.querySelectorAll('.kegiatan-filter-btn');
+        const cards = document.querySelectorAll('.kegiatan-card');
+
+        buttons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const targetFilter = btn.getAttribute('data-filter');
+
+                // Update active button state
+                buttons.forEach((b) => {
+                    b.classList.remove('bg-[#071f14]', 'dark:bg-emerald-600', 'text-white', 'shadow-sm');
+                    b.classList.add('bg-white', 'dark:bg-gray-900', 'border', 'border-gray-200', 'dark:border-gray-800', 'text-gray-700', 'dark:text-gray-300');
+                });
+
+                btn.classList.add('bg-[#071f14]', 'dark:bg-emerald-600', 'text-white', 'shadow-sm');
+                btn.classList.remove('bg-white', 'dark:bg-gray-900', 'border', 'border-gray-200', 'dark:border-gray-800', 'text-gray-700', 'dark:text-gray-300');
+
+                // Filter cards visibility
+                cards.forEach((card) => {
+                    const cardCat = card.getAttribute('data-category');
+                    if (targetFilter === 'all' || cardCat === targetFilter) {
+                        (card as HTMLElement).style.display = 'flex';
+                    } else {
+                        (card as HTMLElement).style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+
+    setupKegiatanFilters();
+    document.addEventListener('astro:page-load', setupKegiatanFilters);
+</script>
