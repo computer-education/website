@@ -1,0 +1,109 @@
+---
+// Data Statistik & Pencapaian UKM CE sesuai Desain Figma
+const stats = [
+    {
+        number: '01',
+        value: '100+',
+        label: 'Jumlah Anggota',
+    },
+    {
+        number: '02',
+        value: '10+',
+        label: 'Projek IT dan Design',
+    },
+    {
+        number: '03',
+        value: '5+',
+        label: 'Program Kerja',
+    },
+    {
+        number: '04',
+        value: '2001',
+        label: 'Tahun Berdiri',
+    },
+];
+---
+
+<!-- Section Perjalanan Kami / Statistik UKM CE -->
+<section class="relative bg-[#051a10] text-white pt-16 sm:pt-20 lg:pt-24 pb-16 sm:pb-24 overflow-hidden z-20" id="perjalanan">
+    
+    <!-- Arched Dome Top Curve (Lengkungan Cembung ke Atas Menyatu dengan Section About) -->
+    <div class="absolute -top-10 sm:-top-14 lg:-top-18 left-0 right-0 overflow-hidden leading-none z-10 pointer-events-none">
+        <svg
+            viewBox="0 0 1440 80"
+            fill="none"
+            preserveAspectRatio="none"
+            class="w-full h-10 sm:h-14 lg:h-18 text-[#051a10]">
+            <path d="M0,80 Q720,0 1440,80 L1440,80 L0,80 Z" fill="currentColor"></path>
+        </svg>
+    </div>
+
+    <!-- Background Ambient Glow & Lighting -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] sm:w-[900px] h-[400px] bg-emerald-600/10 blur-[140px] rounded-full"></div>
+        <div class="absolute bottom-0 right-10 w-[400px] h-[300px] bg-[#a3e635]/5 blur-[100px] rounded-full"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="relative z-20 container mx-auto px-5 sm:px-8 lg:px-12 max-w-7xl">
+        
+        <!-- Section Header (Kicker & Main Title) -->
+        <div class="mb-10 sm:mb-14 lg:mb-16 text-left">
+            <!-- Kicker / Eyebrow -->
+            <div class="flex items-center gap-2.5 mb-3">
+                <span class="h-0.5 w-6 sm:w-8 bg-[#a3e635]"></span>
+                <span class="text-xs sm:text-sm font-bold tracking-widest text-[#a3e635] uppercase">
+                    PERJALANAN KAMI
+                </span>
+            </div>
+
+            <!-- Headline -->
+            <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                Unit Kegiatan Mahasiswa (UKM) CE
+            </h2>
+        </div>
+
+        <!-- 4 Columns Stats Grid -->
+        <div class="border-t border-emerald-500/20">
+            <div class="grid grid-cols-2 lg:grid-cols-4">
+                {stats.map((item, index) => {
+                    // Border logic: right border for col 0, 1, 2 on desktop; bottom border for top row on mobile
+                    const isLastDesktop = index === stats.length - 1;
+                    const isOddMobile = index % 2 === 0;
+                    const isTopRowMobile = index < 2;
+
+                    return (
+                        <div class={`relative px-4 sm:px-6 lg:px-8 py-8 sm:py-10 transition-colors duration-300 hover:bg-white/[0.02] ${
+                            !isLastDesktop ? 'lg:border-r lg:border-emerald-500/15' : ''
+                        } ${
+                            isOddMobile ? 'border-r border-emerald-500/15' : ''
+                        } ${
+                            isTopRowMobile ? 'border-b border-emerald-500/15 lg:border-b-0' : ''
+                        }`}>
+                            
+                            <!-- Top Row inside Card (Number indicator & Decorative ring) -->
+                            <div class="flex items-center justify-between mb-4 sm:mb-6">
+                                <span class="font-mono text-xs sm:text-sm font-bold text-[#a3e635] tracking-wider">
+                                    {item.number}
+                                </span>
+                                <span class="h-2 w-2 rounded-full border border-emerald-400/60 bg-emerald-400/20 shadow-xs"></span>
+                            </div>
+
+                            <!-- Stat Value -->
+                            <div class="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-black text-white tracking-tight leading-none mb-2 sm:mb-3">
+                                {item.value}
+                            </div>
+
+                            <!-- Stat Label -->
+                            <p class="text-xs sm:text-sm text-emerald-100/70 font-medium leading-snug">
+                                {item.label}
+                            </p>
+
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+
+    </div>
+</section>

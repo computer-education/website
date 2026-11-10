@@ -13,20 +13,12 @@ const pathname = new URL(Astro.request.url).pathname
     <div class="rounded-full bg-white/95 dark:bg-gray-900/95 border border-gray-200/90 dark:border-gray-800/90 shadow-xl shadow-black/8 backdrop-blur-md px-4 py-2 sm:px-6 sm:py-2.5 flex items-center justify-between gap-4">
         
         <!-- Logo Brand -->
-        <a href="/" class="group flex items-center gap-2.5 shrink-0" aria-label="Beranda Computer Education">
+        <a href="/" class="group flex items-center shrink-0" aria-label="Beranda Computer Education">
             <Image
                 class="h-8 sm:h-9 w-auto transition-transform duration-300 group-hover:scale-105"
                 src={logoImg}
-                alt="Logo CE"
+                alt="Logo Computer Education"
             />
-            <div class="leading-tight select-none">
-                <span class="text-xs sm:text-sm font-black tracking-tight text-gray-950 dark:text-white uppercase block">
-                    Computer
-                </span>
-                <span class="text-[10px] font-bold tracking-widest text-emerald-600 dark:text-emerald-400 uppercase block -mt-0.5">
-                    Education
-                </span>
-            </div>
         </a>
 
         <!-- Desktop Navigation Links -->

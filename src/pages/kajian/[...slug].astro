@@ -1,5 +1,5 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import Layout from '../../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 
@@ -11,7 +11,18 @@ export async function getStaticPaths() {
     }));
 }
 
-const { entry } = Astro.props;
+let { entry } = Astro.props;
+if (!entry) {
+    const slug = Astro.params.slug;
+    if (slug) {
+        entry = await getEntry('kajian', slug);
+    }
+}
+
+if (!entry) {
+    return Astro.redirect('/404');
+}
+
 const { Content } = await render(entry);
 
 // Format Tanggal

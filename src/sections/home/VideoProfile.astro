@@ -1,0 +1,147 @@
+---
+// Membaca data Video Profile dari JSON yang dikelola melalui Dashboard Keystatic
+let videoData = {
+    title: "Video Profile UKM CE",
+    youtube_url: "",
+    description: "Video profil resmi Unit Kegiatan Mahasiswa Computer Education (UKM CE) Universitas Muhammadiyah Cirebon."
+};
+
+try {
+    const rawData = await import('../../content/video-profile.json');
+    videoData = { ...videoData, ...(rawData.default || rawData) };
+} catch (e) {
+    // Fallback jika file belum terbaca
+}
+
+// Helper untuk mengekstrak YouTube Video ID dari berbagai format link
+function extractYouTubeId(url: string | undefined): string | null {
+    if (!url) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=|shorts\/)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+}
+
+const youtubeId = extractYouTubeId(videoData.youtube_url);
+const embedUrl = youtubeId ? `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0` : '';
+const thumbnailUrl = youtubeId ? `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg` : '';
+---
+
+<!-- Section Video Profile UKM CE (Sesuai Desain Figma) -->
+<section class="relative bg-[#f0fbf4] dark:bg-gray-950 py-16 sm:py-24 lg:py-28 px-4 sm:px-8 lg:px-12 transition-colors overflow-hidden" id="video-profile">
+    
+    <!-- Ambient Radial Light Behind Player -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[500px] bg-emerald-500/10 blur-[140px] rounded-full"></div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="relative z-10 container mx-auto max-w-5xl">
+        
+        <!-- Outer Dark Green Device/Frame Container -->
+        <div class="relative w-full rounded-[32px] sm:rounded-[44px] lg:rounded-[52px] bg-[#104d2b] shadow-2xl shadow-emerald-950/25 p-4 sm:p-7 lg:p-9 transition-transform duration-500 hover:shadow-emerald-900/30">
+            
+            <!-- Video Title in Header of Frame -->
+            <h2 class="text-lg sm:text-2xl lg:text-3xl font-extrabold text-white text-center tracking-tight pb-4 sm:pb-6 lg:pb-7 select-none">
+                {videoData.title || "Video Profile UKM CE"}
+            </h2>
+
+            <!-- Inner Video Display Screen (Aspect Ratio 16:9) -->
+            <div 
+                id="video-screen-container" 
+                class="group relative w-full aspect-[16/9] rounded-[22px] sm:rounded-[28px] lg:rounded-[36px] bg-white overflow-hidden shadow-inner flex items-center justify-center cursor-pointer select-none"
+                data-embed-url={embedUrl}
+                data-has-video={youtubeId ? "true" : "false"}
+            >
+                
+                <!-- Optional Video Thumbnail Background if available -->
+                {thumbnailUrl && (
+                    <img
+                        src={thumbnailUrl}
+                        alt={videoData.title || "Thumbnail Video Profile"}
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-103"
+                        loading="lazy"
+                    />
+                )}
+
+                <!-- Subtle Overlay on Thumbnail -->
+                {thumbnailUrl && (
+                    <div class="absolute inset-0 bg-black/15 group-hover:bg-black/25 transition-colors duration-300"></div>
+                )}
+
+                <!-- Play Button Center (Green Triangle matching Figma) -->
+                <button
+                    type="button"
+                    id="play-video-btn"
+                    class="relative z-20 flex items-center justify-center transition-all duration-300 group-hover:scale-110 active:scale-95 focus:outline-none"
+                    aria-label="Putar Video Profile">
+                    
+                    <!-- Triangle Play Icon -->
+                    <svg
+                        class="w-16 h-16 sm:w-24 sm:h-24 lg:w-32 lg:h-32 text-[#104d2b] drop-shadow-md transition-transform duration-300"
+                        viewBox="0 0 100 100"
+                        fill="currentColor">
+                        <polygon points="32,18 85,50 32,82" />
+                    </svg>
+                </button>
+
+                <!-- Iframe Wrapper (Injected on Click) -->
+                <div id="video-iframe-slot" class="hidden absolute inset-0 w-full h-full z-30 bg-black"></div>
+
+                <!-- Fallback Notice for Dashboard Setup if Video URL is not set yet -->
+                <div id="video-empty-notice" class="hidden absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-30 bg-gray-900/90 text-white text-xs sm:text-sm px-4 py-2 rounded-xl backdrop-blur-md shadow-lg pointer-events-none transition-opacity duration-300">
+                    <span>Link video YouTube dapat diatur melalui Dashboard Keystatic.</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- Interactive Script for Seamless Video Embed on Play Click -->
+<script>
+    function setupVideoProfile() {
+        const container = document.getElementById('video-screen-container');
+        const playBtn = document.getElementById('play-video-btn');
+        const iframeSlot = document.getElementById('video-iframe-slot');
+        const emptyNotice = document.getElementById('video-empty-notice');
+
+        if (!container || !iframeSlot) return;
+
+        const playVideo = () => {
+            const hasVideo = container.dataset.hasVideo === 'true';
+            const embedUrl = container.dataset.embedUrl;
+
+            if (hasVideo && embedUrl) {
+                // Dynamically inject responsive YouTube iframe
+                iframeSlot.innerHTML = `
+                    <iframe
+                        src="${embedUrl}"
+                        title="Video Profile UKM CE"
+                        class="w-full h-full"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                    ></iframe>
+                `;
+                iframeSlot.classList.remove('hidden');
+                if (playBtn) playBtn.classList.add('hidden');
+            } else {
+                // Show friendly notice if URL is not set yet
+                if (emptyNotice) {
+                    emptyNotice.classList.remove('hidden');
+                    setTimeout(() => {
+                        emptyNotice.classList.add('hidden');
+                    }, 4000);
+                }
+            }
+        };
+
+        container.addEventListener('click', playVideo);
+    }
+
+    // Run on initial load and View Transitions
+    setupVideoProfile();
+    document.addEventListener('astro:page-load', setupVideoProfile);
+</script>

@@ -16,6 +16,25 @@ export default config({
         tiktok: fields.url({ label: 'TikTok URL' }),
         whatsapp: fields.text({ label: 'Nomor WhatsApp (Format: 628xxx)' }),
       }
+    }),
+    videoProfile: singleton({
+      label: 'Video Profile UKM CE',
+      path: 'src/content/video-profile',
+      format: { data: 'json' },
+      schema: {
+        title: fields.text({ 
+          label: 'Judul Video Profile', 
+          defaultValue: 'Video Profile UKM CE' 
+        }),
+        youtube_url: fields.url({ 
+          label: 'Link Video YouTube (contoh: https://www.youtube.com/watch?v=... atau https://youtu.be/...)', 
+          validation: { isRequired: false } 
+        }),
+        description: fields.text({
+          label: 'Deskripsi Singkat (Opsional)',
+          multiline: true
+        })
+      }
     })
   },
   collections: {
