@@ -1,12 +1,14 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 export default config({
-  storage: process.env.NODE_ENV === 'development'
-    ? { kind: 'local' }
-    : {
+  storage: isProd
+    ? {
         kind: 'github',
         repo: 'computer-education/website'
-      },
+      }
+    : { kind: 'local' },
   singletons: {
     about: singleton({
       label: 'Tentang Kami (About / Foto Slide)',
